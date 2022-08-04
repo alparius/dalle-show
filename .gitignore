@@ -4,7 +4,7 @@
 pretrained/
 venv/
 wandb/
-backend/__pycache__/
+__pycache__/
 
-frontend/node_modules/
-frontend/build/
+node_modules/
+build/
