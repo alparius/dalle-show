@@ -31,6 +31,6 @@ class DalleModel:
                 is_seamless=False,
                 temperature=1,
                 top_k=256,
-                supercondition_factor=32
+                supercondition_factor=8
             )
         return images

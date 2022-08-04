@@ -3,7 +3,7 @@
 Bringing the open-source DALL-E to an exhibition
 
 
-### Fire up the backend
+### Fire up the Backend
 
 #### Locally:
 0. Set up your env: python, venv/conda/global
@@ -12,10 +12,22 @@ Bringing the open-source DALL-E to an exhibition
 3. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
 4. `python app.py`
 
+### Fire up the Frontend
+
+#### Locally:
+0. Set up your env: install npm
+1. `cd frontend`
+2. Install dependencies with: `npm install`
+3. `npm start`
+
+<!--
 #### Docker:
 0. Set up your docker env (installation)
 1. `cd backend`
 2. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
 3. `docker build . -t dalle-backend` (subsequent runs will be faster)
 4. `docker run -p 8000:8000 --name -i dalle-backend dalle-backend`
+-->
 
+### Last screenshots
+![screenshot](explore/docs/neon-giraffe.png?raw=true "screenshot")

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.3-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:11.7.0-devel-ubuntu20.04
 
 # expose
 EXPOSE 8000

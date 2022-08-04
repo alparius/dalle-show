@@ -6,6 +6,7 @@ from PIL import Image
 import config
 
 
+
 VALID_CHARS = "-_ %s%s" % (string.ascii_letters, string.digits)
 
 

@@ -1,6 +1,6 @@
 BACKEND_PORT = 8000
-POTATO_PC = True
+POTATO_PC = False
 
-IS_MEGA = False
+IS_MEGA = True
 GRID_SIZE = 3
 IMAGE_FORMAT = 'jpeg' # 'png'

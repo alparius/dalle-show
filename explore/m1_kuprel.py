@@ -23,7 +23,7 @@ parser.add_argument('--grid-size', type=int, default=1)
 def save_image(image: Image.Image, prompt: str):
     valid_chars = "-_ %s%s" % (string.ascii_letters, string.digits)
     filename = "".join(c for c in prompt if c in valid_chars)
-    path =  filename[:50] + '.jpg'
+    path =  filename[:50] + '.jpeg'
     print("saving image to", path)
     image.save("images/" + path)
     return
