@@ -3,8 +3,9 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 
-from model1_kuprel import DalleModel
 import config
+from model1_kuprel import DalleModel
+import prompt_processing
 import utils
 
 
@@ -19,17 +20,19 @@ dalle_model = None
 @app.route("/dalle", methods=["POST"])
 @cross_origin()
 def generate_images_api():
-    text_prompt = request.get_json(force=True)["text"]
+    raw_prompt = request.get_json(force=True)["text"]
+
+    processed_prompt = prompt_processing.preprocess_prompt(raw_prompt)
 
     if config.POTATO_PC:
         time.sleep(5)
         generated_img_grid = Image.open('potato.jpeg')
     else:
-        generated_img_grid = dalle_model.generate_images(text_prompt)
+        generated_img_grid = dalle_model.generate_images(processed_prompt)
     
     encoded_images = utils.encode_image_grid(generated_img_grid)
 
-    print(f"---> Created images from text prompt [{text_prompt}]")
+    print(f"---> Created images from text prompt [{processed_prompt}]")
     response = {'generatedImgs': encoded_images, 'generatedImgsFormat': config.IMAGE_FORMAT}
     return jsonify(response)
 
