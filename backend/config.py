@@ -17,4 +17,4 @@ except Exception as e:
     DEEPL_AUTH_KEY = None
     ONLINE_TRANSLATION = False
 
-OFFLINE_TRANSLATION = False
+OFFLINE_TRANSLATION = True
