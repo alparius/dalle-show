@@ -50,10 +50,10 @@ const App = () => {
           : isFetchingImgs ?
             <Loader size='huge' indeterminate active={isFetchingImgs}>Doing fancy calculations ✨</Loader>
             : generatedImages.length > 0 ?
-              <Grid container centered columns={3} style={{ marginTop: "-3vh" }}>
+              <Grid container centered columns={3}>
                 {generatedImages.map((generatedImg, idx) => {
                   return (
-                    <Grid.Column key={idx} style={{ maxHeight: "28vh" }}>
+                    <Grid.Column key={idx} style={{ maxHeight: "27vh" }}>
                       <ImageObject imgData={generatedImg} generatedImagesFormat={generatedImagesFormat} promptText={promptText} index={++idx} />
                     </Grid.Column>
                   )
@@ -63,8 +63,8 @@ const App = () => {
         }
       </div>
       {queryTime !== 0 &&
-        <Container style={{ color: "grey", textAlign: "right", marginTop: "-2em"}}>
-          {"(" + "last execution time: " + queryTime + " sec" + ")"}
+        <Container style={{ color: "grey", textAlign: "right", marginTop: "1em"}}>
+          {"(last execution time: " + queryTime + " sec)"}
         </Container>}
     </Container>
   )

@@ -17,7 +17,7 @@ argos_model_names = {
 
 
 def install_offline_translation_models():
-    if not config.OFFLINE_TRANSLATION:
+    if config.ONLINE_TRANSLATION:
         print("Offline translation is turned off")
         return
 
@@ -50,13 +50,6 @@ def get_argos_translator_model(source_lang_code):
     return translator_model
 
 
-def filter_prompt(prompt):
-    if "WALL-E" in prompt:
-        prompt = prompt.replace("WALL-E", "BMO")
-
-    return prompt
-
-
 def online_translate(prompt):
     """Detect language of prompt and translate it to English using DeepL API."""
     translator = deepl.Translator(config.DEEPL_AUTH_KEY)
@@ -72,33 +65,35 @@ def offline_translate(prompt):
     Works in two steps: 1. Detect language with pycld2.
     2. Translate with a locally run model from detected language to English.
     """
-    is_reliable, bytes_found, details = pycld2.detect(prompt, bestEffort=True)
+    is_reliable, _, details = pycld2.detect(prompt, bestEffort=True)
     if not is_reliable:
         raise ValueError(f"Failed to detect language of prompt '{prompt}'")
 
     lang_name = details[0][0]
     lang_code = details[0][1]
     print(f"Detected language '{lang_name}' of prompt '{prompt}'")
-    translator = get_argos_translator_model(lang_code)
-    translated_prompt = translator.translate(prompt)
+    if lang_code != 'en':
+        translator = get_argos_translator_model(lang_code)
+        translated_prompt = translator.translate(prompt)
 
     return translated_prompt
 
 
 def translate_prompt(prompt):
-    translated = False
-    if config.ONLINE_TRANSLATION:
-        try:
+    try:
+        if config.ONLINE_TRANSLATION:
             prompt = online_translate(prompt)
-            translated = True
-        except Exception as e:
-            print(f"Online translation failed: {e}")
-
-    if not translated and config.OFFLINE_TRANSLATION:
-        try:
+        else:
             prompt = offline_translate(prompt)
-        except Exception as e:
-            print(f"Offline translation failed: {e}")
+    except Exception as e:
+        print(f"Translation failed: {e}")
+
+    return prompt
+
+
+def filter_prompt(prompt):
+    if "WALL-E" in prompt:
+        prompt = prompt.replace("WALL-E", "BMO")
 
     return prompt
 

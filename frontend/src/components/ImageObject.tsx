@@ -16,7 +16,7 @@ const ImageObject = ({ imgData, generatedImagesFormat, promptText, index }: Prop
 
     return (
         //<a href={imgSrc} title={title} download={downloadedFilename}>
-        <img src={imgSrc} alt={alt} style={{ width: "26vh" }} /*title={title}*/ />
+        <img src={imgSrc} alt={alt} style={{ width: "25vh" }} /*title={title}*/ />
         //</a>
     )
 }

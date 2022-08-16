@@ -2,9 +2,12 @@
 .idea/
 
 pretrained/
+*.argosmodel
 venv/
 wandb/
 __pycache__/
 
 node_modules/
 build/
+
+secrets.json
