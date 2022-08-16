@@ -9,7 +9,7 @@ Bringing the open-source DALL-E to an exhibition
 0. Set up your env: python, venv/conda/global
 1. `cd backend`
 2. Install dependencies into your env with: `pip3 install -r requirements.txt`
-    - if Visual C++ problems, downloaded the latest `pycld2` from [here](https://github.com/aboSamoor/pycld2/issues/24#issuecomment-747378534) and manually pip install it
+    - if Visual C++ problems, download the latest `pycld2` from [here](https://github.com/aboSamoor/pycld2/issues/24#issuecomment-747378534) and manually pip install it
 4. Download the models for offline translation and inference: `python setup.py`
 5. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
 6. `python app.py`
