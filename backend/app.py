@@ -5,8 +5,11 @@ from flask_cors import CORS, cross_origin
 
 import config
 from model1_kuprel import DalleModel
-import utils
 
+from better_profanity import profanity
+
+import utils
+from prompt_translation import translate_prompt
 
 
 print("---> Starting DALL-E Server. This might take up to two minutes.")
@@ -20,17 +23,19 @@ dalle_model = None
 @cross_origin()
 def generate_images_api():
     raw_prompt = request.get_json(force=True)["text"]
-    processed_prompt = utils.preprocess_prompt(raw_prompt)
-
+    translated_prompt = translate_prompt(raw_prompt)
+    if profanity.contains_profanity(translate_prompt):
+        print("Prompt contains profanity")
+    
     if config.POTATO_PC:
         time.sleep(5)
         generated_img_grid = Image.open('x_placeholder.jpeg')
     else:
-        generated_img_grid = dalle_model.generate_images(processed_prompt)
+        generated_img_grid = dalle_model.generate_images(translated_prompt)
     
     encoded_images = utils.encode_image_grid(generated_img_grid)
 
-    print(f"---> Created images from text prompt [{processed_prompt}]")
+    print(f"---> Created images from text prompt [{translated_prompt}]")
     response = {'generatedImgs': encoded_images, 'generatedImgsFormat': config.IMAGE_FORMAT}
     return jsonify(response)
 
