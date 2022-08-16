@@ -5,7 +5,6 @@ from flask_cors import CORS, cross_origin
 
 import config
 from model1_kuprel import DalleModel
-import prompt_processing
 import utils
 
 
@@ -21,12 +20,11 @@ dalle_model = None
 @cross_origin()
 def generate_images_api():
     raw_prompt = request.get_json(force=True)["text"]
-
-    processed_prompt = prompt_processing.preprocess_prompt(raw_prompt)
+    processed_prompt = utils.preprocess_prompt(raw_prompt)
 
     if config.POTATO_PC:
         time.sleep(5)
-        generated_img_grid = Image.open('potato.jpeg')
+        generated_img_grid = Image.open('x_placeholder.jpeg')
     else:
         generated_img_grid = dalle_model.generate_images(processed_prompt)
     
@@ -46,10 +44,8 @@ def health_check():
 with app.app_context():
     if not config.POTATO_PC:
         dalle_model = DalleModel()
-        dalle_model.generate_images("warmp-up prompt")
+        dalle_model.generate_images("warmup")
     print("---> DALL-E Server is up and running!")
 
 if __name__ == "__main__":
-    prompt_processing.install_offline_translation_models()
-
     app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=True)

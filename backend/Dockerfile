@@ -17,5 +17,8 @@ RUN pip3 install -r requirements.txt
 # add source code
 COPY . /app
 
+# download models
+RUN python3 setup.py
+
 # run server
 CMD python3 app.py

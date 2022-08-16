@@ -1,8 +1,8 @@
 .vscode/
 .idea/
 
-pretrained/
-*.argosmodel
+models_image/
+models_translate/
 venv/
 wandb/
 __pycache__/
