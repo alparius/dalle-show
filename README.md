@@ -9,7 +9,7 @@ Bringing the open-source DALL-E to an exhibition
 0. Set up your env: python, venv/conda/global
 1. `cd backend`
 2. Install dependencies into your env with: `pip3 install -r requirements.txt`
-3. Download the models for offline translation `python setup.py`
+3. Download the models for offline translation and inference: `python setup.py`
 4. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
 5. `python app.py`
 
