@@ -5,7 +5,7 @@ import json
 BACKEND_PORT = 8000
 
 # image model
-POTATO_PC = FALSE
+POTATO_PC = False
 IS_MEGA = True
 GRID_SIZE = 3
 IMAGE_FORMAT = 'jpeg' # 'png'
