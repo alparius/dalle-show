@@ -1,6 +1,8 @@
 from functools import lru_cache
+from PIL import Image
 import os
 import numpy as np
+import torch
 
 @lru_cache(maxsize=None)
 def load_safety_model(clip_model):
@@ -45,4 +47,17 @@ def load_safety_model(clip_model):
 
     return loaded_model
     
-
+def filter_images(images, treshold, clip_model, preprocess, safety_model):
+    device="cuda" if torch.cuda.is_available() else "cpu"
+    filtered_images = []
+    for img in images:
+        image = preprocess(img).unsqueeze(0).to(device)
+        image_features = clip_model.encode_image(image)
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        query = image_features.cpu().detach().numpy().astype("float32")
+        nsfw_value = safety_model.predict(query)
+        if nsfw_value < treshold:
+            filtered_images.append(img)
+        else:
+            filtered_images.append(Image.open("grey.jpg"))
+    return filtered_images

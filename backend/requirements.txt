@@ -14,4 +14,10 @@ tqdm
 torch
 torchvision
 
+git+https://github.com/openai/CLIP
+
+git+https://github.com/keras-team/keras-tuner.git
+autokeras
+tensorflow
+
 min-dalle==0.4.11
