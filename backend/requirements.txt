@@ -8,4 +8,10 @@ argostranslate==1.7.0
 
 better-profanity==0.7.0
 
+ftfy
+regex
+tqdm
+torch
+torchvision
+
 min-dalle==0.4.11
