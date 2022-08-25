@@ -5,7 +5,9 @@ import time
 from diffusers import StableDiffusionPipeline
 
 
+####################
 # !! first execution has to be from admin rights console, to download the model
+####################
 
 start = time.time()
 
@@ -13,6 +15,8 @@ HF_TOKEN = "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"
 
 pipe = StableDiffusionPipeline.from_pretrained(
     "CompVis/stable-diffusion-v1-4",
+    #torch_dtype=torch.float16, # for weaker GPU
+    #revision="fp16", # for weaker GPU
     use_auth_token=HF_TOKEN
 )
 pipe.to("cuda")
@@ -42,3 +46,21 @@ valid_chars = "-_ %s%s" % (string.ascii_letters, string.digits)
 filename = "".join(c for c in prompt if c in valid_chars)[:50]
 for i in range(len(image)):
     image[i].save(f"./saveimg/{filename}-{i}.png")
+
+
+### READINGS
+
+# original blog: https://stability.ai/blog/stable-diffusion-public-release
+# general card: https://huggingface.co/CompVis/stable-diffusion
+# licence: https://huggingface.co/spaces/CompVis/stable-diffusion-license
+
+# live demo, some good examples: https://huggingface.co/spaces/stabilityai/stable-diffusion
+# better demo and more examples: https://replicate.com/stability-ai/stable-diffusion
+
+# model card w. details: https://huggingface.co/CompVis/stable-diffusion-v1-4
+# blog with more details: https://huggingface.co/blog/stable_diffusion
+# same in colab: https://colab.research.google.com/github/huggingface/notebooks/blob/main/diffusers/stable_diffusion.ipynb
+# diffusion library: https://colab.research.google.com/github/huggingface/notebooks/blob/main/diffusers/diffusers_intro.ipynb
+
+# diffusion w. some math: https://huggingface.co/blog/annotated-diffusion
+# diffusion w. more math: https://lilianweng.github.io/posts/2021-07-11-diffusion-models/
