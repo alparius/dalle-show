@@ -3,6 +3,7 @@ from PIL import Image
 import os
 import numpy as np
 import torch
+import clip
 
 @lru_cache(maxsize=None)
 def load_safety_model(clip_model):
@@ -47,7 +48,7 @@ def load_safety_model(clip_model):
 
     return loaded_model
     
-def filter_images(images, treshold, clip_model, preprocess, safety_model):
+def filter_images(images, treshold):
     device="cuda" if torch.cuda.is_available() else "cpu"
     filtered_images = []
     for img in images:
@@ -61,3 +62,7 @@ def filter_images(images, treshold, clip_model, preprocess, safety_model):
         else:
             filtered_images.append(Image.open("grey.jpg"))
     return filtered_images
+
+
+safety_model = load_safety_model("ViT-B/32")
+clip_model, preprocess = clip.load("ViT-B/32", device="cuda" if torch.cuda.is_available() else "cpu")

@@ -6,13 +6,11 @@ from flask_cors import CORS, cross_origin
 import config
 from model1_kuprel import DalleModel
 
-from better_profanity import profanity
-
 import utils
 from prompt_translation import translate_prompt
+
+from better_profanity import profanity
 import nsfw_detection
-import torch
-import clip
 
 print("---> Starting DALL-E Server. This might take up to two minutes.")
 app = Flask(__name__)
@@ -20,9 +18,6 @@ CORS(app)
 
 dalle_model = None
 
-if config.FILTER_IMAGES:
-    safety_model = nsfw_detection.load_safety_model("ViT-B/32")
-    clip_model, preprocess = clip.load("ViT-B/32", device="cuda" if torch.cuda.is_available() else "cpu")
 
 @app.route("/dalle", methods=["POST"])
 @cross_origin()
@@ -30,7 +25,7 @@ def generate_images_api():
     raw_prompt = request.get_json(force=True)["text"]
     translated_prompt = translate_prompt(raw_prompt)
 
-    if config.CHECK_PROMPT:
+    if config.CHECK_PROMPT_FOR_PROFANITY:
         if profanity.contains_profanity(translated_prompt):
             print("Prompt contains profanity")
     
@@ -43,7 +38,7 @@ def generate_images_api():
     images = utils.grid_to_images(generated_img_grid)
 
     if config.FILTER_IMAGES:
-        images = nsfw_detection.filter_images(images, config.NSFW_TRESHOLD, clip_model, preprocess, safety_model)
+        images = nsfw_detection.filter_images(images, config.NSFW_TRESHOLD)
 
     encoded_images = utils.encode_images(images)
     
