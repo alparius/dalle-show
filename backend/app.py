@@ -60,4 +60,4 @@ with app.app_context():
     print("---> DALL-E Server is up and running!")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=True)
+    app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=False)
