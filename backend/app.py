@@ -34,7 +34,7 @@ def generate_images_api():
     
     if config.POTATO_PC:
         time.sleep(5)
-        generated_img_grid = Image.open('x_placeholder.jpeg')
+        generated_img_grid = Image.open('len_full.jpg')
     else:
         generated_img_grid = dalle_model.generate_images(translated_prompt)
     
