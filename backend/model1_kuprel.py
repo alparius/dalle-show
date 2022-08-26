@@ -19,7 +19,7 @@ class ImageModel:
             is_reusable=True,
             is_verbose=self.is_verbose,
             models_root=config.IMAGE_MODEL_ROOT,
-            is_mega=config.IS_MEGA,
+            is_mega=config.DALLE_IS_MEGA,
             dtype=torch.float32,
         )
         print("---> DALL-E Model initialized")
@@ -42,8 +42,8 @@ class ImageModel:
 
 def download_kuprel_models():
     MIN_DALLE_REPO = 'https://huggingface.co/kuprel/min-dalle/resolve/main/'
-    suffix = '' if config.IS_MEGA else '_mini'
-    model_name = 'dalle_bart_{}'.format('mega' if config.IS_MEGA else 'mini')
+    suffix = '' if config.DALLE_IS_MEGA else '_mini'
+    model_name = 'dalle_bart_{}'.format('mega' if config.DALLE_IS_MEGA else 'mini')
 
     dalle_path = os.path.join(config.IMAGE_MODEL_ROOT, model_name)
     if not os.path.exists(dalle_path): os.makedirs(dalle_path)

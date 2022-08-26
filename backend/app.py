@@ -6,8 +6,10 @@ from flask_cors import CORS, cross_origin
 import config
 import utils
 
-#from model1_kuprel import ImageModel
-from model2_stablediff import ImageModel
+if config.IMAGE_MODEL == 'dalle':
+    from model1_kuprel import ImageModel
+elif config.IMAGE_MODEL == 'stablediff':
+    from model2_stablediff import ImageModel
 image_model = None
 
 
@@ -21,7 +23,7 @@ def generate_images_api():
     raw_prompt = request.get_json(force=True)["text"]
     processed_prompt = utils.preprocess_prompt(raw_prompt)
 
-    if config.POTATO_PC:
+    if config.IMAGE_MODEL == 'potato':
         time.sleep(5)
         generated_images = utils.separate_grid(Image.open('x_placeholder.jpeg'))
     else:
@@ -45,7 +47,7 @@ def health_check():
 
 
 if __name__ == "__main__":
-    if not config.POTATO_PC:
+    if config.IMAGE_MODEL != 'potato':
         image_model = ImageModel()
         image_model.generate_images("warmup")
     print("---> DALL-E Server is up and running!")

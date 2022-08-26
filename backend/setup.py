@@ -51,7 +51,7 @@ def download_offline_translator():
 def download_image_models():
     ''' Download the image models and the tokenizers
     '''
-    if config.POTATO_PC:
+    if config.IMAGE_MODEL == 'potato':
         print("---> Inference is turned off, skipping model downloads...")
         return
     
