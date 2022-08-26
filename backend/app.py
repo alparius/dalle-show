@@ -9,8 +9,11 @@ from model1_kuprel import DalleModel
 import utils
 from prompt_translation import translate_prompt
 
-from better_profanity import profanity
-import nsfw_detection
+if config.CHECK_PROMPT_FOR_PROFANITY:
+    from better_profanity import profanity
+
+if config.FILTER_IMAGES:
+    import nsfw_detection
 
 print("---> Starting DALL-E Server. This might take up to two minutes.")
 app = Flask(__name__)
