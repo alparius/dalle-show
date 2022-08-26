@@ -1,13 +1,15 @@
+import math
 from min_dalle import MinDalle
 import torch
 import requests
 import os
 
 import config
+import utils
 
 
 
-class DalleModel:
+class ImageModel:
 
     def __init__(self) -> None:
         self.is_verbose = True
@@ -25,18 +27,17 @@ class DalleModel:
 
     def generate_images(self, text: str):
         with torch.no_grad():
-            images = self.model.generate_image(
+            image_grid = self.model.generate_image(
                 text,
                 seed=-1,
-                grid_size=config.GRID_SIZE,
+                grid_size=int(math.sqrt(config.NR_IMAGES)),
                 is_verbose=self.is_verbose,
                 is_seamless=False,
                 temperature=1,
                 top_k=256,
                 supercondition_factor=8
             )
-        return images
-
+        return utils.separate_grid(image_grid)
 
 
 def download_kuprel_models():

@@ -7,3 +7,4 @@ pycld2==0.41
 argostranslate==1.7.0
 
 min-dalle==0.4.11
+diffusers==0.2.4
