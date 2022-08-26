@@ -15,10 +15,7 @@ def load_safety_model(clip_model):
     home = expanduser("~")
 
     cache_folder = home + "/.cache/clip_retrieval/" + clip_model.replace("/", "_")
-    if clip_model == "ViT-L/14":
-        model_dir = cache_folder + "/clip_autokeras_binary_nsfw"
-        dim = 768
-    elif clip_model == "ViT-B/32":
+    if clip_model == "ViT-B/32":
         model_dir = cache_folder + "/clip_autokeras_nsfw_b32"
         dim = 512
     else:
@@ -29,9 +26,7 @@ def load_safety_model(clip_model):
         from urllib.request import urlretrieve  # pylint: disable=import-outside-toplevel
 
         path_to_zip_file = cache_folder + "/clip_autokeras_binary_nsfw.zip"
-        if clip_model == "ViT-L/14":
-            url_model = "https://raw.githubusercontent.com/LAION-AI/CLIP-based-NSFW-Detector/main/clip_autokeras_binary_nsfw.zip"
-        elif clip_model == "ViT-B/32":
+        if clip_model == "ViT-B/32":
             url_model = (
                 "https://raw.githubusercontent.com/LAION-AI/CLIP-based-NSFW-Detector/main/clip_autokeras_nsfw_b32.zip"
             )
