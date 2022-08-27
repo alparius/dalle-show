@@ -1,13 +1,15 @@
+import math
 from min_dalle import MinDalle
 import torch
 import requests
 import os
 
 import config
+import utils
 
 
 
-class DalleModel:
+class ImageModel:
 
     def __init__(self) -> None:
         self.is_verbose = True
@@ -17,7 +19,7 @@ class DalleModel:
             is_reusable=True,
             is_verbose=self.is_verbose,
             models_root=config.IMAGE_MODEL_ROOT,
-            is_mega=config.IS_MEGA,
+            is_mega=config.DALLE_IS_MEGA,
             dtype=torch.float32,
         )
         print("---> DALL-E Model initialized")
@@ -25,24 +27,23 @@ class DalleModel:
 
     def generate_images(self, text: str):
         with torch.no_grad():
-            images = self.model.generate_image(
+            image_grid = self.model.generate_image(
                 text,
                 seed=-1,
-                grid_size=config.GRID_SIZE,
+                grid_size=int(math.sqrt(config.NR_IMAGES)),
                 is_verbose=self.is_verbose,
                 is_seamless=False,
                 temperature=1,
                 top_k=256,
                 supercondition_factor=8
             )
-        return images
-
+        return utils.separate_grid(image_grid)
 
 
 def download_kuprel_models():
     MIN_DALLE_REPO = 'https://huggingface.co/kuprel/min-dalle/resolve/main/'
-    suffix = '' if config.IS_MEGA else '_mini'
-    model_name = 'dalle_bart_{}'.format('mega' if config.IS_MEGA else 'mini')
+    suffix = '' if config.DALLE_IS_MEGA else '_mini'
+    model_name = 'dalle_bart_{}'.format('mega' if config.DALLE_IS_MEGA else 'mini')
 
     dalle_path = os.path.join(config.IMAGE_MODEL_ROOT, model_name)
     if not os.path.exists(dalle_path): os.makedirs(dalle_path)

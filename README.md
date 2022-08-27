@@ -11,8 +11,10 @@ Bringing the open-source DALL-E to an exhibition
 2. Install dependencies into your env with: `pip3 install -r requirements.txt`
     - if Visual C++ problems, download the latest `pycld2` from [here](https://github.com/aboSamoor/pycld2/issues/24#issuecomment-747378534) and manually pip install it
 4. Download the models for offline translation and inference: `python setup.py`
-5. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
+    - for Stable Diffusion, first execution has to be from admin rights console, to download the model
+5. Check out `config.py`, e.g. set `IMAGE_MODEL` to `potato` when on laptop
 6. `python app.py`
+
 
 ### Fire up the Frontend
 
@@ -21,15 +23,6 @@ Bringing the open-source DALL-E to an exhibition
 1. `cd frontend`
 2. Install dependencies with: `npm install`
 3. `npm start`
-
-<!--
-#### Docker:
-0. Set up your docker env (installation)
-1. `cd backend`
-2. Check out `config.py`, e.g. set `POTATO_PC` to `True` when on laptop
-3. `docker build . -t dalle-backend` (subsequent runs will be faster)
-4. `docker run -p 8000:8000 --name -i dalle-backend dalle-backend`
--->
 
 ### Last screenshots
 ![screenshot](explore/docs/neon-giraffe.png?raw=true "screenshot")

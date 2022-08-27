@@ -21,3 +21,4 @@ autokeras
 tensorflow
 
 min-dalle==0.4.11
+diffusers==0.2.4
