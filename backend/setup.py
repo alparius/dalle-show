@@ -1,6 +1,6 @@
 import urllib.request
-
 from pathlib import Path
+
 import argostranslate.package, argostranslate.translate
 from model1_kuprel import download_kuprel_models
 

@@ -12,14 +12,14 @@ class ImageModel:
         self.guidance_scale = 7.5
         self.num_inference_steps = config.STABLEDIFF_ITERS
 
-        ### half precision trick
+        ### TODO half precision trick
         ### faster, less memory, almost same quality
         ## https://github.com/richservo/StableDiffusionGUI/blob/main/StableDiffusionUI.py
         # config ="configs/stable-diffusion/v1-inference.yaml"
         # config = OmegaConf.load(f"{config}")
         # ckpt = './models/ldm/stable-diffusion-v1/' + dlg.checkDrop.currentText()
         # model = load_model_from_config(config, f"{ckpt}")
-        # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        # device = torch.device(config.DEVICE)
         # model = model.to(device)
         # model.half()
 

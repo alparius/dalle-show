@@ -3,8 +3,8 @@ from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 
-from prompt_translation import translate_prompt
-import nsfw_detection
+from util_translation import translate_prompt
+import util_nsfwchecks
 
 import config
 import utils
@@ -28,25 +28,25 @@ CORS(app)
 def generate_images_api():
     raw_prompt = request.get_json(force=True)["text"]
     translated_prompt = translate_prompt(raw_prompt)
-    profane = nsfw_detection.prompt_profanity_check(translated_prompt)
+    profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
     
     if config.POTATO_PC:
         time.sleep(5)
-        generated_img_grid = generated_images = utils.separate_grid(Image.open('x_placeholder.jpeg'))
+        generated_images = utils.separate_grid(Image.open('./static/potato.jpeg'))
     else:
-        generated_img_grid = dalle_model.generate_images(translated_prompt)
+        generated_images = image_model.generate_images(translated_prompt)
 
     if config.FILTER_IMAGES:
-        images = nsfw_detection.filter_images(images, config.NSFW_TRESHOLD)
+        generated_images = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
 
-    encoded_images = utils.encode_images(images)
+    encoded_images = utils.encode_images(generated_images)
     
     print(f"---> Created images from text prompt [{translated_prompt}]")
     response = {
         'generatedImgs': encoded_images,
         'generatedImgsCount': config.NR_IMAGES,
         'generatedImgsFormat': config.IMAGE_FORMAT,
-        'profane': profane
+        'profane': profane # TODO handle on frontend
     }
     return jsonify(response)
 
