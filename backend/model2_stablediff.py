@@ -4,7 +4,7 @@ import torch
 import config
 
 
-HF_TOKEN = "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"
+HF_TOKEN = "HUGGING_FACE_TOKEN"
 
 class ImageModel:
 
@@ -14,10 +14,21 @@ class ImageModel:
         self.guidance_scale = 7.5
         self.num_inference_steps = 35
 
+        ### half precision trick
+        ### faster, less memory, almost same quality
+        ## https://github.com/richservo/StableDiffusionGUI/blob/main/StableDiffusionUI.py
+        # config ="configs/stable-diffusion/v1-inference.yaml"
+        # config = OmegaConf.load(f"{config}")
+        # ckpt = './models/ldm/stable-diffusion-v1/' + dlg.checkDrop.currentText()
+        # model = load_model_from_config(config, f"{ckpt}")
+        # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        # model = model.to(device)
+        # model.half()
+
         self.pipe = StableDiffusionPipeline.from_pretrained(
             "CompVis/stable-diffusion-v1-4",
-            #torch_dtype=torch.float16, # for weaker GPU
-            #revision="fp16", # for weaker GPU
+            # revision="fp16", # for weaker GPU
+            # torch_dtype=torch.float16, # for weaker GPU
             use_auth_token=HF_TOKEN
         )
         
