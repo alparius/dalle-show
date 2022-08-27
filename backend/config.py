@@ -5,7 +5,7 @@ import json
 BACKEND_PORT = 8000
 
 # image model
-POTATO_PC = True
+POTATO_PC = False
 IS_MEGA = True
 GRID_SIZE = 3
 IMAGE_FORMAT = 'jpeg' # 'png'
@@ -25,5 +25,5 @@ if ONLINE_TRANSLATION:
         ONLINE_TRANSLATION = False
 
 CHECK_PROMPT_FOR_PROFANITY = True
-FILTER_IMAGES = True
+FILTER_IMAGES = False
 NSFW_TRESHOLD = 0.5

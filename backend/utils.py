@@ -30,5 +30,3 @@ def encode_images(images):
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         encoded_images.append(img_str)
     return encoded_images
-
-    

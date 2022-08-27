@@ -1,9 +1,24 @@
-from functools import lru_cache
-from PIL import Image
 import os
 import numpy as np
 import torch
 import clip
+from functools import lru_cache
+from PIL import Image
+from better_profanity import profanity
+
+import config
+
+
+def prompt_profanity_check(prompt):
+    profane = False
+    if config.CHECK_PROMPT_FOR_PROFANITY:
+        custom_badwords = ['hello', 'boris', 'palmer']
+        profanity.add_censor_words(custom_badwords)
+        if profanity.contains_profanity(prompt):
+            print("Prompt contains profanity")
+            profane = True
+    return profane
+
 
 @lru_cache(maxsize=None)
 def load_safety_model(clip_model):
@@ -47,7 +62,8 @@ def load_safety_model(clip_model):
     loaded_model.predict(np.random.rand(10 ** 3, dim).astype("float32"), batch_size=10 ** 3)
 
     return loaded_model
-    
+
+
 def filter_images(images, treshold):
     device="cuda" if torch.cuda.is_available() else "cpu"
     filtered_images = []
@@ -64,5 +80,6 @@ def filter_images(images, treshold):
     return filtered_images
 
 
-safety_model = load_safety_model("ViT-L/14")
-clip_model, preprocess = clip.load("ViT-L/14", device="cuda" if torch.cuda.is_available() else "cpu")
+if config.FILTER_IMAGES:
+    safety_model = load_safety_model("ViT-L/14")
+    clip_model, preprocess = clip.load("ViT-L/14", device="cuda" if torch.cuda.is_available() else "cpu")
