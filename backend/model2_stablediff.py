@@ -4,15 +4,13 @@ import torch
 import config
 
 
-HF_TOKEN = "HUGGING_FACE_TOKEN"
-
 class ImageModel:
 
     def __init__(self) -> None:
         self.height = 512
         self.width = 512
         self.guidance_scale = 7.5
-        self.num_inference_steps = 35
+        self.num_inference_steps = config.STABLEDIFF_ITERS
 
         ### half precision trick
         ### faster, less memory, almost same quality
@@ -29,7 +27,7 @@ class ImageModel:
             "CompVis/stable-diffusion-v1-4",
             # revision="fp16", # for weaker GPU
             # torch_dtype=torch.float16, # for weaker GPU
-            use_auth_token=HF_TOKEN
+            use_auth_token=config.HF_TOKEN
         )
         
         def dummy(images, **kwargs): return images, False 

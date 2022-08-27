@@ -7,11 +7,22 @@ BACKEND_PORT = 8000
 # image model
 IMAGE_MODEL = "stablediff" # "stablediff", "dalle" or "potato"
 IMAGE_MODEL = "potato" if IMAGE_MODEL not in ['stablediff', 'dalle'] else IMAGE_MODEL
+if IMAGE_MODEL in ['stablediff']:
+    try:
+        with open('secrets.json') as f:
+            HF_TOKEN = json.load(f)["hf_token"]
+    except Exception as e:
+        print(f"---> Failed to get HF token: {e}.\n Using potato mode")
+        HF_TOKEN = None
+        IMAGE_MODEL = 'potato'
 
 NR_IMAGES = 2 # for dall-e it will be the <= full square
 IMAGE_FORMAT = 'jpeg' # 'png'
 IMAGE_MODEL_ROOT = 'models_image'
+
 DALLE_IS_MEGA = True
+STABLEDIFF_ITERS = 35 # default is 50
+
 
 # translation
 OFFLINE_TRANSLATION = True
