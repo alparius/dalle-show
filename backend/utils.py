@@ -3,8 +3,6 @@ from io import BytesIO
 import math
 import string
 
-from prompt_filtering import filter_prompt
-from prompt_translation import translate_prompt
 import config
 
 
@@ -20,12 +18,6 @@ def encode_images(images):
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         encoded_images.append(img_str)
     return encoded_images
-
-
-def preprocess_prompt(raw_prompt):
-    translated_prompt = translate_prompt(raw_prompt)
-    filtered_prompt = filter_prompt(translated_prompt)
-    return filtered_prompt
 
 
 def separate_grid(image):

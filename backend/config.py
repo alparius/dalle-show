@@ -36,3 +36,7 @@ if ONLINE_TRANSLATION:
         print(f"---> Failed to open DeepL authentication key: {e}.\n Online translation is switched off")
         DEEPL_AUTH_KEY = None
         ONLINE_TRANSLATION = False
+
+CHECK_PROMPT_FOR_PROFANITY = True
+FILTER_IMAGES = False
+NSFW_TRESHOLD = 0.5
