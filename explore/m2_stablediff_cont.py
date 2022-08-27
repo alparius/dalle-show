@@ -127,7 +127,7 @@ def run(
     outdir = os.path.join(rootdir, name)
     os.makedirs(outdir, exist_ok=True)
 
-    HF_TOKEN = "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"
+    HF_TOKEN = "HUGGING_FACE_TOKEN"
     # init all of the models and move them to a given GPU
     lms = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear")
     pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", scheduler=lms, use_auth_token=HF_TOKEN)

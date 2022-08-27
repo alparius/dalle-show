@@ -11,7 +11,7 @@ from diffusers import StableDiffusionPipeline
 
 start = time.time()
 
-HF_TOKEN = "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"
+HF_TOKEN = "HUGGING_FACE_TOKEN"
 
 pipe = StableDiffusionPipeline.from_pretrained(
     "CompVis/stable-diffusion-v1-4",
