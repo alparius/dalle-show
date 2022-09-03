@@ -30,9 +30,9 @@ def generate_images_api():
     translated_prompt = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
     
-    if config.POTATO_PC:
+    if config.IMAGE_MODEL == "potato":
         time.sleep(5)
-        generated_images = utils.separate_grid(Image.open('./static/potato.jpeg'))
+        generated_images = utils.separate_grid(Image.open('./static/placeholder.jpeg'))
     else:
         generated_images = image_model.generate_images(translated_prompt)
 
