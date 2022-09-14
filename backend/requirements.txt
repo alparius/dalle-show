@@ -1,25 +1,28 @@
+# REST server
 Flask==2.1.0
 Flask-Cors==3.0.9
 Flask-RESTful==0.3.8
 
-deepl==1.9.0
-pycld2==0.41
-argostranslate==1.7.0
-
-better-profanity==0.7.0
-
-# ftfy
-# regex
-# tqdm
-# torchvision
-
-# git+https://github.com/openai/CLIP
-
-# git+https://github.com/keras-team/keras-tuner.git
-# autokeras
-# tensorflow
-
+# text2image models
 torch
 min-dalle==0.4.11
 diffusers==0.2.4
 transformers
+
+# translation
+deepl==1.9.0
+pycld2==0.41
+argostranslate==1.7.0
+
+# text nsfw
+better-profanity==0.7.0
+
+# image nsfw (?)
+ftfy
+regex
+tqdm
+torchvision
+git+https://github.com/openai/CLIP
+git+https://github.com/keras-team/keras-tuner.git
+autokeras
+tensorflow
