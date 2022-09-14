@@ -24,11 +24,16 @@ def load_safety_model(clip_model):
     """load the safety model"""
     import autokeras as ak  # pylint: disable=import-outside-toplevel
     from tensorflow.keras.models import load_model  # pylint: disable=import-outside-toplevel
-    from os.path import expanduser  # pylint: disable=import-outside-toplevel
+    import tensorflow as tf
 
-    home = expanduser("~")
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+        print(physical_devices)
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+        pass # Invalid device or cannot modify virtual devices once initialized.
 
-    cache_folder = home + "/.cache/clip_retrieval/" + clip_model.replace("/", "_")
+    cache_folder =  "./models_image/nsfw/" + clip_model.replace("/", "_")
     if clip_model == "ViT-L/14":
         model_dir = cache_folder + "/clip_autokeras_binary_nsfw"
         dim = 768

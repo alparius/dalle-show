@@ -22,3 +22,4 @@ better-profanity==0.7.0
 torch
 min-dalle==0.4.11
 diffusers==0.2.4
+transformers

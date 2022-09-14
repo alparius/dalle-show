@@ -42,5 +42,5 @@ if ONLINE_TRANSLATION:
 
 # nsfw checks
 CHECK_PROMPT_FOR_PROFANITY = True
-FILTER_IMAGES = False # TODO don't enable this until fixed
+FILTER_IMAGES = True
 NSFW_TRESHOLD = 0.5
