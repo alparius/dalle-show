@@ -22,8 +22,8 @@ Bringing open-source Text-to-Image to an exhibition
 3. `docker-compose up`
 
 #### Connect to remote backend:
-- `ssh -L 8000:localhost:8000 ubuntu@IP_ADDRESS`
-- `nvidia-smi -l 1` to monitor VRAM
+- to connect and port-forward: `ssh -L 8000:localhost:8000 ubuntu@IP_ADDRESS`
+- to monitor VRAM usage: `nvidia-smi -l 1` or `nvidia-smi --query-gpu=memory.used --format=csv -l 1`
 
 
 ### Fire up the Frontend
