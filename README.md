@@ -1,6 +1,6 @@
 # dalle-show
 
-Bringing the open-source DALL-E to an exhibition
+Bringing open-source Text-to-Image to an exhibition
 
 
 ### Fire up the Backend
@@ -16,6 +16,11 @@ Bringing the open-source DALL-E to an exhibition
 5. Check out `config.py`, e.g. set `IMAGE_MODEL` to `potato` when on laptop
 6. `python3 app.py`
 
+#### Docker:
+1. Have GPU drivers and Docker installed
+2. `cd backend`
+3. `docker-compose up`
+
 #### Connect to remote backend:
 - `ssh -L 8000:localhost:8000 ubuntu@IP_ADDRESS`
 - `nvidia-smi -l 1` to monitor VRAM
@@ -28,6 +33,7 @@ Bringing the open-source DALL-E to an exhibition
 2. `cd frontend`
 3. Install dependencies with: `npm install`
 4. `npm start`
+
 
 ### Last screenshots
 ![screenshot](explore/docs/city-on-a-pizza.png?raw=true "screenshot")

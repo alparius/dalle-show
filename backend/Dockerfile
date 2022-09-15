@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.7.0-devel-ubuntu20.04
+FROM huggingface/transformers-all-latest-gpu
 
 # expose
 EXPOSE 8000
@@ -6,9 +6,10 @@ EXPOSE 8000
 WORKDIR /app
 
 # install pip
-RUN apt-get update && apt-get install -y python3-pip
+#RUN apt-get update && apt-get install -y python3-pip
 # update pip
-RUN pip3 install --upgrade pip
+#RUN pip3 install --upgrade pip
+
 # add requirements
 COPY ./requirements.txt /app/requirements.txt
 # install requirements

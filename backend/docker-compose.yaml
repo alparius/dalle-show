@@ -20,14 +20,3 @@ services:
         reservations:
           devices:
             - capabilities: [ gpu ]
-
-  dalle-frontend:
-    container_name: dalle-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 3000:3000
-    stdin_open: true
-    tty: true
