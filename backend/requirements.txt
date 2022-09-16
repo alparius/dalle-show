@@ -1,4 +1,4 @@
-# REST server
+# REST API server
 Flask==2.1.0
 Flask-Cors==3.0.9
 Flask-RESTful==0.3.8
@@ -18,11 +18,11 @@ argostranslate==1.7.0
 better-profanity==0.7.0
 
 # image nsfw (?)
-ftfy
-regex
-tqdm
-torchvision
-git+https://github.com/openai/CLIP
-git+https://github.com/keras-team/keras-tuner.git
-autokeras
-tensorflow
+# ftfy
+# regex
+# tqdm
+# torchvision
+# git+https://github.com/openai/CLIP
+# git+https://github.com/keras-team/keras-tuner.git
+# autokeras
+# tensorflow

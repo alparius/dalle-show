@@ -8,8 +8,12 @@ services:
   dalle-backend:
     container_name: dalle-backend
     build:
-      context: ./backend
+      context: ./
       dockerfile: Dockerfile
+    environment:
+      - AIEX_STABLEDIFF_ITERS=40
+      - AIEX_ONLINE_TRANSLATION=False
+      - AIEX_FILTER_IMAGES=False
     restart: always
     ports:
       - 8000:8000
