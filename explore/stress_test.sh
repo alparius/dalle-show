@@ -1,3 +1,5 @@
+#!/bin/bash
+
 prompts=(
     "infinite resolution"
     "infinite recursion"
@@ -106,7 +108,7 @@ for i in ${!prompts[@]}; do
         >/dev/null 2>&1
 
     nvidia-smi --query-gpu=memory.used --format=csv | sed -n 2p
-    
+
     sleep 25
     echo
 done

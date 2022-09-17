@@ -17,7 +17,6 @@ if IMAGE_MODEL in ['stablediff']:
         print(f"---> Failed to get HF token: {e}.\n Using potato mode")
         HF_TOKEN = None
         IMAGE_MODEL = 'potato'
-DEVICE = "cpu" if IMAGE_MODEL == "potato" else "cuda"
 
 NR_IMAGES = int(os.getenv('AIEX_NR_IMAGES', '2')) # for dall-e it will be the <= full square
 IMAGE_FORMAT = 'jpeg' # 'png'
@@ -44,4 +43,5 @@ if ONLINE_TRANSLATION:
 # nsfw checks
 CHECK_PROMPT_FOR_PROFANITY = (os.getenv('AIEX_CHECK_PROMPT_FOR_PROFANITY', 'True') == 'True')
 FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # TODO: causes VRAM leak
+NSFW_DEVICE = "cpu" # "cpu" or "cuda"
 NSFW_TRESHOLD = 0.5

@@ -19,7 +19,7 @@ class ImageModel:
         # config = OmegaConf.load(f"{config}")
         # ckpt = './models/ldm/stable-diffusion-v1/' + dlg.checkDrop.currentText()
         # model = load_model_from_config(config, f"{ckpt}")
-        # device = torch.device(config.DEVICE)
+        # device = torch.device("cuda")
         # model = model.to(device)
         # model.half()
 
