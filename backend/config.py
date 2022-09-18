@@ -42,6 +42,6 @@ if ONLINE_TRANSLATION:
 
 # nsfw checks
 CHECK_PROMPT_FOR_PROFANITY = (os.getenv('AIEX_CHECK_PROMPT_FOR_PROFANITY', 'True') == 'True')
-FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # TODO: causes VRAM leak
+FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # TODO: causes (V)RAM leak
 NSFW_DEVICE = "cpu" # "cpu" or "cuda"
 NSFW_TRESHOLD = 0.5
