@@ -107,6 +107,7 @@ for i in ${!prompts[@]}; do
         --compressed \
         >/dev/null 2>&1
 
+    free -h | sed -n 2p | awk '{print $3}'
     nvidia-smi --query-gpu=memory.used --format=csv | sed -n 2p
 
     sleep 25
