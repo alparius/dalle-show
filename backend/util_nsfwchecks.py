@@ -72,6 +72,7 @@ def load_safety_model(clip_model):
 def filter_images(images, treshold):
     device = config.NSFW_DEVICE
     filtered_images = []
+    nsfw_image_found = False
     for img in images:
         image = preprocess(img).unsqueeze(0).to(device)
         image_features = clip_model.encode_image(image)
@@ -82,7 +83,8 @@ def filter_images(images, treshold):
             filtered_images.append(img)
         else:
             filtered_images.append(Image.open("./static/grey.jpeg"))
-    return filtered_images
+            nsfw_image_found = True
+    return filtered_images, nsfw_image_found
 
 
 if config.FILTER_IMAGES:

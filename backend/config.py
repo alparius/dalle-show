@@ -21,6 +21,7 @@ if IMAGE_MODEL in ['stablediff']:
 NR_IMAGES = int(os.getenv('AIEX_NR_IMAGES', '2')) # for dall-e it will be the <= full square
 IMAGE_FORMAT = 'jpeg' # 'png'
 IMAGE_MODEL_ROOT = 'models_image'
+IMAGE_SEED = None
 
 DALLE_IS_MEGA = (os.getenv('AIEX_DALLE_IS_MEGA', 'True') == 'True')
 STABLEDIFF_ITERS = int(os.getenv('AIEX_STABLEDIFF_ITERS', '35')) # default is 50
@@ -45,3 +46,18 @@ CHECK_PROMPT_FOR_PROFANITY = (os.getenv('AIEX_CHECK_PROMPT_FOR_PROFANITY', 'True
 FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # TODO: causes (V)RAM leak
 NSFW_DEVICE = "cpu" # "cpu" or "cuda"
 NSFW_TRESHOLD = 0.5
+
+# storage
+USE_DATABASE = (os.getenv('AIEX_USE_DATABASE', 'True') == 'True')
+DB_NAME = "dalledb"
+if USE_DATABASE:
+    try:
+        with open('secrets.json') as f:
+            secrets = json.load(f)
+            DB_USER = secrets["db_user"]
+            DB_PASSWORD = secrets["db_password"]
+    except Exception as e:
+        print(f"---> Failed to get database user and password {e}.\n Database usage is switched off")
+        DB_USER = None
+        DB_PASSWORD = None
+        USE_DATABASE = False

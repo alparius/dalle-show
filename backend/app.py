@@ -7,6 +7,7 @@ from util_translation import translate_prompt
 import util_nsfwchecks
 
 import config
+import database
 import utils
 
 if config.IMAGE_MODEL == 'dalle':
@@ -15,8 +16,8 @@ elif config.IMAGE_MODEL == 'stablediff':
     from model2_stablediff import ImageModel
     
     
-    
 image_model = None
+db_connection = None
 
 print("---> Starting DALL-E Server. This might take up to two minutes.")
 app = Flask(__name__)
@@ -32,12 +33,17 @@ def generate_images_api():
     
     if config.IMAGE_MODEL == "potato":
         time.sleep(5)
+        seed = None
         generated_images = utils.separate_grid(Image.open('./static/placeholder.jpeg'))
     else:
-        generated_images = image_model.generate_images(translated_prompt)
+        generated_images, seed = image_model.generate_images(translated_prompt)
 
+    nsfw_image = None
     if config.FILTER_IMAGES:
-        generated_images = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
+        generated_images, nsfw_image = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
+
+    if config.USE_DATABASE:
+        database.save_prompt(db_connection, translated_prompt, seed, profane, nsfw_image)
 
     encoded_images = utils.encode_images(generated_images)
     
@@ -61,6 +67,13 @@ if __name__ == "__main__":
     if config.IMAGE_MODEL != 'potato':
         image_model = ImageModel()
         image_model.generate_images("warmup")
+    if config.USE_DATABASE:
+        db_connection = database.create_connection()
         
     print("---> DALL-E Server is up and running!")
-    app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=False)
+    try:
+        app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=False)
+    except Exception:
+        if config.USE_DATABASE:
+            db_connection.close()
+        raise

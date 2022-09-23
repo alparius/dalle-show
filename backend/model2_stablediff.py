@@ -38,13 +38,17 @@ class ImageModel:
         
         print("---> Stable Diffusion initialized")
 
-
     def generate_images(self, text: str):
+        if config.IMAGE_SEED is None:
+            seed = self.generator.seed()
+        else:
+            seed = config.IMAGE_SEED
+
         images = self.pipe(
             prompt=[text] * config.NR_IMAGES,
             height=self.height,
             width=self.width,
             guidance_scale=self.guidance_scale,
             num_inference_steps=self.num_inference_steps,
-            generator=self.generator)["sample"]
-        return images
+            generator=self.generator.manual_seed(seed))["sample"]
+        return images, seed
