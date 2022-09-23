@@ -1,5 +1,6 @@
 import math
 from min_dalle import MinDalle
+import numpy as np
 import torch
 import requests
 import os
@@ -24,12 +25,16 @@ class ImageModel:
         )
         print("---> DALL-E Model initialized")
 
-
     def generate_images(self, text: str):
+        if config.IMAGE_SEED is None:
+            seed = np.random.randint(1, 1024)
+        else:
+            seed = config.IMAGE_SEED
+
         with torch.no_grad():
             image_grid = self.model.generate_image(
                 text,
-                seed=-1,
+                seed=seed,
                 grid_size=int(math.sqrt(config.NR_IMAGES)),
                 is_verbose=self.is_verbose,
                 is_seamless=False,
@@ -37,7 +42,7 @@ class ImageModel:
                 top_k=256,
                 supercondition_factor=8
             )
-        return utils.separate_grid(image_grid)
+        return utils.separate_grid(image_grid), seed
 
 
 def download_kuprel_models():

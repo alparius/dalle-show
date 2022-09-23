@@ -12,7 +12,7 @@ def online_translate(prompt):
     res = translator.translate_text(prompt, target_lang="EN-US")
     translated_prompt = res.text
     print(f"---> Translated prompt '{prompt}' from {res.detected_source_lang} and got '{translated_prompt}'")
-    return translated_prompt
+    return translated_prompt, res.detected_source_lang
 
 
 def get_argos_translator_model(source_lang_code):
@@ -49,10 +49,11 @@ def offline_translate(prompt):
         translator = get_argos_translator_model(lang_code)
         prompt = translator.translate(prompt)
 
-    return prompt
+    return prompt, lang_code.upper()
 
 
 def translate_prompt(prompt):
+    """Returns tuple of (translated_prompt, detected_language)"""
     if config.ONLINE_TRANSLATION:
         try:
             return online_translate(prompt)
@@ -65,4 +66,4 @@ def translate_prompt(prompt):
         except Exception as e:
             print(f"---> Offline translation failed: {e}")
 
-    return prompt
+    return prompt, None
