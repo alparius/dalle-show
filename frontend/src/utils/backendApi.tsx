@@ -4,6 +4,32 @@ import JsonBigint from "json-bigint";
 const BACKEND_URL = 'http://localhost:8000'
 const REQUEST_TIMEOUT_SEC = 60000
 
+// export async function asd(text:string) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('GET', 'http://localhost:8000/dalle');
+//     var seenBytes = 0;
+
+//     xhr.onreadystatechange = function() {
+//         console.log("state change.. state: "+ xhr.readyState);
+//         if(xhr.readyState === 3) {
+//             var newData = xhr.response.substr(seenBytes);
+//             console.log("newData: <<" + newData + ">>");
+//             //latest.textContent = newData;
+
+//             seenBytes = xhr.responseText.length;
+//             console.log("seenBytes: " + seenBytes);
+//         }
+//     };
+
+//     xhr.send();
+
+//     return {
+//         'executionTime': Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100,
+//         'serverResponse': JsonBigint.parse(newData as string)
+//     }
+
+// }
+
 export async function callDalleBackend(text: string) {
     const queryStartTime = new Date().getTime();
 

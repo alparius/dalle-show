@@ -1,6 +1,8 @@
+import io
+import json
 import time
 from PIL import Image
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS, cross_origin
 
 from util_translation import translate_prompt
@@ -23,38 +25,47 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/dalle", methods=["POST"])
-@cross_origin()
+@app.route("/dalle2", methods=["POST"])
 def generate_images_api():
-    raw_prompt = request.get_json(force=True)["text"]
+    #raw_prompt = request.get_json(force=True)["text"]
+    translated_prompt = 'steampunk spaghetti' #translate_prompt(raw_prompt)
+    def gen():
+        frames = image_model.generate_images(translated_prompt)
+        for frame in frames :
+            output = io.BytesIO()
+            frame.save(output, format='png')
+            hex_data = output.getvalue()
+            yield(b'--frame\r\n'b'Content-Type: image/png\r\n\r\n' + hex_data + b'\r\n')
+
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route("/dalle", methods=["GET"])
+@stream_with_context
+def generate_images_api2():
+    raw_prompt = request.args.get('prompt')
     translated_prompt = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
     
-    if config.IMAGE_MODEL == "potato":
-        time.sleep(5)
-        generated_images = utils.separate_grid(Image.open('./static/placeholder.jpeg'))
-    else:
-        generated_images = image_model.generate_images(translated_prompt)
+    def gen():
+        frames = image_model.generate_images(translated_prompt)
+        for frame in frames :
+            strpic = utils.encode_images([frame])
+            response = {
+                'generatedImgs': strpic,
+                'generatedImgsCount': config.NR_IMAGES,
+                'generatedImgsFormat': config.IMAGE_FORMAT,
+                'profane': profane # TODO handle on frontend
+            }
+            yield json.dumps(response)
 
-    if config.FILTER_IMAGES:
-        generated_images = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
-
-    encoded_images = utils.encode_images(generated_images)
-    
-    print(f"---> Created images from text prompt [{translated_prompt}]")
-    response = {
-        'generatedImgs': encoded_images,
-        'generatedImgsCount': config.NR_IMAGES,
-        'generatedImgsFormat': config.IMAGE_FORMAT,
-        'profane': profane # TODO handle on frontend
-    }
-    return jsonify(response)
+    return Response(gen(), mimetype = 'application/json')
 
 
-@app.route("/", methods=["GET"])
-@cross_origin()
-def health_check():
-    return jsonify(success=True)
+@app.route('/')
+def index():
+    return "<html><head></head><body><h1>helo</h1><img src='/dalle' style='width: 90%'/>" \
+           "</body></html>"
 
 
 if __name__ == "__main__":

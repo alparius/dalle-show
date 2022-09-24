@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Loader, Grid, Container, SemanticWIDTHS } from 'semantic-ui-react';
+import JsonBigint from "json-bigint";
 
-import { callDalleBackend } from "./utils/backendApi";
+
+//import { callDalleBackend } from "./utils/backendApi";
 import ImageObject from "./components/ImageObject";
 import TextPrompt from "./components/TextPrompt";
 
@@ -21,23 +23,50 @@ const App = () => {
     console.log('API call to DALL-E backend with the following prompt [' + promptText + ']');
     setApiError('')
     setQueryTime(0)
+    const queryStartTime = new Date().getTime();
     setIsFetchingImgs(true)
-    callDalleBackend(promptText).then((response: any) => {
-      setQueryTime(response['executionTime'])
-      setGeneratedImages(response['serverResponse']['generatedImgs'])
-      setGeneratedImagesCount(response['serverResponse']['generatedImgsCount'])
-      setGeneratedImagesFormat(response['serverResponse']['generatedImgsFormat'])
-      setIsFetchingImgs(false)
 
-    }).catch((error: any) => {
-      console.log('Error querying DALL-E backend.', error)
-      if (error.message === 'Timeout') {
-        setApiError('Timeout querying DALL-E backend (>1min). Consider reducing the images per query or use a stronger backend.')
-      } else {
-        setApiError('Error querying DALL-E backend. Check your backend server logs.')
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `http://localhost:8000/dalle?prompt=${promptText}`);
+    var seenBytes = 0;
+    xhr.onreadystatechange = function () {
+      console.log("state change.. state: " + xhr.readyState);
+      if (xhr.readyState === 3) {
+        var newData = xhr.response.substr(seenBytes);
+        var nedat = JsonBigint.parse(newData as string)
+        console.log(nedat);
+
+        setGeneratedImages(nedat['generatedImgs'])
+        setGeneratedImagesCount(nedat['generatedImgsCount'])
+        setGeneratedImagesFormat(nedat['generatedImgsFormat'])
+        setIsFetchingImgs(false)
+
+        seenBytes = xhr.responseText.length;
+        console.log("seenBytes: " + seenBytes);
       }
-      setIsFetchingImgs(false)
-    })
+      if (xhr.readyState === 4) {
+        setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
+      }
+    };
+    xhr.send();
+
+
+    // callDalleBackend(promptText).then((response: any) => {
+    //   setQueryTime(response['executionTime'])
+    //   setGeneratedImages(response['serverResponse']['generatedImgs'])
+    //   setGeneratedImagesCount(response['serverResponse']['generatedImgsCount'])
+    //   setGeneratedImagesFormat(response['serverResponse']['generatedImgsFormat'])
+    //   setIsFetchingImgs(false)
+
+    // }).catch((error: any) => {
+    //   console.log('Error querying DALL-E backend.', error)
+    //   if (error.message === 'Timeout') {
+    //     setApiError('Timeout querying DALL-E backend (>1min). Consider reducing the images per query or use a stronger backend.')
+    //   } else {
+    //     setApiError('Error querying DALL-E backend. Check your backend server logs.')
+    //   }
+    //   setIsFetchingImgs(false)
+    // })
   }
 
   const nrImageColumns = () => {
@@ -67,7 +96,7 @@ const App = () => {
               <Grid container centered columns={nrImageColumns() as SemanticWIDTHS}>
                 {generatedImages.map((generatedImg, idx) => {
                   return (
-                    <Grid.Column key={idx} style={{padding: "2vh 1vh 0 1vh"}}>
+                    <Grid.Column key={idx} style={{ padding: "2vh 1vh 0 1vh" }}>
                       <ImageObject
                         imgData={generatedImg}
                         generatedImagesFormat={generatedImagesFormat}
