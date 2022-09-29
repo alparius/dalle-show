@@ -26,3 +26,6 @@ better-profanity==0.7.0
 # git+https://github.com/keras-team/keras-tuner.git
 # autokeras
 # tensorflow
+
+# storage
+psycopg2
