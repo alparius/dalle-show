@@ -49,6 +49,8 @@ NSFW_TRESHOLD = 0.5
 
 # storage
 USE_DATABASE = (os.getenv('AIEX_USE_DATABASE', 'True') == 'True')
+DB_HOST = 'localhost'
+DB_PORT = 5432
 DB_NAME = "dalledb"
 if USE_DATABASE:
     try:

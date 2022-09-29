@@ -4,25 +4,31 @@ import psycopg2
 import config
 
 INSERT_PROMPT_CMD = """
-    INSERT INTO prompts (timestamp, prompt, seed, nsfw_text, nsfw_image)
-    VALUES (%(timestamp)s, %(prompt)s, %(seed)s, %(nsfw_text)s, %(nsfw_image)s) 
-    RETURNING prompt, timestamp;
+    INSERT INTO prompts (timestamp, raw_prompt, translated_prompt, translated_language, seed, nsfw_text, nsfw_image)
+    VALUES (%(timestamp)s, %(raw_prompt)s, %(translated_prompt)s, %(translated_language)s, %(seed)s, %(nsfw_text)s, %(nsfw_image)s) 
+    RETURNING translated_prompt, timestamp;
 """
 
 
 def create_connection():
     return psycopg2.connect(
-        database=config.DB_NAME, user=config.DB_USER, password=config.DB_PASSWORD
+        database=config.DB_NAME,
+        user=config.DB_USER,
+        password=config.DB_PASSWORD,
+        host=config.DB_HOST,
+        port=config.DB_PORT,
     )
 
 
-def save_prompt(conn, prompt, seed, nsfw_text, nsfw_image):
+def save_prompt(conn, raw_prompt, translated_prompt, translated_language, seed, nsfw_text, nsfw_image):
     try:
         with conn:
             with conn.cursor() as cur:
                 params = {
                     "timestamp": datetime.datetime.now().isoformat(),
-                    "prompt": prompt,
+                    "raw_prompt": raw_prompt,
+                    "translated_prompt": translated_prompt,
+                    "translated_language": translated_language,
                     "seed": seed,
                     "nsfw_text": nsfw_text,
                     "nsfw_image": nsfw_image,
@@ -43,7 +49,9 @@ def create_tables():
                 create_table_cmd = """
                 CREATE TABLE IF NOT EXISTS prompts (
                     timestamp TIMESTAMP,
-                    prompt TEXT,
+                    raw_prompt TEXT,
+                    translated_prompt TEXT,
+                    translated_language TEXT,
                     seed INTEGER,
                     nsfw_text bool,
                     nsfw_image bool 
@@ -55,7 +63,9 @@ def create_tables():
             with conn.cursor() as cur:
                 params = {
                     "timestamp": datetime.datetime.now().isoformat(),
-                    "prompt": "test_prompt",
+                    "raw_prompt": "Guten Morgen!",
+                    "translated_prompt": "Good Morning!",
+                    "translated_language": "DE",
                     "seed": 42,
                     "nsfw_text": True,
                     "nsfw_image": None,

@@ -1,5 +1,6 @@
 import math
 from min_dalle import MinDalle
+import numpy as np
 import torch
 import requests
 import os
@@ -26,7 +27,7 @@ class ImageModel:
 
     def generate_images(self, text: str):
         if config.IMAGE_SEED is None:
-            seed = -1
+            seed = np.random.randint(1, 1024)
         else:
             seed = config.IMAGE_SEED
 

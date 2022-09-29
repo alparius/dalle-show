@@ -1,4 +1,5 @@
 from diffusers import StableDiffusionPipeline
+import numpy as np
 import torch
 
 import config
@@ -40,7 +41,7 @@ class ImageModel:
 
     def generate_images(self, text: str):
         if config.IMAGE_SEED is None:
-            seed = self.generator.seed()
+            seed = np.random.randint(1, 1024)
         else:
             seed = config.IMAGE_SEED
 
