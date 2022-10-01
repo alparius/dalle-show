@@ -3,6 +3,7 @@ import inspect
 from PIL import Image
 import numpy as np
 from diffusers import StableDiffusionPipeline
+import numpy as np
 from diffusers.schedulers import LMSDiscreteScheduler
 import torch
 from torch import autocast
