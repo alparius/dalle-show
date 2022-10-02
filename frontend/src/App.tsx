@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Loader, Grid, Container, SemanticWIDTHS } from 'semantic-ui-react';
-import JsonBigint from "json-bigint";
 
 import ImageObject from "./components/ImageObject";
 import TextPrompt from "./components/TextPrompt";
@@ -8,7 +7,8 @@ import TextPrompt from "./components/TextPrompt";
 
 const App = () => {
   const [promptText, setPromptText] = useState('');
-  const [isFetchingImgs, setIsFetchingImgs] = useState(false);
+  const [disableInput, setDisableInput] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   const [generatedImages, setGeneratedImages] = useState([]);
   const [generatedImagesCount, setGeneratedImagesCount] = useState(0);
@@ -20,7 +20,8 @@ const App = () => {
   const enterPressedCallback = (promptText: string) => {
     console.log('API call to DALL-E backend with the following prompt [' + promptText + ']');
     setApiError('');
-    setIsFetchingImgs(true);
+    setDisableInput(true);
+    setShowLoader(true);
     const queryStartTime = new Date().getTime();
 
     var xhr = new XMLHttpRequest();
@@ -28,23 +29,23 @@ const App = () => {
     var seenBytes = 0;
 
     xhr.onreadystatechange = function () {
-      console.log("state change.. state: " + xhr.readyState);
+      //console.log("state change.. state: " + xhr.readyState);
 
       if (xhr.readyState === 3) {
         var newChunk = xhr.response.substr(seenBytes);
-        seenBytes = xhr.responseText.length;
         //console.log("seenBytes: " + seenBytes);
+        var newData = JSON.parse(newChunk as string);
+        seenBytes = xhr.responseText.length;
 
-        var newData = JsonBigint.parse(newChunk as string);
         setGeneratedImages(newData['generatedImgs']);
         setGeneratedImagesCount(newData['generatedImgsCount']);
         setGeneratedImagesFormat(newData['generatedImgsFormat']);
-        setIsFetchingImgs(false);
+        setShowLoader(false);
         setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
       }
 
       if (xhr.readyState === 4) {
-        // TODO?
+        setDisableInput(false);
       }
     };
 
@@ -79,14 +80,14 @@ const App = () => {
           enterPressedCallback={enterPressedCallback}
           promptText={promptText}
           setPromptText={setPromptText}
-          disabled={isFetchingImgs} />
+          disabled={disableInput} />
       </div>
 
       <div>
         {apiError ?
           <h5>{apiError}</h5>
-          : isFetchingImgs ?
-            <Loader size='huge' indeterminate active={isFetchingImgs}>Doing fancy calculations ✨</Loader>
+          : showLoader ?
+            <Loader size='huge' indeterminate active={showLoader}>Doing fancy calculations ✨</Loader>
             : generatedImages.length > 0 ?
               <>
                 <Grid container centered columns={nrImageColumns() as SemanticWIDTHS}>
