@@ -64,55 +64,58 @@ const App = () => {
   const nrImageColumns = () => {
     if (generatedImagesCount == null) {
       return 0;
-    }
-    else if (generatedImagesCount < 4) {
+    } else if (generatedImagesCount < 4) {
       return generatedImagesCount;
-    }
-    else {
+    } else {
       return Math.floor(Math.sqrt(generatedImagesCount));
     }
   }
 
   return (
-    <Container style={{ padding: "2em" }}>
-      <div >
+    <>
+      <Container style={{ padding: "2em" }}>
         <TextPrompt
           enterPressedCallback={enterPressedCallback}
           promptText={promptText}
           setPromptText={setPromptText}
-          disabled={disableInput} />
-      </div>
+          disabled={disableInput}
+        />
+      </Container>
 
-      <div>
-        {apiError ?
-          <h5>{apiError}</h5>
-          : showLoader ?
-            <Loader size='huge' indeterminate active={showLoader}>Doing fancy calculations ✨</Loader>
-            : generatedImages.length > 0 ?
-              <>
-                <Grid container centered columns={nrImageColumns() as SemanticWIDTHS}>
-                  {generatedImages.map((generatedImg, idx) => {
-                    return (
-                      <Grid.Column key={idx} style={{ padding: "2vh 1vh 0 1vh" }}>
-                        <ImageObject
-                          imgData={generatedImg}
-                          generatedImagesFormat={generatedImagesFormat}
-                          promptText={promptText}
-                          index={++idx}
-                          maxHeight={75 / (generatedImagesCount / nrImageColumns())} />
-                      </Grid.Column>
-                    )
-                  })}
-                </Grid>
-                {queryTime !== 0 &&
-                  <Container style={{ color: "grey", textAlign: "right", marginTop: "1em" }}>
-                    {"(last execution time: " + queryTime + " sec)"}
-                  </Container>}
-              </>
-              : <></>
-        }
-      </div>
-    </Container>
+      {apiError ?
+        <h5>{apiError}</h5>
+
+        : showLoader ?
+          <Loader size='huge' indeterminate active={showLoader}>Doing fancy calculations ✨</Loader>
+
+          : generatedImages.length > 0 ?
+            <Container textAlign="center" style={{ minWidth: "85vw" }}>
+              <Grid centered columns={nrImageColumns() as SemanticWIDTHS} >
+                {generatedImages.map((generatedImg, idx) => {
+                  return (
+                    <Grid.Column className="ui" key={idx} /*style={{ padding: "2vh 1vh 0 1vh" }}*/>
+                      <ImageObject
+                        imgData={generatedImg}
+                        generatedImagesFormat={generatedImagesFormat}
+                        promptText={promptText}
+                        index={++idx}
+                        maxHeight={75 / (generatedImagesCount / nrImageColumns())}
+                      />
+                    </Grid.Column>
+                  )
+                })}
+              </Grid>
+
+              {queryTime !== 0 &&
+                <div style={{ color: "grey", textAlign: "right", marginTop: "2em" }}>
+                  {"(last execution time: " + queryTime + " sec)"}
+                </div>
+              }
+            </Container>
+
+            : <></>
+      }
+    </>
   )
 }
 

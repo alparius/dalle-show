@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'semantic-ui-react';
 
+
 type Props = {
     imgData: any,
     generatedImagesFormat: string,
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const ImageObject = ({ imgData, generatedImagesFormat, promptText, maxHeight, index }: Props) => {
+
     const imgSrc = `data:image/${generatedImagesFormat};base64,${imgData}`
     const alt = `${promptText} ${index}`
     //const title = "Download image"
@@ -17,7 +19,12 @@ const ImageObject = ({ imgData, generatedImagesFormat, promptText, maxHeight, in
 
     return (
         //<a href={imgSrc} title={title} download={downloadedFilename}>
-        <Image src={imgSrc} alt={alt} style={{ maxHeight: `${maxHeight}vh`}} />
+        <Image
+            src={imgSrc}
+            alt={alt}
+            style={{ height: `${maxHeight}vh`, width: `${maxHeight}vh`}}
+            className='centered'
+        />
         //</a>
     )
 }
