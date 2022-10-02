@@ -10,7 +10,5 @@ __pycache__/
 node_modules/
 build/
 
-blueberry/
-
 secrets.json
 NOTES.txt
