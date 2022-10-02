@@ -1,9 +1,6 @@
-import io
 import json
-import time
-from PIL import Image
 from flask import Flask, request, jsonify, Response, stream_with_context
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 from util_translation import translate_prompt
 import util_nsfwchecks
@@ -26,36 +23,31 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/dalle2", methods=["POST"])
-def generate_images_api():
-    raw_prompt = request.get_json(force=True)["text"]
-    translated_prompt = translate_prompt(raw_prompt)
-    profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
-    
-    if config.IMAGE_MODEL == "potato":
-        time.sleep(5)
-        generated_images = utils.separate_grid(Image.open('./static/placeholder.jpeg'))
-    else:
-        generated_images = image_model.generate_images(translated_prompt)
-
-    nsfw_image = None
-    if config.FILTER_IMAGES:
-        generated_images, nsfw_image = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
-
-    if config.USE_DATABASE:
-        database.save_prompt(db_connection, raw_prompt, translated_prompt, translated_lang, seed, profane, nsfw_image)
-
 @app.route("/dalle", methods=["GET"])
 @stream_with_context
 def generate_images_api2():
     raw_prompt = request.args.get('prompt')
-    translated_prompt = translate_prompt(raw_prompt)
+    translated_prompt, translated_lang = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
+
+    nsfw_image = None
+    # TODO does it make sense to only check last one?, bc cant check all even if 50ms
+    #if config.FILTER_IMAGES:
+    #    generated_images, nsfw_image = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
+
+    seed = utils.get_seed()
+
+    if config.USE_DATABASE:
+        database.save_prompt(db_connection, raw_prompt, translated_prompt, translated_lang, seed, profane, nsfw_image)
     
     def gen():
-        frames = image_model.generate_images(translated_prompt)
+        if config.IMAGE_MODEL == "potato":
+            frames = utils.yield_potato()
+        else:
+            frames = image_model.generate_images(translated_prompt, seed)
+
         for frame in frames :
-            strpic = utils.encode_images([frame])
+            strpic = utils.encode_images(frame)
             response = {
                 'generatedImgs': strpic,
                 'generatedImgsCount': config.NR_IMAGES,
@@ -67,16 +59,18 @@ def generate_images_api2():
     return Response(gen(), mimetype = 'application/json')
 
 
-@app.route('/')
-def index():
-    return "<html><head></head><body><h1>helo</h1><img src='/dalle' style='width: 90%'/>" \
-           "</body></html>"
+@app.route("/", methods=["GET"])
+def health_check():
+    return jsonify(success=True)
 
 
 if __name__ == "__main__":
     if config.IMAGE_MODEL != 'potato':
         image_model = ImageModel()
-        image_model.generate_images("warmup")
+        gen = image_model.generate_images("warmup", 1)
+        for _ in gen:
+            continue  
+
     if config.USE_DATABASE:
         db_connection = database.create_connection()
         

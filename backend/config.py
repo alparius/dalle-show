@@ -21,7 +21,7 @@ if IMAGE_MODEL in ['stablediff']:
 NR_IMAGES = int(os.getenv('AIEX_NR_IMAGES', '2')) # for dall-e it will be the <= full square
 IMAGE_FORMAT = 'jpeg' # 'png'
 IMAGE_MODEL_ROOT = 'models_image'
-IMAGE_SEED = None
+IMAGE_SEED = 1024 # int or None
 
 DALLE_IS_MEGA = (os.getenv('AIEX_DALLE_IS_MEGA', 'True') == 'True')
 STABLEDIFF_ITERS = int(os.getenv('AIEX_STABLEDIFF_ITERS', '35')) # default is 50
