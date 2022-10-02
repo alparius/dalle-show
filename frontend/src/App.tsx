@@ -107,7 +107,7 @@ const App = () => {
               </Grid>
 
               {queryTime !== 0 &&
-                <div style={{ color: "grey", textAlign: "right", marginTop: "2em" }}>
+                <div style={{ color: "grey", textAlign: "right", marginTop: "1.5em" }}>
                   {"(last execution time: " + queryTime + " sec)"}
                 </div>
               }

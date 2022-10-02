@@ -19,7 +19,7 @@ RUN pip3 install -r requirements.txt
 COPY . /app
 
 # download models
-RUN python3 setup.py
+RUN python3 setup.py --setup-db --offline-translation
 
 # run server
 CMD python3 app.py
