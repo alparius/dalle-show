@@ -80,7 +80,6 @@ def filter_images(images, treshold):
             image_features /= image_features.norm(dim=-1, keepdim=True)
             query = image_features.cpu().detach().numpy().astype("float32")
             nsfw_value = safety_model.predict(query)
-            print(nsfw_value)
         if nsfw_value < treshold:
             filtered_images.append(img)
         else:
