@@ -65,7 +65,6 @@ def load_safety_model(clip_model):
             zip_ref.extractall(cache_folder)
 
     loaded_model = load_model(model_dir, custom_objects=ak.CUSTOM_OBJECTS)
-    loaded_model.predict(np.random.rand(10 ** 3, dim).astype("float32"), batch_size=10 ** 3)
 
     return loaded_model
 
@@ -81,6 +80,7 @@ def filter_images(images, treshold):
             image_features /= image_features.norm(dim=-1, keepdim=True)
             query = image_features.cpu().detach().numpy().astype("float32")
             nsfw_value = safety_model.predict(query)
+            print(nsfw_value)
         if nsfw_value < treshold:
             filtered_images.append(img)
         else:
