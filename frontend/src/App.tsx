@@ -31,9 +31,8 @@ const App = () => {
     xhr.onreadystatechange = function () {
       //console.log("state change.. state: " + xhr.readyState);
 
-      if (xhr.readyState === 3) {
+      if (xhr.readyState === 3 || xhr.readyState === 4) {
         var newChunk = xhr.response.substr(seenBytes);
-        //console.log("seenBytes: " + seenBytes);
         var newData = JSON.parse(newChunk as string);
         seenBytes = xhr.responseText.length;
 
