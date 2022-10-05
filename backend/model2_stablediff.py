@@ -118,9 +118,10 @@ class ImageModel:
                 pil_images = utils.numpy_to_pil(image)
 
                 # # run safety checker
-                # safety_checker_input = self.pipe.feature_extractor(pil_images, return_tensors="pt").to(self.torch_device)
-                # image, has_nsfw_concept = self.pipe.safety_checker(images=image, clip_input=safety_checker_input.pixel_values.to(text_embeddings.dtype).type(torch.FloatTensor))
-                # print(has_nsfw_concept)
+                # if time_step == 1 and i > config.STABLEDIFF_ITERS - 10:
+                #     safety_checker_input = self.pipe.feature_extractor(pil_images, return_tensors="pt").to(self.torch_device)
+                #     image, has_nsfw_concept = self.pipe.safety_checker(images=image, clip_input=safety_checker_input.pixel_values.to(torch.float32).type(torch.FloatTensor))
+                #     print(has_nsfw_concept)
 
                 yield pil_images
 
