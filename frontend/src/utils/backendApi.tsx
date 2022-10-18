@@ -1,12 +1,12 @@
 import JsonBigint from "json-bigint";
 
 
-const BACKEND_URL = 'http://localhost:8000'
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL) ? process.env.REACT_APP_BACKEND_URL : 'http://localhost:8000'
 const REQUEST_TIMEOUT_SEC = 60000
 
 export async function callDalleBackend(text: string) {
     const queryStartTime = new Date().getTime();
-
+    
     const response = await Promise.race([
         (await fetch(BACKEND_URL + `/dalle`, {
             method: 'POST',
