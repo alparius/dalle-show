@@ -24,11 +24,11 @@ services:
   dalle-frontend:
     build: ./frontend/
     environment:
-      - REACT_APP_BACKEND_URL='dalle-backend:8001'
+      - REACT_APP_BACKEND_URL='dalle-backend:8000'
     ports:
       - 3000:3000
-    #depends_on:
-    #  - dalle-backend
+    depends_on:
+      - dalle-backend
 
 volumes:
   app-cache:
