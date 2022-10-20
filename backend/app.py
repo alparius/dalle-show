@@ -4,6 +4,7 @@ from flask_cors import CORS
 
 from util_translation import translate_prompt
 import util_nsfwchecks
+from util_upscale import ImageUpscaler
 
 import config
 import database
@@ -16,6 +17,7 @@ elif config.IMAGE_MODEL == 'stablediff':
     
     
 image_model = None
+image_upscaler = None
 db_connection = None
 
 print("---> Starting DALL-E Server. This might take up to two minutes.")
@@ -30,11 +32,7 @@ def generate_images_api2():
     translated_prompt, translated_lang = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
 
-    nsfw_image = None
-    # TODO does it make sense to only check last one?, bc cant check all even if 50ms
-    #if config.FILTER_IMAGES:
-    #    generated_images, nsfw_image = util_nsfwchecks.filter_images(generated_images, config.NSFW_TRESHOLD)
-
+    nsfw_image = None # TODO: maybe we'll figure this out later
     seed = utils.get_seed()
 
     if config.USE_DATABASE:
@@ -46,13 +44,25 @@ def generate_images_api2():
         else:
             frames = image_model.generate_images(translated_prompt, seed)
 
+        i = 0
         for frame in frames :
-            strpic = utils.encode_images(frame)
+            # if config.FILTER_IMAGES:
+            #     frame, nsfw_image = util_nsfwchecks.filter_images(frame, config.NSFW_TRESHOLD)
+            #     # print(nsfw_image)
+            
+            i = i+1
+            if i==13: ## TODO hacky logic, will break
+                strpic = utils.encode_images(image_upscaler.upscale(frame))
+            else:
+                strpic = utils.encode_images(frame)
+
             response = {
                 'generatedImgs': strpic,
                 'generatedImgsCount': config.NR_IMAGES,
                 'generatedImgsFormat': config.IMAGE_FORMAT,
-                'profane': profane # TODO handle on frontend
+                'promptEnglish': translated_prompt,
+                'promptLanguage': translated_lang,
+                'promptProfane': profane # TODO handle on frontend
             }
             yield json.dumps(response)
 
@@ -69,7 +79,9 @@ if __name__ == "__main__":
         image_model = ImageModel()
         gen = image_model.generate_images("warmup", 1)
         for _ in gen:
-            continue  
+            continue
+
+    image_upscaler = ImageUpscaler()
 
     if config.USE_DATABASE:
         db_connection = database.create_connection()

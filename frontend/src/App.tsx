@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader, Grid, Container, SemanticWIDTHS } from 'semantic-ui-react';
+import { Loader, Grid, Container, List, Icon, SemanticWIDTHS } from 'semantic-ui-react';
 
 import ImageObject from "./components/ImageObject";
 import TextPrompt from "./components/TextPrompt";
@@ -13,6 +13,10 @@ const App = () => {
   const [generatedImages, setGeneratedImages] = useState([]);
   const [generatedImagesCount, setGeneratedImagesCount] = useState(0);
   const [generatedImagesFormat, setGeneratedImagesFormat] = useState('jpeg');
+
+  const [promptEnglish, setPromptEnglish] = useState('');
+  const [promptLanguage, setPromptLanguage] = useState('');
+  const [promptProfane, setPromptProfane] = useState('');
 
   const [apiError, setApiError] = useState('');
   const [queryTime, setQueryTime] = useState(0);
@@ -39,6 +43,9 @@ const App = () => {
         setGeneratedImages(newData['generatedImgs']);
         setGeneratedImagesCount(newData['generatedImgsCount']);
         setGeneratedImagesFormat(newData['generatedImgsFormat']);
+        setPromptEnglish(newData['promptEnglish']);
+        setPromptLanguage(newData['promptLanguage']);
+        setPromptProfane(newData['promptProfane']);
         setShowLoader(false);
         setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
       }
@@ -79,6 +86,11 @@ const App = () => {
           setPromptText={setPromptText}
           disabled={disableInput}
         />
+        {!showLoader &&
+          <List pointing size='large' style={{marginTop: "-10px"}}>
+            <Icon size="big" name='translate' /> Prompt was translated from <b>{promptLanguage}</b> to English as: <i>"{promptEnglish}"</i>.
+          </List>
+        }
       </Container>
 
       {apiError ?
@@ -106,7 +118,7 @@ const App = () => {
               </Grid>
 
               {queryTime !== 0 &&
-                <div style={{ color: "grey", textAlign: "right", marginTop: "1.5em" }}>
+                <div style={{ color: "grey", textAlign: "right", marginTop: "1em" }}>
                   {"(last execution time: " + queryTime + " sec)"}
                 </div>
               }
