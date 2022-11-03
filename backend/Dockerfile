@@ -13,13 +13,13 @@ WORKDIR /app
 # add requirements
 COPY ./requirements.txt /app/requirements.txt
 # install requirements
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # add source code
 COPY . /app
 
 # download models
-RUN python3 setup.py
+RUN python3 setup.py --image-models
 
 # run server
 CMD python3 app.py

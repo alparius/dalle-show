@@ -10,6 +10,8 @@ services:
       - AIEX_STABLEDIFF_ITERS=40
       - AIEX_ONLINE_TRANSLATION=False
       - AIEX_FILTER_IMAGES=False
+      #- AIEX_IMAGE_MODEL=potato
+      - AIEX_USE_DATABASE=False
     restart: always
     ports:
       - 8000:8000
@@ -23,12 +25,13 @@ services:
             
   dalle-frontend:
     build: ./frontend/
-    environment:
-      - REACT_APP_BACKEND_URL=http://dalle-backend:8000
     ports:
       - 3000:3000
+    restart: always
     depends_on:
       - dalle-backend
+    stdin_open: true
+    tty: true
 
 volumes:
   app-cache:
