@@ -1,3 +1,4 @@
+import math
 import json
 from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_cors import CORS
@@ -10,10 +11,7 @@ import config
 import database
 import utils
 
-if config.IMAGE_MODEL == 'dalle':
-    from model1_kuprel import ImageModel
-elif config.IMAGE_MODEL == 'stablediff':
-    from model2_stablediff import ImageModel
+from model2_stablediff import ImageModel
     
     
 image_model = None
@@ -32,11 +30,10 @@ def generate_images_api2():
     translated_prompt, translated_lang = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
 
-    nsfw_image = None # TODO: maybe we'll figure this out later
     seed = utils.get_seed()
 
     if config.USE_DATABASE:
-        database.save_prompt(db_connection, raw_prompt, translated_prompt, translated_lang, seed, profane, nsfw_image)
+        database.save_prompt(db_connection, raw_prompt, translated_prompt, translated_lang, seed, profane, None)
     
     def gen():
         if config.IMAGE_MODEL == "potato":
@@ -48,10 +45,9 @@ def generate_images_api2():
         for frame in frames :
             # if config.FILTER_IMAGES:
             #     frame, nsfw_image = util_nsfwchecks.filter_images(frame, config.NSFW_TRESHOLD)
-            #     # print(nsfw_image)
             
             i = i+1
-            if i==13: ## TODO hacky logic, will break
+            if i == math.ceil(config.STABLEDIFF_ITERS / config.STABLEDIFF_KDIFF) + 1:
                 strpic = utils.encode_images(image_upscaler.upscale(frame))
             else:
                 strpic = utils.encode_images(frame)
@@ -62,7 +58,7 @@ def generate_images_api2():
                 'generatedImgsFormat': config.IMAGE_FORMAT,
                 'promptEnglish': translated_prompt,
                 'promptLanguage': translated_lang,
-                'promptProfane': profane # TODO handle on frontend
+                'promptProfane': profane
             }
             yield json.dumps(response)
 

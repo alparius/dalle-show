@@ -16,7 +16,7 @@ const App = () => {
 
   const [promptEnglish, setPromptEnglish] = useState('');
   const [promptLanguage, setPromptLanguage] = useState('');
-  const [promptProfane, setPromptProfane] = useState('');
+  const [promptProfane, setPromptProfane] = useState(''); // TODO: use
 
   const [apiError, setApiError] = useState('');
   const [queryTime, setQueryTime] = useState(0);

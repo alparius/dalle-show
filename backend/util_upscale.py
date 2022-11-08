@@ -10,21 +10,17 @@ from realesrgan import RealESRGANer
 class ImageUpscaler:
 
     def __init__(self) -> None:
-        # parser = argparse.ArgumentParser()
-        # parser.add_argument('-t', '--tile', type=int, default=0, help='Tile size, 0 for no tile during testing')
-        # parser.add_argument('--tile_pad', type=int, default=10, help='Tile padding')
-        # parser.add_argument('--pre_pad', type=int, default=0, help='Pre padding size at each border')
-
         # determine models according to model names
         model_name = 'RealESRGAN_x2plus'
-        if model_name == 'RealESRGAN_x4plus':  # x4 RRDBNet model
-            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
-            netscale = 4
-            file_url = ['https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth']
-        elif model_name == 'RealESRGAN_x2plus':  # x2 RRDBNet model
+        if model_name == 'RealESRGAN_x2plus':  # x2 RRDBNet model
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
             netscale = 2
             file_url = ['https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth']
+        # TODO: if we need higher upscaling could use this
+        # if model_name == 'RealESRGAN_x4plus':  # x4 RRDBNet model
+            # model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
+            # netscale = 4
+            # file_url = ['https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth']
 
         # determine model paths
         model_path = os.path.join('models_image/real-esrgan', model_name + '.pth')
@@ -39,11 +35,8 @@ class ImageUpscaler:
             model_path=model_path,
             dni_weight=None,
             model=model,
-            #tile=args.tile,
-            #tile_pad=args.tile_pad,
-            #pre_pad=args.pre_pad,
             half=True,
-            gpu_id='0') # or None # TODO test !!!
+            gpu_id='0') # TODO: if problems, test 'None' for CPU
 
         print("---> Upscaler initialized")
 
@@ -53,11 +46,6 @@ class ImageUpscaler:
         upscaled_images = []
         for img in images:
             open_cv_image = np.array(img)
-
-            # if len(img.shape) == 3 and img.shape[2] == 4:
-            #     img_mode = 'RGBA' # needs png
-            # else:
-            #     img_mode = None
 
             try:
                 output, _ = self.upscaler.enhance(open_cv_image, outscale=1.5)

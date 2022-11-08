@@ -6,8 +6,12 @@ from diffusers.schedulers import LMSDiscreteScheduler
 import config
 import utils
 
-torch.backends.cudnn.benchmark = True
-torch.backends.cuda.matmul.allow_tf32 = True
+# TODO: speedup experiments
+# torch.backends.cudnn.benchmark = True
+# torch.backends.cuda.matmul.allow_tf32 = True
+#The memory efficient attention can be activated by
+# USE_MEMORY_EFFICIENT_ATTENTION=1
+# pip install git+https://github.com/facebookresearch/xformers@51dd119#egg=xformers
 
 
 class ImageModel:
@@ -17,26 +21,11 @@ class ImageModel:
         self.width = 512
         self.guidance_scale = 7.5
         self.num_inference_steps = config.STABLEDIFF_ITERS
-
-        ### TODO half precision trick
-        ### faster, less memory, almost same quality
-        ## https://github.com/richservo/StableDiffusionGUI/blob/main/StableDiffusionUI.py
-        # config ="configs/stable-diffusion/v1-inference.yaml"
-        # config = OmegaConf.load(f"{config}")
-        # ckpt = './models/ldm/stable-diffusion-v1/' + dlg.checkDrop.currentText()
-        # model = load_model_from_config(config, f"{ckpt}")
-        # device = torch.device("cuda")
-        # model = model.to(device)
-        # model.half()
-
         self.torch_device = "cuda"
 
         # init all of the models and move them to a given GPU
         lms = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear")
         self.pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", scheduler=lms, use_auth_token=config.HF_TOKEN)
-
-        # def dummy(images, **kwargs): return images, False 
-        # self.pipe.safety_checker = dummy
 
         self.pipe.unet.to(self.torch_device)
         self.pipe.vae.to(self.torch_device)
@@ -62,7 +51,7 @@ class ImageModel:
         # sample the destination
         for t in range(2):
             with autocast("cuda"):
-                picgen = self.diffuse(cond_embeddings, init_noise, t, 3)
+                picgen = self.diffuse(cond_embeddings, init_noise, t)
                 for p in picgen:
                     yield p
 
@@ -73,7 +62,6 @@ class ImageModel:
             cond_embeddings, # text conditioning, should be (config.NR_IMAGES, 77, 768)
             cond_latents, # image conditioning, should be (config.NR_IMAGES, 4, 64, 64)
             time_step, # 0 for cold run, 1 for decoding and yield
-            n_steps, # every n_step image is yielded
         ):
         # classifier guidance: add the unconditional embedding
         max_length = cond_embeddings.shape[1] # 77
@@ -107,7 +95,7 @@ class ImageModel:
             cond_latents = self.pipe.scheduler.step(noise_pred, i, cond_latents)["prev_sample"]
 
             # scale and decode the image latents with vae   
-            if time_step == 1 and (i % n_steps == 0 or i == config.STABLEDIFF_ITERS - 1):
+            if time_step == 1 and (i % config.STABLEDIFF_KDIFF == 0 or i == config.STABLEDIFF_ITERS - 1):
                 cond_latents_2 = 1 / 0.18215 * cond_latents
                 image = self.pipe.vae.decode(cond_latents_2)
 
@@ -117,19 +105,11 @@ class ImageModel:
 
                 pil_images = utils.numpy_to_pil(image)
 
-                # # run safety checker
+                # TODO: isn't needed as discussed, otherwise a problem with the db, solution 2:
+                # run safety checker
                 # if config.FILTER_IMAGES and time_step == 1 and i > config.STABLEDIFF_ITERS - 10:
                 #     safety_checker_input = self.pipe.feature_extractor(pil_images, return_tensors="pt").to(self.torch_device)
                 #     image, has_nsfw_concept = self.pipe.safety_checker(images=image, clip_input=safety_checker_input.pixel_values.to(torch.float32).type(torch.FloatTensor))
                 #     print(has_nsfw_concept)
 
                 yield pil_images
-
-
-# torch.backends.cudnn.benchmark = True
-
-# torch.backends.cuda.matmul.allow_tf32 = True
-
-#The memory efficient attention can be activated by
-# USE_MEMORY_EFFICIENT_ATTENTION=1
-# pip install git+https://github.com/facebookresearch/xformers@51dd119#egg=xformers
