@@ -5,6 +5,7 @@ import torch
 from functools import lru_cache
 from PIL import Image
 from better_profanity import profanity
+import torch
 
 import config
 
@@ -20,20 +21,21 @@ def prompt_profanity_check(prompt):
     return profane
 
 
+@torch.no_grad()
 @lru_cache(maxsize=None)
 def load_safety_model(clip_model):
     """load the safety model"""
     import autokeras as ak  # pylint: disable=import-outside-toplevel
     from tensorflow.keras.models import load_model  # pylint: disable=import-outside-toplevel
 
-    # import tensorflow as tf
+    import tensorflow as tf
 
-    # physical_devices = tf.config.list_physical_devices('GPU')
-    # try:
-    #     print(physical_devices)
-    #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    # except:
-    #     pass # Invalid device or cannot modify virtual devices once initialized.
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+        print(physical_devices)
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+        pass # Invalid device or cannot modify virtual devices once initialized.
 
     cache_folder =  "./models_image/nsfw/" + clip_model.replace("/", "_")
     if clip_model == "ViT-L/14":
@@ -69,6 +71,7 @@ def load_safety_model(clip_model):
     return loaded_model
 
 
+@torch.no_grad()
 def filter_images(images, treshold):
     device = config.NSFW_DEVICE
     filtered_images = []

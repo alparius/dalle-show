@@ -24,9 +24,18 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText 
     return (
         <Form>
             <Form.Field>
-                <Input color="green" inverted size="big" placeholder="type in something unusual" value={promptText} style={{ place: "black !important" }}
-                    onChange={onTextChanged} fullWidth
-                    onKeyPress={handleTextPromptKeyPressed} disabled={disabled} />
+                <Input
+                    color="green"
+                    size="big"
+                    inverted
+                    fullWidth
+                    style={{ place: "black !important" }}
+                    placeholder="type in something unusual"
+                    value={promptText}
+                    onChange={onTextChanged}
+                    onKeyPress={handleTextPromptKeyPressed}
+                    disabled={disabled}
+                />
                 <label style={{ textAlign: "right", color: "grey" }}>hit Enter to generate images</label>
             </Form.Field>
         </Form>

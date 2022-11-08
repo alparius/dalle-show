@@ -21,10 +21,11 @@ if IMAGE_MODEL in ['stablediff']:
 NR_IMAGES = int(os.getenv('AIEX_NR_IMAGES', '2')) # for dall-e it will be the <= full square
 IMAGE_FORMAT = 'jpeg' # 'png'
 IMAGE_MODEL_ROOT = 'models_image'
-IMAGE_SEED = None
+IMAGE_SEED = 1024 # int or None
 
 DALLE_IS_MEGA = (os.getenv('AIEX_DALLE_IS_MEGA', 'True') == 'True')
 STABLEDIFF_ITERS = int(os.getenv('AIEX_STABLEDIFF_ITERS', '35')) # default is 50
+STABLEDIFF_KDIFF = int(os.getenv('STABLEDIFF_KDIFF', '3')) # every k-th step is streamed
 
 
 # translation
@@ -43,7 +44,7 @@ if ONLINE_TRANSLATION:
 
 # nsfw checks
 CHECK_PROMPT_FOR_PROFANITY = (os.getenv('AIEX_CHECK_PROMPT_FOR_PROFANITY', 'True') == 'True')
-FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # TODO: causes (V)RAM leak
+FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True')
 NSFW_DEVICE = "cpu" # "cpu" or "cuda"
 NSFW_TRESHOLD = 0.5
 

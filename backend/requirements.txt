@@ -8,6 +8,7 @@ torch
 min-dalle==0.4.11
 diffusers==0.2.4
 transformers
+scipy
 
 # translation
 deepl==1.9.0
