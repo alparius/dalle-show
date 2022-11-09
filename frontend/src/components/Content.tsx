@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import {Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image} from 'semantic-ui-react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image } from 'semantic-ui-react';
 
-import ImageObject from "./components/ImageObject";
-import TextPrompt from "./components/TextPrompt";
-import ExplanationModal from "./components/ExplanationModal";
-import start_image from "./hint.jpg";
+import ImageObject from "./ImageObject";
+import TextPrompt from "./TextPrompt";
+import start_image from "../static/hint.jpg";
+import { IsGermanContext } from '../App';
+
 
 const NUMBER_OF_PLAYS_ALLOWED = 3;
 
@@ -12,7 +13,9 @@ type Props = {
   finishPlaying: any,
 };
 
-const Content = ({finishPlaying}: Props) => {
+const Content = ({ finishPlaying }: Props) => {
+  const isGerman = useContext(IsGermanContext);
+
   const [promptText, setPromptText] = useState('');
   const [disableInput, setDisableInput] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -30,6 +33,21 @@ const Content = ({finishPlaying}: Props) => {
   const [queryTime, setQueryTime] = useState(0);
   const [numberOfPlays, setNumberOfPlays] = useState(0);
 
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  const loadingTexts = ['Translating to English...', 'Checking for unsafe content...', 'Beginning image diffusion...']
+  const shuffle = useCallback(() => {
+    setLoadingTextIndex(prevIndex => {
+      if (prevIndex === loadingTexts.length - 1) {
+        return 2;
+      }
+      return prevIndex + 1;
+    })
+  }, []);
+  useEffect(() => {
+    const intervalID = setInterval(shuffle, 2500);
+    return () => clearInterval(intervalID);
+  }, [shuffle, loadingTextIndex])
+
   const checkIfEnoughPlaying = () => {
     console.log("Number of plays is:", numberOfPlays)
     if (numberOfPlays >= NUMBER_OF_PLAYS_ALLOWED) {
@@ -45,6 +63,7 @@ const Content = ({finishPlaying}: Props) => {
     console.log('API call to DALL-E backend with the following prompt [' + promptText + ']');
     setApiError('');
     setDisableInput(true);
+    setLoadingTextIndex(0);
     setShowLoader(true);
     setGeneratedOnce(true);
     const queryStartTime = new Date().getTime();
@@ -54,19 +73,21 @@ const Content = ({finishPlaying}: Props) => {
     var seenBytes = 0;
 
     xhr.onreadystatechange = function () {
-      //console.log("state change.. state: " + xhr.readyState);
+      console.log("state change.. state: " + xhr.readyState);
 
       if (xhr.readyState === 3 || xhr.readyState === 4) {
         var newChunk = xhr.response.substr(seenBytes);
-        var newData = JSON.parse(newChunk as string);
-        seenBytes = xhr.responseText.length;
+        if (seenBytes - xhr.responseText.length !== 0) {
+          var newData = JSON.parse(newChunk as string);
+          seenBytes = xhr.responseText.length;
 
-        setGeneratedImages(newData['generatedImgs']);
-        setGeneratedImagesCount(newData['generatedImgsCount']);
-        setGeneratedImagesFormat(newData['generatedImgsFormat']);
-        setPromptEnglish(newData['promptEnglish']);
-        setPromptLanguage(newData['promptLanguage']);
-        setPromptProfane(newData['promptProfane']);
+          setGeneratedImages(newData['generatedImgs']);
+          setGeneratedImagesCount(newData['generatedImgsCount']);
+          setGeneratedImagesFormat(newData['generatedImgsFormat']);
+          setPromptEnglish(newData['promptEnglish']);
+          setPromptLanguage(newData['promptLanguage']);
+          setPromptProfane(newData['promptProfane']);
+        }
         setShowLoader(false);
         setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
       }
@@ -107,16 +128,21 @@ const Content = ({finishPlaying}: Props) => {
           setPromptText={setPromptText}
           disabled={disableInput}
         />
-        {!showLoader &&
-          <List pointing size='large' style={{marginTop: "-10px"}}>
-            <Icon size="big" name='translate' /> Prompt was translated from <b>{promptLanguage}</b> to English as: <i>"{promptEnglish}"</i>.
+        {!showLoader && generatedImages.length > 0 &&
+          <List pointing size='large' style={{ marginTop: "-10px" }}>
+            <Icon size="big" name='translate' />
+            {isGerman ?
+              <> Die Eingabe wurde vom <b>{promptLanguage}</b> ins Englische übersetzt als: <i>"{promptEnglish}"</i>.</>
+              :
+              <> Input was translated from <b>{promptLanguage}</b> to English as: <i>"{promptEnglish}"</i>.</>
+            }
           </List>
         }
       </Container>
 
       {!generatedOnce &&
-        <Container style={{padding: "2em"}}>
-          <Image src={start_image} size={"big"} floated={"right"}/>
+        <Container style={{ padding: "2em" }}>
+          <Image src={start_image} size="big" floated="right" />
         </Container>
       }
 
@@ -125,9 +151,10 @@ const Content = ({finishPlaying}: Props) => {
         <h5>{apiError}</h5>
 
         : showLoader ?
-          <Loader size='huge' indeterminate active={showLoader}>Doing fancy calculations ✨</Loader>
+          <Loader size='huge' indeterminate active={showLoader} style={{top: "40vh"}}>{loadingTexts[loadingTextIndex]}</Loader>
 
           : generatedImages.length > 0 ?
+
             <Container textAlign="center" style={{ minWidth: "85vw" }}>
               <Grid centered columns={nrImageColumns() as SemanticWIDTHS} >
                 {generatedImages.map((generatedImg, idx) => {
@@ -147,15 +174,27 @@ const Content = ({finishPlaying}: Props) => {
 
               {queryTime !== 0 &&
                 <div style={{ color: "grey", textAlign: "right", marginTop: "1em" }}>
-                  {"(last execution time: " + queryTime + " sec)"}
+                  {isGerman ?
+                    <>{"(letzte Ausführungszeit: " + queryTime + " Sek)"}</>
+                    :
+                    <>{"(last execution time: " + queryTime + " sec)"}</>
+                  }
                 </div>
               }
 
-              <ExplanationModal/>
-
             </Container>
 
-            : <></>
+            : <>{promptProfane &&
+              <Container textAlign="center" style={{ minWidth: "85vw" }}>
+
+                {isGerman ?
+                  <>Versuchst du etwas Schöneres. 😉</>
+                  :
+                  <>Try something nicer. 😉</>
+                }
+              </Container>
+            }
+            </>
       }
     </>
   )
