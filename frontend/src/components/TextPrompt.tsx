@@ -6,10 +6,11 @@ type Props = {
     enterPressedCallback: any,
     disabled: boolean,
     promptText: string,
-    setPromptText: any
+    setPromptText: any,
+    isGerman: boolean
 };
 
-const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText }: Props) => {
+const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText, isGerman }: Props) => {
 
     const onTextChanged = (event: any) => {
         setPromptText(event.target.value)
@@ -30,13 +31,15 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText 
                     inverted
                     fullWidth
                     style={{ place: "black !important" }}
-                    placeholder="type in something unusual"
+                    placeholder={isGerman ? "tippen Sie etwas Ungewöhnliches ein" : "type in something unusual"}
                     value={promptText}
                     onChange={onTextChanged}
                     onKeyPress={handleTextPromptKeyPressed}
                     disabled={disabled}
                 />
-                <label style={{ textAlign: "right", color: "grey" }}>hit Enter to generate images</label>
+                <label style={{ textAlign: "right", color: "grey" }}>
+                    {isGerman ? "drücken Sie die Eingabetaste, um Bilder zu erzeugen"  :  "hit Enter to generate images"}
+                </label>
             </Form.Field>
         </Form>
     )

@@ -34,10 +34,11 @@ const Content = ({ finishPlaying }: Props) => {
   const [numberOfPlays, setNumberOfPlays] = useState(0);
 
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
-  const loadingTexts = ['Translating to English...', 'Checking for unsafe content...', 'Beginning image diffusion...']
+  const loadingTextsDe = ['Übersetzen ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...']
+  const loadingTextsEn = ['Translating to English...', 'Checking for unsafe content...', 'Beginning image diffusion...']
   const shuffle = useCallback(() => {
     setLoadingTextIndex(prevIndex => {
-      if (prevIndex === loadingTexts.length - 1) {
+      if (prevIndex === loadingTextsDe.length - 1) {
         return 2;
       }
       return prevIndex + 1;
@@ -127,6 +128,7 @@ const Content = ({ finishPlaying }: Props) => {
           promptText={promptText}
           setPromptText={setPromptText}
           disabled={disableInput}
+          isGerman={isGerman}
         />
         {!showLoader && generatedImages.length > 0 &&
           <List pointing size='large' style={{ marginTop: "-10px" }}>
@@ -151,7 +153,9 @@ const Content = ({ finishPlaying }: Props) => {
         <h5>{apiError}</h5>
 
         : showLoader ?
-          <Loader size='huge' indeterminate active={showLoader} style={{top: "40vh"}}>{loadingTexts[loadingTextIndex]}</Loader>
+          <Loader size='huge' indeterminate active={showLoader} style={{top: "40vh"}}>
+            {isGerman ? loadingTextsDe[loadingTextIndex] :  loadingTextsEn[loadingTextIndex]}
+          </Loader>
 
           : generatedImages.length > 0 ?
 

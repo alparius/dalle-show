@@ -32,7 +32,7 @@ const App = () => {
               <Content finishPlaying={finishPlaying} />
             }
             {currentPage === Page.Finish &&
-              <Finish setCurrentPage={setCurrentPage} />
+              <Finish setCurrentPage={setCurrentPage} isGerman={isGerman}/>
             }
          </div>
          <div style={{width: '160px', right: '0px', position: 'fixed'}}>

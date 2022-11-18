@@ -6,9 +6,10 @@ import { Page } from "../App";
 
 type Props = {
     setCurrentPage: any,
+    isGerman: boolean
 };
 
-const Finish = ({ setCurrentPage }: Props) => {
+const Finish = ({ setCurrentPage, isGerman }: Props) => {
 
     const continueButtonPressed = () => {
         setCurrentPage(Page.Content);
@@ -21,8 +22,12 @@ const Finish = ({ setCurrentPage }: Props) => {
     return (
         <Container>
             <Image src={start_image} size={"huge"} className={"centered"} />
-            <Button size={"massive"} color={"red"} onClick={continueButtonPressed}>Continue</Button>
-            <Button floated={"right"} color={"green"} size={"massive"} onClick={backButtonPressed}>Let others play!</Button>
+            <Button size={"massive"} color={"red"} onClick={continueButtonPressed}>
+                {isGerman ? "Fortfahren" : "Continue"}
+                </Button>
+            <Button floated={"right"} color={"green"} size={"massive"} onClick={backButtonPressed}>
+                {isGerman ? "Lass andere spielen!" : "Let others play!"}
+            </Button>
         </Container>
     )
 }
