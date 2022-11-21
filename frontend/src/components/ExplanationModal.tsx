@@ -23,22 +23,22 @@ const ExplanationModal = () => {
         </Container>
       </Button>}
     >
-      <Modal.Header>{isGerman ? 'Also was ist passiert? :)' : 'How does this work?'}</Modal.Header>
+      <Modal.Header>{isGerman ? 'Wie funktioniert das?' : 'How does this work?'}</Modal.Header>
       <Modal.Content image>
         <Image size='massive' src={isGerman ? explanation_image_de  : explanation_image_en} style={{ width: "200%", height: "200%" }} verticalAlign='middle' fluid />
 
         {isGerman ?
           <Modal.Description>
-            <Header>Imagine that this is in German</Header>
-            <p>The machine learning model is trained by looking at millions of images from the internet with their associated captions.
-              Over time, it learns how to draw an image from a text prompt.</p>
+            <Header>Bilderzeugung durch Diffusion</Header>
+            <p>Ein Modell wird anhand von Millionen von Bildern aus dem Internet und deren Beschriftungen trainiert.
+            Mit der Zeit lernt es, wie ein Bild auf der Grundlage einer Textaufforderung zu zeichnen ist.</p>
 
-            <p>Some of the concepts are learnt from memory as it may have seen similar images. However, it can also learn how to create unique images that don't exist such as "the Eiffel tower is landing on the moon" by combining multiple concepts together.
-              Several models are combined together to achieve these results:
+            <p>Einige der Konzepte werden aus dem Gedächtnis gelernt, da es möglicherweise ähnliche Bilder gesehen hat. Es kann aber auch lernen, wie man einzigartige Bilder erzeugt, die es nicht gibt, wie z. B. "der Eiffelturm landet auf dem Mond", indem es mehrere Konzepte miteinander kombiniert.
+              Um diese Ergebnisse zu erzielen, werden mehrere Modelle miteinander kombiniert:
               <List bulleted>
-                <List.Item>an image encoder that turns raw images into a sequence of numbers with its associated decoder</List.Item>
-                <List.Item>a model that turns a text prompt into an encoded image</List.Item>
-                <List.Item>a model that judges the quality of the images generated for better filtering</List.Item>
+                <List.Item>ein Bildkodierer, der Rohbilder in eine Zahlenfolge umwandelt, mit dem dazugehörigen Dekodierer</List.Item>
+                <List.Item>ein Modell, das eine Texteingabe in ein kodiertes Bild umwandelt</List.Item>
+                <List.Item>ein Modell, das die Qualität der erzeugten Bilder zur besseren Filterung beurteilt</List.Item>
               </List>
             </p>
           </Modal.Description>
@@ -62,7 +62,7 @@ const ExplanationModal = () => {
       </Modal.Content>
       <Modal.Actions>
         <Button
-          content={isGerman ? 'Das stimmt' : 'Got it'}
+          content={isGerman ? 'Verstanden' : 'Got it'}
           onClick={() => setOpen(false)}
           positive
         />

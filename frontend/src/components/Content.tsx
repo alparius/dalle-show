@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image } from 'semantic-ui-react';
+import {Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image, Header} from 'semantic-ui-react';
 
 import ImageObject from "./ImageObject";
 import TextPrompt from "./TextPrompt";
-import start_image from "../static/hint.jpg";
+import hint_image from "../static/hint_empty.jpg";
 import { IsGermanContext } from '../App';
 
 
@@ -120,6 +120,22 @@ const Content = ({ finishPlaying }: Props) => {
     }
   }
 
+  const hintEn = "Type in anything you want and the machine will draw it!";
+  const hintDe = "Gib ein, was du möchtest, und die Maschine wird es zeichnen!";
+  const hintStyle = {
+        fontSize: '26px',
+        color: 'black',
+        textAlign: 'center',
+        position: 'absolute',
+        top: 120,
+        bottom: 0,
+        left: 370,
+        right: 0,
+        height: 'fit-content',
+        width: '30%',
+        margin: 'auto',
+    };
+
   return (
     <>
       <Container style={{ padding: "2em" }}>
@@ -144,7 +160,8 @@ const Content = ({ finishPlaying }: Props) => {
 
       {!generatedOnce &&
         <Container style={{ padding: "2em" }}>
-          <Image src={start_image} size="big" floated="right" />
+          <Image src={hint_image} size="big" floated="right" />
+          <Header style={hintStyle}> {isGerman ? hintDe : hintEn}</Header>
         </Container>
       }
 
