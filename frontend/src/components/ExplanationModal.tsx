@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import { Button, Header, Image, Modal, Container, Icon, List } from "semantic-ui-react";
 
 import { IsGermanContext } from "../App";
-import explanation_image from "../static/diagram.png"
+import explanation_image_de from "../static/diagram2-de.png"
+import explanation_image_en from "../static/diagram2-en.png"
 
 
 const ExplanationModal = () => {
@@ -24,7 +25,7 @@ const ExplanationModal = () => {
     >
       <Modal.Header>{isGerman ? 'Also was ist passiert? :)' : 'How does this work?'}</Modal.Header>
       <Modal.Content image>
-        <Image size='massive' src={explanation_image} style={{ width: "200%", height: "200%" }} verticalAlign='middle' fluid />
+        <Image size='massive' src={isGerman ? explanation_image_de  : explanation_image_en} style={{ width: "200%", height: "200%" }} verticalAlign='middle' fluid />
 
         {isGerman ?
           <Modal.Description>

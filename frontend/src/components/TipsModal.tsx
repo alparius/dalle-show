@@ -15,7 +15,7 @@ const TipsModal = () => {
             onOpen={() => setOpen(true)}
             open={open}
             size='large'
-            trigger={<Button fluid basic style={{ borderStyle: "groove" }}>
+            trigger={<Button fluid basic style={{ borderStyle: "ridge" }}>
                 <Container>
                     <Icon name='idea' size='big' />
                     <p style={{ marginTop: '0.5em', fontSize: '16px' }}>{isGerman ? 'Tipps' : 'Tips'}</p>

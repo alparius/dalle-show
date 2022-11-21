@@ -27,7 +27,7 @@ const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
     return (
         <Container textAlign='center' style={{width: '120px' }}>
             <br />
-            <Button onClick={handleLanguageChange} fluid basic>
+            <Button onClick={handleLanguageChange} fluid basic style={{ borderStyle: "ridge" }}>
                 <Container>
                     {isGerman ?
                         <>
@@ -48,7 +48,7 @@ const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
             <br />
             <br />
 
-            <Button onClick={handleRestartButton} fluid basic style={{ borderStyle: "double" }}>
+            <Button onClick={handleRestartButton} fluid basic style={{ borderStyle: "ridge" }}>
                 <Container>
                     <Icon name='repeat' size='big' />
                     <p style={{marginTop: '0.5em', fontSize: '16px'}}>{isGerman ? 'Neustart' : 'Restart'}</p>
