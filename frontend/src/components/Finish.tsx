@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Container, Header, Image } from 'semantic-ui-react';
 
-import { Page } from '../App';
+import { IsGermanContext, Page } from '../App';
 import start_image from '../static/finish_empty.jpg';
 
 type Props = {
     setCurrentPage: any;
-    isGerman: boolean;
 };
 
-const Finish = ({ setCurrentPage, isGerman }: Props) => {
+const Finish = ({ setCurrentPage }: Props) => {
+    const isGerman = useContext(IsGermanContext);
+
     const continueButtonPressed = () => {
         setCurrentPage(Page.Content);
     };
