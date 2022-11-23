@@ -1,25 +1,22 @@
-import {Button, Container, Header, Image} from "semantic-ui-react";
+import React from 'react';
+import { Button, Container, Header, Image } from 'semantic-ui-react';
 
-import start_image from "../static/finish_empty.jpg"
-import { Page } from "../App";
-import React from "react";
-
+import { Page } from '../App';
+import start_image from '../static/finish_empty.jpg';
 
 type Props = {
-    setCurrentPage: any,
-    isGerman: boolean
+    setCurrentPage: any;
+    isGerman: boolean;
 };
 
 const Finish = ({ setCurrentPage, isGerman }: Props) => {
-
     const continueButtonPressed = () => {
         setCurrentPage(Page.Content);
-    }
+    };
 
     const backButtonPressed = () => {
         setCurrentPage(Page.Start);
-    }
-
+    };
 
     const upperTextStyle = {
         fontSize: '30px',
@@ -50,28 +47,26 @@ const Finish = ({ setCurrentPage, isGerman }: Props) => {
     };
 
     const upperTextEn = "It's a lot of fun, isn't it?";
-    const upperTextDe = "Das macht viel Spaß, nicht wahr?";
+    const upperTextDe = 'Das macht viel Spaß, nicht wahr?';
 
-
-    const lowerTextEn = "Do you want to continue or let others play too?";
-    const lowerTextDe = "Möchtest du fortfahren oder andere spielen lassen?";
-
+    const lowerTextEn = 'Do you want to continue or let others play too?';
+    const lowerTextDe = 'Möchtest du fortfahren oder andere spielen lassen?';
 
     return (
         <Container>
             <Container>
-                <Image src={start_image} size={"huge"} className={"centered"} />
+                <Image src={start_image} size={'huge'} className={'centered'} />
                 <Header style={upperTextStyle}> {isGerman ? upperTextDe : upperTextEn}</Header>
                 <Header style={lowerTextStyle}> {isGerman ? lowerTextDe : lowerTextEn}</Header>
             </Container>
-            <Button size={"massive"} color={"red"} onClick={continueButtonPressed}>
-                {isGerman ? "Fortfahren" : "Continue"}
-                </Button>
-            <Button floated={"right"} color={"green"} size={"massive"} onClick={backButtonPressed}>
-                {isGerman ? "Lass andere spielen!" : "Let others play!"}
+            <Button size={'massive'} color={'red'} onClick={continueButtonPressed}>
+                {isGerman ? 'Fortfahren' : 'Continue'}
+            </Button>
+            <Button floated={'right'} color={'green'} size={'massive'} onClick={backButtonPressed}>
+                {isGerman ? 'Lass andere spielen!' : 'Let others play!'}
             </Button>
         </Container>
-    )
-}
+    );
+};
 
 export default Finish;
