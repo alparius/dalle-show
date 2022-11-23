@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
-import Start from "./Start";
-import Content from "./Content";
-import Finish from "./Finish";
+
+import Sidebar from './components/Sidebar';
+import Start from './components/Start';
+import Content from './components/Content';
+import Finish from './components/Finish';
 
 export enum Page {
     Start,
     Content,
     Finish,
-};
+}
+
+export const IsGermanContext = React.createContext(true);
 
 const App = () => {
-    const  [currentPage, setCurrentPage] = useState(Page.Start)
+    const [currentPage, setCurrentPage] = useState(Page.Start);
+    const [isGerman, setIsGerman] = useState(true);
 
     const finishPlaying = () => {
-        setCurrentPage(Page.Finish)
-    }
+        setCurrentPage(Page.Finish);
+    };
 
-    if (currentPage == Page.Start) {
-        console.log('Start page')
-        return <Start setCurrentPage={setCurrentPage}/>
-    }
-    else if (currentPage == Page.Content) {
-        console.log('Content page')
-        return <Content finishPlaying={finishPlaying}/>
-    }
-    else  {
-        console.log('Finish page')
-        return <Finish setCurrentPage={setCurrentPage}/>
-    }
-}
+    return (
+        <IsGermanContext.Provider value={isGerman}>
+            <div style={{ width: '1386px', left: '0px', position: 'fixed' }}>
+                {currentPage === Page.Start && <Start setCurrentPage={setCurrentPage} />}
+                {currentPage === Page.Content && <Content finishPlaying={finishPlaying} />}
+                {currentPage === Page.Finish && <Finish setCurrentPage={setCurrentPage} isGerman={isGerman} />}
+            </div>
+            <div style={{ width: '160px', right: '0px', position: 'fixed' }}>
+                <Sidebar setCurrentPage={setCurrentPage} setIsGerman={setIsGerman} />
+            </div>
+        </IsGermanContext.Provider>
+    );
+};
 
 export default App;

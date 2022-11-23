@@ -30,6 +30,19 @@ def generate_images_api2():
     translated_prompt, translated_lang = translate_prompt(raw_prompt)
     profane = util_nsfwchecks.prompt_profanity_check(translated_prompt)
 
+    if profane:
+        def gen():
+            response = {
+                'generatedImgs': [],
+                'generatedImgsCount': 0,
+                'generatedImgsFormat': config.IMAGE_FORMAT,
+                'promptEnglish': translated_prompt,
+                'promptLanguage': translated_lang,
+                'promptProfane': profane
+            }
+            yield json.dumps(response)
+        return Response(gen(), mimetype = 'application/json')
+
     seed = utils.get_seed()
 
     if config.USE_DATABASE:
@@ -42,7 +55,7 @@ def generate_images_api2():
             frames = image_model.generate_images(translated_prompt, seed)
 
         i = 0
-        for frame in frames :
+        for frame in frames:
             # if config.FILTER_IMAGES:
             #     frame, nsfw_image = util_nsfwchecks.filter_images(frame, config.NSFW_TRESHOLD)
             

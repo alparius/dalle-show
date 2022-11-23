@@ -1,32 +1,25 @@
 import React from 'react';
 import { Image } from 'semantic-ui-react';
 
-
 type Props = {
-    imgData: any,
-    generatedImagesFormat: string,
-    promptText: string,
-    maxHeight: number,
-    index: number
+    imgData: any;
+    generatedImagesFormat: string;
+    promptText: string;
+    maxHeight: number;
+    index: number;
 };
 
 const ImageObject = ({ imgData, generatedImagesFormat, promptText, maxHeight, index }: Props) => {
-
-    const imgSrc = `data:image/${generatedImagesFormat};base64,${imgData}`
-    const alt = `${promptText} ${index}`
+    const imgSrc = `data:image/${generatedImagesFormat};base64,${imgData}`;
+    const alt = `${promptText} ${index}`;
     //const title = "Download image"
     //const downloadedFilename = `${promptText}_${index}.${generatedImagesFormat}`
 
     return (
         //<a href={imgSrc} title={title} download={downloadedFilename}>
-        <Image
-            src={imgSrc}
-            alt={alt}
-            style={{ height: `${maxHeight}vh`, width: `${maxHeight}vh`}}
-            className='centered'
-        />
+        <Image src={imgSrc} alt={alt} style={{ height: `${maxHeight}vh`, width: `${maxHeight}vh` }} className='centered' />
         //</a>
-    )
-}
+    );
+};
 
 export default ImageObject;
