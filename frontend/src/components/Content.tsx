@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image, Header } from 'semantic-ui-react';
+import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
+import {Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image, Header, Button} from 'semantic-ui-react';
 
 import { IsGermanContext } from '../App';
 import ImageObject from './ImageObject';
@@ -31,6 +31,7 @@ const Content = ({ finishPlaying }: Props) => {
     const [apiError, setApiError] = useState('');
     const [queryTime, setQueryTime] = useState(0);
     const [numberOfPlays, setNumberOfPlays] = useState(0);
+    const enoughPlaying = useRef(false);
 
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
@@ -53,8 +54,8 @@ const Content = ({ finishPlaying }: Props) => {
     const checkIfEnoughPlaying = () => {
         console.log('Number of plays is:', numberOfPlays);
         if (numberOfPlays >= NUMBER_OF_PLAYS_ALLOWED) {
-            console.log('enough');
-            finishPlaying();
+            console.log('Enough playing');
+            enoughPlaying.current = true;
         }
     };
 
@@ -94,7 +95,7 @@ const Content = ({ finishPlaying }: Props) => {
                 setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
             }
 
-            if (xhr.readyState === 4) {
+            if ((xhr.readyState === 4) && (! enoughPlaying.current)) {
                 setDisableInput(false);
             }
         };
@@ -146,6 +147,7 @@ const Content = ({ finishPlaying }: Props) => {
                     setPromptText={setPromptText}
                     disabled={disableInput}
                     isGerman={isGerman}
+                    enoughPlaying={enoughPlaying.current}
                 />
                 {!showLoader && generatedImages.length > 0 && (
                     <List pointing size='large' style={{ marginTop: '-10px' }}>
@@ -204,6 +206,12 @@ const Content = ({ finishPlaying }: Props) => {
                                 <>{'(last execution time: ' + queryTime + ' sec)'}</>
                             )}
                         </div>
+                    )}
+
+                    {enoughPlaying.current && (
+                       <Button size={'massive'} color={'green'} onClick={finishPlaying}>
+                        {isGerman ? 'Fortfahren' : 'Continue'}
+                        </Button>
                     )}
                 </Container>
             ) : (

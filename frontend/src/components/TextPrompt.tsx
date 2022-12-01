@@ -7,9 +7,10 @@ type Props = {
     promptText: string;
     setPromptText: any;
     isGerman: boolean;
+    enoughPlaying: boolean;
 };
 
-const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText, isGerman }: Props) => {
+const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText, isGerman, enoughPlaying }: Props) => {
     const onTextChanged = (event: any) => {
         setPromptText(event.target.value);
     };
@@ -19,6 +20,12 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
             enterPressedCallback(promptText);
         }
     };
+
+    const greyText = (
+        enoughPlaying ?
+            (isGerman ? 'drücken Sie die grüne Taste, um fortzufahren' : 'hit the green button to continue')
+            : (isGerman ? 'drücken Sie die Eingabetaste, um Bilder zu erzeugen' : 'hit Enter to generate images')
+    )
 
     return (
         <Form>
@@ -36,7 +43,7 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
                     disabled={disabled}
                 />
                 <label style={{ textAlign: 'right', color: 'grey' }}>
-                    {isGerman ? 'drücken Sie die Eingabetaste, um Bilder zu erzeugen' : 'hit Enter to generate images'}
+                    {greyText}
                 </label>
             </Form.Field>
         </Form>
