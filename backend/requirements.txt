@@ -18,6 +18,10 @@ argostranslate==1.7.0
 # text nsfw
 better-profanity==0.7.0
 
+# upscaling
+basicsr
+realesrgan
+
 # image nsfw (?)
 # ftfy
 # regex
