@@ -139,7 +139,7 @@ const Content = ({ finishPlaying }: Props) => {
 
     return (
         <>
-            <Container style={{ padding: '2em' }}>
+            <Container style={{ padding: '3em', marginTop: "10px" }}>
                 <TextPrompt
                     enterPressedCallback={enterPressedCallback}
                     promptText={promptText}
@@ -148,7 +148,7 @@ const Content = ({ finishPlaying }: Props) => {
                     isGerman={isGerman}
                 />
                 {!showLoader && generatedImages.length > 0 && (
-                    <List pointing size='large' style={{ marginTop: '-10px' }}>
+                    <List pointing size='large' style={{ marginTop: '-10px', marginBottom: "-10px" }}>
                         <Icon size='big' name='translate' />
                         {isGerman ? (
                             <>
@@ -179,7 +179,7 @@ const Content = ({ finishPlaying }: Props) => {
                     {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
                 </Loader>
             ) : generatedImages.length > 0 ? (
-                <Container textAlign='center' style={{ minWidth: '85vw' }}>
+                <Container textAlign='center' style={{ minWidth: '90vw', paddingLeft: "20px"}}>
                     <Grid centered columns={nrImageColumns() as SemanticWIDTHS}>
                         {generatedImages.map((generatedImg, idx) => {
                             return (
@@ -189,7 +189,7 @@ const Content = ({ finishPlaying }: Props) => {
                                         generatedImagesFormat={generatedImagesFormat}
                                         promptText={promptText}
                                         index={++idx}
-                                        maxHeight={65 / (generatedImagesCount / nrImageColumns())}
+                                        maxHeight={85 / (generatedImagesCount / nrImageColumns())}
                                     />
                                 </Grid.Column>
                             );

@@ -3,8 +3,9 @@ import { Button, Container, Icon, Image } from 'semantic-ui-react';
 
 import { Page } from '../App';
 import { IsGermanContext } from '../App';
-import ExplanationModal from './ExplanationModal';
 import TipsModal from './TipsModal';
+import ExplanationModal from './ExplanationModal';
+import ConcernsModal from './ConcernsModal';
 import flagDE from '../static/flag_de.svg';
 import flagUK from '../static/flag_uk.svg';
 
@@ -43,10 +44,8 @@ const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
             </Button>
 
             <br />
-            <br />
-            <br />
 
-            <Button onClick={handleRestartButton} fluid basic style={{ borderStyle: 'ridge' }}>
+            <Button onClick={handleRestartButton} fluid basic style={{ borderStyle: 'ridge', marginTop: "20vh" }}>
                 <Container>
                     <Icon name='repeat' size='big' />
                     <p style={{ marginTop: '0.5em', fontSize: '16px' }}>{isGerman ? 'Neustart' : 'Restart'}</p>
@@ -58,6 +57,9 @@ const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
 
             <br />
             <ExplanationModal />
+
+            <br />
+            <ConcernsModal />
         </Container>
     );
 };
