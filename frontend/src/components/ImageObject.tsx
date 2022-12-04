@@ -17,7 +17,7 @@ const ImageObject = ({ imgData, generatedImagesFormat, promptText, maxHeight, in
 
     return (
         //<a href={imgSrc} title={title} download={downloadedFilename}>
-        <Image src={imgSrc} alt={alt} style={{ height: `${maxHeight}vh`, width: `${maxHeight}vh` }} className='centered' />
+        <Image src={imgSrc} alt={alt} style={{ height: `auto`, width: `100%` }} className='centered' />
         //</a>
     );
 };

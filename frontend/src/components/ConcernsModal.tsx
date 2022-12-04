@@ -5,7 +5,7 @@ import { IsGermanContext } from '../App';
 import explanation_image_de from '../static/diagram2-de.png';
 import explanation_image_en from '../static/diagram2-en.png';
 
-const ExplanationModal = () => {
+const ConcernsModal = () => {
     const isGerman = useContext(IsGermanContext);
     const [open, setOpen] = useState(false);
 
@@ -18,13 +18,13 @@ const ExplanationModal = () => {
             trigger={
                 <Button fluid basic style={{ borderStyle: 'ridge' }}>
                     <Container>
-                        <Icon name='help' size='big' />
-                        <p style={{ marginTop: '0.5em', fontSize: '16px' }}>{isGerman ? 'Erläuterung' : 'Explanation'}</p>
+                        <Icon name='warning sign' size='big' />
+                        <p style={{ marginTop: '0.5em', fontSize: '16px' }}>{isGerman ? 'Bedenken' : 'Concerns'}</p>
                     </Container>
                 </Button>
             }
         >
-            <Modal.Header>{isGerman ? 'Wie funktioniert das?' : 'How does this work?'}</Modal.Header>
+            <Modal.Header>{isGerman ? 'Bedenken' : 'Concerns'}</Modal.Header>
             <Modal.Content image>
                 <Image
                     size='massive'
@@ -81,4 +81,4 @@ const ExplanationModal = () => {
     );
 };
 
-export default ExplanationModal;
+export default ConcernsModal;
