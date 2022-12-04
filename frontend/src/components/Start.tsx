@@ -30,7 +30,7 @@ const Start = ({ setCurrentPage }: Props) => {
         left: 0,
         right: 130,
         height: 'fit-content',
-        width: '50%',
+        width: '47%',
         margin: 'auto',
     };
 
@@ -39,12 +39,12 @@ const Start = ({ setCurrentPage }: Props) => {
         color: 'black',
         textAlign: 'center',
         position: 'absolute',
-        top: 185,
+        top: 205,
         bottom: 0,
         left: 100,
         right: 0,
         height: 'fit-content',
-        width: '50%',
+        width: '47%',
         margin: 'auto',
     };
 
@@ -62,7 +62,7 @@ const Start = ({ setCurrentPage }: Props) => {
     return (
         <Container>
             <Container style={containerStyle}>
-                <Image src={start_image} size={'huge'} className={'centered'} />
+                <Image src={start_image} size={'huge'} className={'centered'} style={{ marginTop: "5vh" }} />
                 <Header style={upperTextStyle}> {isGerman ? upperTextDe : upperTextEn}</Header>
                 <Header style={lowerTextStyle}> {isGerman ? lowerTextDe : lowerTextEn}</Header>
             </Container>

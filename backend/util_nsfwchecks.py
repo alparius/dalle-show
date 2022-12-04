@@ -1,6 +1,5 @@
 import os
 import numpy as np
-import clip
 import torch
 from functools import lru_cache
 from PIL import Image
@@ -92,5 +91,6 @@ def filter_images(images, treshold):
 
 
 if config.FILTER_IMAGES:
+    import clip
     safety_model = load_safety_model("ViT-L/14")
     clip_model, preprocess = clip.load("ViT-L/14", device=config.NSFW_DEVICE)

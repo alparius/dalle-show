@@ -1,18 +1,19 @@
 import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import {Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image, Header, Button} from 'semantic-ui-react';
 
-import { IsGermanContext } from '../App';
+import { IsGermanContext, Page } from '../App';
 import ImageObject from './ImageObject';
 import TextPrompt from './TextPrompt';
 import hint_image from '../static/hint_empty.jpg';
 
-const NUMBER_OF_PLAYS_ALLOWED = 3;
+const NUMBER_OF_PLAYS_ALLOWED = 2; // actually + 1
+const INACTIVITY_SECONDS = 150;
 
 type Props = {
-    finishPlaying: any;
+    setCurrentPage: any;
 };
 
-const Content = ({ finishPlaying }: Props) => {
+const Content = ({ setCurrentPage }: Props) => {
     const isGerman = useContext(IsGermanContext);
 
     const [promptText, setPromptText] = useState('');
@@ -32,6 +33,29 @@ const Content = ({ finishPlaying }: Props) => {
     const [queryTime, setQueryTime] = useState(0);
     const [numberOfPlays, setNumberOfPlays] = useState(0);
     const enoughPlaying = useRef(false);
+
+    // logic for resetting the display on inactivity
+    const [inactivityTime, setInactivityTime] = useState(0);
+    useEffect(() => {
+        const inactivityInterval = setInterval(() => {
+            setInactivityTime(prevTime => prevTime + 1);
+        }, 1000);
+        const resetInactivityTimer = () => {
+            setInactivityTime(0);
+        };
+        document.addEventListener('click', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        return () => {
+            clearInterval(inactivityInterval);
+            document.removeEventListener('click', resetInactivityTimer);
+            document.removeEventListener('keypress', resetInactivityTimer);
+        };
+    }, []);
+    useEffect(() => {
+        if (inactivityTime >= INACTIVITY_SECONDS) {
+            setCurrentPage(Page.Start);
+        }
+    }, [inactivityTime, setCurrentPage]);
 
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
@@ -129,18 +153,19 @@ const Content = ({ finishPlaying }: Props) => {
         color: 'black',
         textAlign: 'center',
         position: 'absolute',
-        top: 120,
+        top: 180,
         bottom: 0,
         left: 370,
         right: 0,
         height: 'fit-content',
-        width: '30%',
+        width: '25%',
         margin: 'auto',
     };
 
     return (
         <>
-            <Container style={{ padding: '2em' }}>
+            <Container style={{ padding: '3em', marginTop: "10px" }}>
+                {inactivityTime}
                 <TextPrompt
                     enterPressedCallback={enterPressedCallback}
                     promptText={promptText}
@@ -150,7 +175,7 @@ const Content = ({ finishPlaying }: Props) => {
                     enoughPlaying={enoughPlaying.current}
                 />
                 {!showLoader && generatedImages.length > 0 && (
-                    <List pointing size='large' style={{ marginTop: '-10px' }}>
+                    <List pointing size='large' style={{ marginTop: '-10px', marginBottom: "-15px" }}>
                         <Icon size='big' name='translate' />
                         {isGerman ? (
                             <>
@@ -181,7 +206,7 @@ const Content = ({ finishPlaying }: Props) => {
                     {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
                 </Loader>
             ) : generatedImages.length > 0 ? (
-                <Container textAlign='center' style={{ minWidth: '85vw' }}>
+                <Container textAlign='center' style={{ minWidth: '90vw', paddingLeft: "20px"}}>
                     <Grid centered columns={nrImageColumns() as SemanticWIDTHS}>
                         {generatedImages.map((generatedImg, idx) => {
                             return (
@@ -191,7 +216,7 @@ const Content = ({ finishPlaying }: Props) => {
                                         generatedImagesFormat={generatedImagesFormat}
                                         promptText={promptText}
                                         index={++idx}
-                                        maxHeight={65 / (generatedImagesCount / nrImageColumns())}
+                                        maxHeight={85 / (generatedImagesCount / nrImageColumns())}
                                     />
                                 </Grid.Column>
                             );
@@ -209,7 +234,7 @@ const Content = ({ finishPlaying }: Props) => {
                     )}
 
                     {enoughPlaying.current && (
-                       <Button size={'massive'} color={'green'} onClick={finishPlaying}>
+                       <Button size='big' color='green' onClick={setCurrentPage(Page.Finish)} style={{ marginTop: '-1em' }}>
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>
                     )}
