@@ -31,7 +31,7 @@ const TipsModal = () => {
                     <List style={{ fontSize: '16px' }} bulleted>
                         <List.Item>
                             {isGerman
-                                ? 'Sei beschreibend und detailgenau! Versuch statt "ein interessantes Tier" etwas wie "blaues Eichhörnchen mit gelbem Hut, das Fahrrad fährt".'
+                                ? 'Sei beschreibend und detailgenau! Versuche statt "ein interessantes Tier" so etwas wie "blaues Eichhörnchen mit gelbem Hut, das Fahrrad fährt".'
                                 : 'Be descriptive and specific of details! Instead of "an interesting animal", try something like "blue squirrel with yellow hat riding a bicycle"'}
                         </List.Item>
                         <List.Item>
