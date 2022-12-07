@@ -48,7 +48,7 @@ const Finish = ({ setCurrentPage }: Props) => {
     };
 
     const upperTextEn = "It's a lot of fun, isn't it?";
-    const upperTextDe = 'Das macht viel Spaß, nicht wahr?';
+    const upperTextDe = 'Das macht viel Spaß, oder?';
 
     const lowerTextEn = 'Do you want to continue or let others play too?';
     const lowerTextDe = 'Möchtest du fortfahren oder andere spielen lassen?';
