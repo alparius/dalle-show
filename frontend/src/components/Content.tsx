@@ -59,7 +59,7 @@ const Content = ({ setCurrentPage }: Props) => {
 
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
-    const loadingTextsDe = ['Übersetzen ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...'];
+    const loadingTextsDe = ['Übersetzung ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...'];
     const loadingTextsEn = ['Translating to English...', 'Checking for unsafe content...', 'Beginning image diffusion...'];
     const shuffle = useCallback(() => {
         setLoadingTextIndex((prevIndex) => {
@@ -147,7 +147,7 @@ const Content = ({ setCurrentPage }: Props) => {
     };
 
     const hintEn = 'Type in anything you want and the machine will draw it!';
-    const hintDe = 'Gib ein, was du möchtest, und die Maschine wird es zeichnen!';
+    const hintDe = 'Gib ein, was du möchtest und die Maschine wird es zeichnen!';
     const hintStyle = {
         fontSize: '26px',
         color: 'black',
@@ -243,7 +243,7 @@ const Content = ({ setCurrentPage }: Props) => {
                 <>
                     {promptProfane && (
                         <Container textAlign='center' style={{ minWidth: '85vw' }}>
-                            {isGerman ? <>Versuchst du etwas Schöneres. 😉</> : <>Try something nicer. 😉</>}
+                            {isGerman ? <>Versuche es mit etwas Schönerem. 😉</> : <>Try something nicer. 😉</>}
                         </Container>
                     )}
                 </>

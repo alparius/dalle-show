@@ -39,11 +39,11 @@ const ExplanationModal = () => {
                         <Header>Bilderzeugung durch Diffusion</Header>
                         <p>
                             Ein Modell wird anhand von Millionen von Bildern aus dem Internet und deren Beschriftungen trainiert. Mit der Zeit lernt
-                            es, wie ein Bild auf der Grundlage einer Textaufforderung zu zeichnen ist.
+                            es, ein Bild auf der Grundlage einer Textaufforderung zu zeichnen.
                         </p>
 
                         <p>
-                            Einige der Konzepte werden aus dem Gedächtnis gelernt, da es möglicherweise ähnliche Bilder gesehen hat. Es kann aber auch
+                            Viele der neu erzeugten Bilder beziehen sich auf Vertrautes. Das liegt daran, dass das Modell Konzepte anhand der Bilder erlernt, mit denen es trainiert wird. Es kann aber auch
                             lernen, wie man einzigartige Bilder erzeugt, die es nicht gibt, wie z. B. "der Eiffelturm landet auf dem Mond", indem es
                             mehrere Konzepte miteinander kombiniert. Um diese Ergebnisse zu erzielen, werden mehrere Modelle miteinander kombiniert:
                             <List bulleted>
@@ -62,8 +62,8 @@ const ExplanationModal = () => {
                         </p>
 
                         <p>
-                            Some of the concepts are learnt from memory as it may have seen similar images. However, it can also learn how to create
-                            unique images that don't exist such as "the Eiffel tower is landing on the moon" by combining multiple concepts together.
+                             Many of the newly generated images relate to familiar things. This is due to the fact, that the model learns concepts based on the pictures it is trained with.
+                             However, it can also learn how to create unique images that don't exist such as "the Eiffel tower is landing on the moon" by combining multiple concepts together.
                             Several models are combined together to achieve these results:
                             <List bulleted>
                                 <List.Item>an image encoder that turns raw images into a sequence of numbers with its associated decoder</List.Item>

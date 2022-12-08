@@ -49,7 +49,7 @@ const Start = ({ setCurrentPage }: Props) => {
     };
 
     const upperTextEn = 'Hi, my Name is Alpár! I am curious whether machines can really be creative. Do you know anything about that?';
-    const upperTextDe = 'Hallo, mein Name ist Alpár! Ich bin neugierig, ob Maschinen wirklich kreativ sein können. Weißt du etwas darüber?';
+    const upperTextDe = 'Hallo, mein Name ist Alpár! Ich bin neugierig, ob Maschinen wirklich kreativ sein können. Kannst du mir dazu etwas sagen?';
 
     const lowerTextEn =
         'Hey, I\'m Evgenii! Sure! I would like to show you a machine that has learned to draw images. ' +
