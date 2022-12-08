@@ -43,7 +43,7 @@ const ExplanationModal = () => {
                         </p>
 
                         <p>
-                            Das Modell erlernt Konzepte anhand der Bilder, mit denen es trainiert wird. Daher wirken viele der neu erzeugten Bilder vertraut. Es kann aber auch
+                            Viele der neu erzeugten Bilder beziehen sich auf Vertrautes. Das liegt daran, dass das Modell Konzepte anhand der Bilder erlernt, mit denen es trainiert wird. Es kann aber auch
                             lernen, wie man einzigartige Bilder erzeugt, die es nicht gibt, wie z. B. "der Eiffelturm landet auf dem Mond", indem es
                             mehrere Konzepte miteinander kombiniert. Um diese Ergebnisse zu erzielen, werden mehrere Modelle miteinander kombiniert:
                             <List bulleted>
@@ -62,8 +62,8 @@ const ExplanationModal = () => {
                         </p>
 
                         <p>
-                            The model learns concepts by the pictures it was trained with. Hence, many of the pictures it creates look familiar. However, it can also learn how to create
-                            unique images that don't exist such as "the Eiffel tower is landing on the moon" by combining multiple concepts together.
+                             Many of the newly generated images relate to familiar things. This is due to the fact, that the model learns concepts based on the pictures it is trained with.
+                             However, it can also learn how to create unique images that don't exist such as "the Eiffel tower is landing on the moon" by combining multiple concepts together.
                             Several models are combined together to achieve these results:
                             <List bulleted>
                                 <List.Item>an image encoder that turns raw images into a sequence of numbers with its associated decoder</List.Item>
