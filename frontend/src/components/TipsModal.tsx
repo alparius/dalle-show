@@ -41,7 +41,7 @@ const TipsModal = () => {
                         </List.Item>
                         <List.Item>
                             {isGerman
-                                ? 'Die Bilder auf der linken Seite wurden nach folgenden Vorgaben erstellt (von links nach rechts, von oben nach unten):'
+                                ? 'Die Bilder auf der linken Seite wurden durch folgende Eingaben erstellt (von links nach rechts, von oben nach unten):'
                                 : 'The images on the left were created from following prompts (left to right, top to bottom):'}
                             <List bulleted>
                                 <List.Item>
