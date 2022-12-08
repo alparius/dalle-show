@@ -14,6 +14,7 @@ const TipsModal = () => {
             onOpen={() => setOpen(true)}
             open={open}
             size='large'
+            style={{ width: '60%', fontSize:"21px" }}
             trigger={
                 <Button fluid basic style={{ borderStyle: 'ridge' }}>
                     <Container>
@@ -28,22 +29,22 @@ const TipsModal = () => {
                 <Image size='massive' src={tipps_tricks_image} wrapped />
                 <Modal.Description>
                     <Header>{isGerman ? 'Tipps und Tricks' : 'Tips & Tricks'}</Header>
-                    <List style={{ fontSize: '16px' }} bulleted>
-                        <List.Item>
+                    <List bulleted relaxed >
+                        <List.Item style={{lineHeight:'30px'}}>
                             {isGerman
-                                ? 'Sei beschreibend und detailgenau! Versuche statt "ein interessantes Tier" so etwas wie "blaues Eichhörnchen mit gelbem Hut, das Fahrrad fährt".'
-                                : 'Be descriptive and specific of details! Instead of "an interesting animal", try something like "blue squirrel with yellow hat riding a bicycle"'}
+                                ? <>Sei beschreibend und detailgenau! Versuche statt <i>"ein interessantes Tier"</i> so etwas wie <i>"blaues Eichhörnchen mit gelbem Hut, das Fahrrad fährt"</i>.</>
+                                : <>Be descriptive and specific of details! Instead of <i>"an interesting animal"</i>, try something like <i>"blue squirrel with yellow hat riding a bicycle"</i>.</>}
                         </List.Item>
-                        <List.Item>
+                        <List.Item style={{lineHeight:'30px'}}>
                             {isGerman
                                 ? 'Versuch, dem Text Schlüsselwörter hinzuzufügen, um den Stil des Bildes zu ändern: "Illustration", "Gemälde", "Skizze", "fotorealistisch", "hochauflösend".'
                                 : 'Try to add keywords to the prompt to modify the style of the image: "illustration",  "painting", "sketch", "photorealistic", "high definition”.'}
                         </List.Item>
-                        <List.Item>
+                        <List.Item style={{lineHeight:'30px'}}>
                             {isGerman
                                 ? 'Die Bilder auf der linken Seite wurden durch folgende Eingaben erstellt (von links nach rechts, von oben nach unten):'
                                 : 'The images on the left were created from following prompts (left to right, top to bottom):'}
-                            <List bulleted>
+                            <List bulleted relaxed>
                                 <List.Item>
                                     {isGerman
                                         ? '"elektrische Schafe, von denen die Androiden träumen"'
@@ -70,7 +71,7 @@ const TipsModal = () => {
                 </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-                <Button content={isGerman ? 'Danke!' : 'Thanks!'} onClick={() => setOpen(false)} positive />
+                <Button size="big" content={isGerman ? 'Danke!' : 'Thanks!'} onClick={() => setOpen(false)} positive />
             </Modal.Actions>
         </Modal>
     );
