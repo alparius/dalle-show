@@ -32,10 +32,10 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
 
     const greyText = enoughPlaying
         ? isGerman
-            ? 'drücken Sie die grüne Taste, um fortzufahren'
+            ? 'Drücke die grüne Taste, um fortzufahren'
             : 'hit the green button to continue'
         : isGerman
-        ? 'drücken Sie die Eingabetaste, um Bilder zu erzeugen'
+        ? 'Drücke die Eingabetaste, um Bilder zu erzeugen'
         : 'hit Enter to generate images';
 
     return (
@@ -47,7 +47,7 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
                     inverted
                     fullWidth
                     style={{ place: 'black !important' }}
-                    placeholder={isGerman ? 'tippen Sie etwas Ungewöhnliches ein' : 'type in something unusual'}
+                    placeholder={isGerman ? 'Tippe etwas ungewöhnliches ein' : 'type in something unusual'}
                     value={promptText}
                     ref={inputRef as unknown as LegacyRef<Input>}
                     onBlur={handleOnBlur}
