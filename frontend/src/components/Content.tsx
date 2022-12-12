@@ -5,6 +5,7 @@ import { IsGermanContext, Page } from '../App';
 import ImageObject from './ImageObject';
 import TextPrompt from './TextPrompt';
 import hint_image from '../static/hint_empty.jpg';
+import profane_image from '../static/profane.jpg'
 
 const NUMBER_OF_PLAYS_ALLOWED = 2; // actually + 1
 const INACTIVITY_SECONDS = 150;
@@ -174,6 +175,22 @@ const Content = ({ setCurrentPage }: Props) => {
         margin: 'auto',
     };
 
+    const profaneEn = 'Try something nicer. 😉';
+    const profaneDe = 'Versuche es mit etwas Schönerem. 😉'
+    const profaneStyle = {
+        fontSize: '26px',
+        color: 'black',
+        textAlign: 'left',
+        position: 'absolute',
+        top: 0,
+        bottom: 50,
+        left: isGerman ? -230 : -70,
+        right: 0,
+        height: 'fit-content',
+        width: '25%',
+        margin: 'auto',
+    };
+
     return (
         <>
             <Container style={{ padding: '3em', marginTop: "10px" }}>
@@ -251,13 +268,21 @@ const Content = ({ setCurrentPage }: Props) => {
                     )}
                 </Container>
             ) : (
-                <>
+                <Container>
                     {promptProfane && (
-                        <Container textAlign='center' style={{ minWidth: '85vw' }}>
-                            {isGerman ? <>Versuche es mit etwas Schönerem. 😉</> : <>Try something nicer. 😉</>}
+                        <Container style={{ padding: '2em' }}>
+                        <Image src={profane_image} size='huge' floated='left' />
+                        <Header style={profaneStyle}> {isGerman ? profaneDe : profaneEn} </Header>
                         </Container>
                     )}
-                </>
+                     {enoughPlaying.current && (
+                        <Button size='big' color='green' onClick={goEnd}
+                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px'}}
+                        >
+                        {isGerman ? 'Fortfahren' : 'Continue'}
+                        </Button>
+                    )}
+                </Container>
             )}
         </>
     );
