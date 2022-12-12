@@ -57,6 +57,17 @@ const Content = ({ setCurrentPage }: Props) => {
         }
     }, [inactivityTime, setCurrentPage]);
 
+    const goEnd = () => {
+        setCurrentPage(Page.Finish);
+    };
+
+    // the input field shall never lose focus
+    const inputRef = useRef<HTMLInputElement>(null);
+    const refocusToInput = () => {
+        console.log("focus")
+        inputRef.current!.focus();
+    };
+
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
     const loadingTextsDe = ['Übersetzung ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...'];
@@ -121,6 +132,7 @@ const Content = ({ setCurrentPage }: Props) => {
 
             if ((xhr.readyState === 4) && (! enoughPlaying.current)) {
                 setDisableInput(false);
+                refocusToInput();
             }
         };
 
@@ -165,7 +177,6 @@ const Content = ({ setCurrentPage }: Props) => {
     return (
         <>
             <Container style={{ padding: '3em', marginTop: "10px" }}>
-                {inactivityTime}
                 <TextPrompt
                     enterPressedCallback={enterPressedCallback}
                     promptText={promptText}
@@ -234,7 +245,7 @@ const Content = ({ setCurrentPage }: Props) => {
                     )}
 
                     {enoughPlaying.current && (
-                       <Button size='big' color='green' onClick={setCurrentPage(Page.Finish)} style={{ marginTop: '-1em' }}>
+                       <Button size='big' color='green' onClick={goEnd} style={{ marginTop: '-1em' }}>
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>
                     )}

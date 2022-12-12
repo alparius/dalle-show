@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, LegacyRef } from 'react';
+import React, { useEffect, LegacyRef, useRef } from 'react';
 import { Form, Input } from 'semantic-ui-react';
 
 type Props = {
@@ -26,16 +26,20 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
     useEffect(() => {
         inputRef.current!.focus();
     }, []);
-    const handleOnBlur = () => {
+    useEffect(() => {
+        if (disabled === false)
+            inputRef.current!.focus();
+    }, [disabled]);
+    const refocusToInput = () => {
         inputRef.current!.focus();
     };
 
     const greyText = enoughPlaying
         ? isGerman
-            ? 'Drücke die grüne Taste, um fortzufahren'
+            ? 'drücke die grüne Taste, um fortzufahren'
             : 'hit the green button to continue'
         : isGerman
-        ? 'Drücke die Eingabetaste, um Bilder zu erzeugen'
+        ? 'drücke die Eingabetaste, um Bilder zu erzeugen'
         : 'hit Enter to generate images';
 
     return (
@@ -47,10 +51,10 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
                     inverted
                     fullWidth
                     style={{ place: 'black !important' }}
-                    placeholder={isGerman ? 'Tippe etwas ungewöhnliches ein' : 'type in something unusual'}
+                    placeholder={isGerman ? 'tippe etwas ungewöhnliches ein' : 'type in something unusual'}
                     value={promptText}
                     ref={inputRef as unknown as LegacyRef<Input>}
-                    onBlur={handleOnBlur}
+                    onBlur={refocusToInput}
                     onChange={onTextChanged}
                     onKeyPress={handleTextPromptKeyPressed}
                     disabled={disabled}

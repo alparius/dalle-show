@@ -14,7 +14,7 @@ const ConcernsModal = () => {
             onOpen={() => setOpen(true)}
             open={open}
             size='large'
-            style={{ width: '70%', fontSize: '21px' }}
+            style={{ width: '80%', fontSize: '21px' }}
             trigger={
                 <Button fluid basic style={{ borderStyle: 'ridge' }}>
                     <Container>
