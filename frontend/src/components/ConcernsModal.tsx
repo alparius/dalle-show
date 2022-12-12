@@ -66,24 +66,23 @@ const ConcernsModal = () => {
                     <Modal.Description>
                         <Header>Misuse potential</Header>
                         <p style={{ lineHeight: '30px' }}>
-                            Technology can be used in various ways, some of them can be malicious. This applies to this model as well.
+                            Technology can be used in various ways, some of them can be malicious. This applies to this application as well.
                         </p>
 
                         <p style={{ lineHeight: '30px' }}>
-                            Models like this are in constant developement and are getting continously refined. In 2022 alone there were significant
-                            improvements in quality of the generated images. This rapid pace of improvement can have several problematic consequenses,
-                            outlined here:
+                            Machine learning models like this are in constant developement and are getting continously refined. In 2022 alone there were significant
+                            improvements in quality of the generated images. This rapid pace of improvement can have several problematic consequenses, such as:
                         </p>
                         <List bulleted relaxed>
                             <List.Item>
-                                Millions of randomly selected pictures on the internet were used to train the model. Hence the model learned
+                                Millions of randomly selected pictures on the internet were used to train this model. Hence it learned
                                 some problematic concepts and is able to generate content that is offensive or discriminatory towards people or groups.
                             </List.Item>
                             <List.Item>
-                                Many of the training images were used withouth their creators permission, for instance the work of
+                                Many of the training images were used withouth their creators' permission, for instance the work of
                                 artists.
                             </List.Item>
-                            <List.Item>Artists point out that their jobs are endagered, if the model is able to create art like them.</List.Item>
+                            <List.Item>Artists also point out that their jobs are endagered, if the model is able to create art like them.</List.Item>
                             <List.Item>
                                 You could train such a model on images of a specific person and then use the generated images for
                                 propaganda or blackmail.

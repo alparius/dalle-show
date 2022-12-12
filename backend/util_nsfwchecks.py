@@ -12,7 +12,7 @@ import config
 def prompt_profanity_check(prompt):
     profane = False
     if config.CHECK_PROMPT_FOR_PROFANITY:
-        custom_badwords = ['hello', 'boris', 'palmer']
+        custom_badwords = ['swastika']
         profanity.add_censor_words(custom_badwords)
         if profanity.contains_profanity(prompt):
             print("Prompt contains profanity")

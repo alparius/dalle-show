@@ -175,8 +175,8 @@ const Content = ({ setCurrentPage }: Props) => {
         margin: 'auto',
     };
 
-    const profaneEn = 'Try something nicer. 😉';
-    const profaneDe = 'Versuche es mit etwas Schönerem. 😉'
+    const profaneEn = 'Try something nicer.';
+    const profaneDe = 'Versuche es mit etwas Schönerem.'
     const profaneStyle = {
         fontSize: '26px',
         color: 'black',
@@ -234,7 +234,7 @@ const Content = ({ setCurrentPage }: Props) => {
                     {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
                 </Loader>
             ) : generatedImages.length > 0 ? (
-                <Container textAlign='center' style={{ minWidth: '90vw', paddingLeft: "20px"}}>
+                <Container textAlign='center' style={{ minWidth: '88vw', paddingLeft: "20px"}}>
                     <Grid centered columns={nrImageColumns() as SemanticWIDTHS}>
                         {generatedImages.map((generatedImg, idx) => {
                             return (
