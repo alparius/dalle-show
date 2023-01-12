@@ -36,8 +36,8 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
 
     const greyText = enoughPlaying
         ? isGerman
-            ? 'drücke die grüne Taste, um fortzufahren'
-            : 'hit the green button to continue'
+            ? 'drücke die Taste unten, um fortzufahren'
+            : 'hit the button below to continue'
         : isGerman
         ? 'drücke die Eingabetaste, um Bilder zu erzeugen'
         : 'hit Enter to generate images';
