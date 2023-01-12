@@ -39,7 +39,7 @@ const Start = ({ setCurrentPage }: Props) => {
         color: 'black',
         textAlign: 'center',
         position: 'absolute',
-        top: 205,
+        top: 200,
         bottom: 0,
         left: 100,
         right: 0,
@@ -48,16 +48,15 @@ const Start = ({ setCurrentPage }: Props) => {
         margin: 'auto',
     };
 
-    const upperTextEn = 'Hi, my Name is Alpár! I am curious whether machines can really be creative. Do you know anything about that?';
-    const upperTextDe = 'Hallo, mein Name ist Alpár! Ich bin neugierig, ob Maschinen wirklich kreativ sein können. Kannst du mir dazu etwas sagen?';
+    const upperTextEn = 'Hi, my name is Alpár! I am curious if computers can be creative. Do you know anything about that?';
+    const upperTextDe = 'Hallo, mein Name ist Alpár! Ich bin neugierig, ob Computer kreativ sein können. Kannst du mir dazu etwas sagen?';
 
     const lowerTextEn =
-        'Hey, I\'m Evgenii! Sure! I would like to show you a machine that has learned to draw images. ' +
-        'It can draw anything for you, just type in an idea! Do you want to try it out?';
+        'Hey, I\'m Evgenii! Sure! I would like to show you a program that has learned to draw anything. ' +
+        'Just type in an idea! Do you want to try it out?';
     const lowerTextDe =
-        'Hey, ich bin Evgenii! Klar! Ich zeige dir eine Maschine, die gelernt ' +
-        'hat, Bilder zu zeichnen. Sie kann alles für dich zeichnen, du musst nur eine Idee eintippen! ' +
-        'Willst du es ausprobieren?';
+        'Hey, ich bin Evgenii! Klar! Ich zeige dir ein Programm, die gelernt ' +
+        'hat, alles zu zeichnen. Du musst nur eine Idee eintippen! Willst du es ausprobieren?';
 
     return (
         <Container>
@@ -66,7 +65,7 @@ const Start = ({ setCurrentPage }: Props) => {
                 <Header style={upperTextStyle}> {isGerman ? upperTextDe : upperTextEn}</Header>
                 <Header style={lowerTextStyle}> {isGerman ? lowerTextDe : lowerTextEn}</Header>
             </Container>
-            <Button floated={'right'} color={'green'} size={'massive'} onClick={playButtonPressed}>
+            <Button floated={'right'} style={{backgroundColor: "#2F009D", color: "white"}} size={'massive'} onClick={playButtonPressed}>
                 {isGerman ? 'Ausprobieren!' : 'Try it out!'}
             </Button>
         </Container>

@@ -11,10 +11,6 @@ type Props = {
 const Finish = ({ setCurrentPage }: Props) => {
     const isGerman = useContext(IsGermanContext);
 
-    const continueButtonPressed = () => {
-        setCurrentPage(Page.Content);
-    };
-
     const backButtonPressed = () => {
         setCurrentPage(Page.Start);
     };
@@ -50,8 +46,8 @@ const Finish = ({ setCurrentPage }: Props) => {
     const upperTextEn = "It's a lot of fun, isn't it?";
     const upperTextDe = 'Das macht viel Spaß, oder?';
 
-    const lowerTextEn = 'Do you want to continue or let others play too?';
-    const lowerTextDe = 'Möchtest du fortfahren oder andere spielen lassen?';
+    const lowerTextEn = 'Maybe you should let others play too.';
+    const lowerTextDe = 'Vielleicht solltest du auch andere spielen lassen.';
 
     return (
         <Container>
@@ -60,11 +56,8 @@ const Finish = ({ setCurrentPage }: Props) => {
                 <Header style={upperTextStyle}> {isGerman ? upperTextDe : upperTextEn}</Header>
                 <Header style={lowerTextStyle}> {isGerman ? lowerTextDe : lowerTextEn}</Header>
             </Container>
-            <Button size={'massive'} color={'red'} onClick={continueButtonPressed}>
-                {isGerman ? 'Fortfahren' : 'Continue'}
-            </Button>
             <Button floated={'right'} color={'green'} size={'massive'} onClick={backButtonPressed}>
-                {isGerman ? 'Lass andere spielen!' : 'Let others play!'}
+                {isGerman ? 'Fortfahren' : 'Continue'}
             </Button>
         </Container>
     );

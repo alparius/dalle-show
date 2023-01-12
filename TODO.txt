@@ -1,0 +1,25 @@
+send screenshots as PDF to Ulrike by monday morning
+
+- texts
+    - retranslate them to german
+    - text bubble above exhibit (respond to Theresa). not bubble but def text
+
+- revise design
+    - avatars
+    - tips panel: captions below pictures
+
+- app changes
+    - bigger continue button
+    - revise waiting texts
+        - bigger font
+        - more info
+    - clear field button next to prompt input
+    - only increase counter when generated (was safe)
+    - one button at end screen
+    - color scheme: #2F009D (cmyk 78 100 26 17) for buttons
+    - ligher version for bubbles: https://mdigi.tools/lighten-color/#2f009d
+
+- auto startup
+    - startup script
+    - remote access? to db?
+    - logs

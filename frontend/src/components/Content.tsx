@@ -72,7 +72,7 @@ const Content = ({ setCurrentPage }: Props) => {
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
     const loadingTextsDe = ['Übersetzung ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...'];
-    const loadingTextsEn = ['Translating to English...', 'Checking for unsafe content...', 'Beginning image diffusion...'];
+    const loadingTextsEn = ['Translating text to English', 'Checking for unsafe content', 'Generating random noise', 'Combining the input text with the random noise', 'Denoising image step-by-step', 'Sharpening final image'];
     const shuffle = useCallback(() => {
         setLoadingTextIndex((prevIndex) => {
             if (prevIndex === loadingTextsDe.length - 1) {

@@ -59,21 +59,20 @@ const ExplanationModal = () => {
                     <Modal.Description>
                         <Header>Image generation using diffusion</Header>
                         <p style={{ lineHeight: '30px' }}>
-                            The machine learning model is trained by looking at millions of images from the internet with their associated captions.
-                            Over time, it learns how to draw an image from a text prompt.
+                            This application is based on the Stable Diffusion model. The machine learning model was trained on millions of images from the internet with their captions.
+                            Over time, it learned how to draw an image from a text prompt.
                         </p>
 
                         <p style={{ lineHeight: '30px' }}>
-                            Many of the newly generated images relate to familiar things. This is due to the fact, that the model learns concepts
-                            based on the pictures it is trained with. However, it can also learn how to create unique images that don't exist such as
-                            "the Eiffel tower is landing on the moon" by combining multiple concepts together. Several models are combined together to
-                            achieve these results:
+                            The model learns concepts from the pictures it is trained on. However, it can also learn how to create unique images that don't exist such as
+                            "the Eiffel tower is landing on the moon" by combining multiple concepts together. 
                         </p>
-                        <List bulleted relaxed>
-                            <List.Item>an image encoder that turns raw images into a sequence of numbers with its associated decoder</List.Item>
-                            <List.Item>a model that turns a text prompt into an encoded image</List.Item>
-                            <List.Item>a model that judges the quality of the images generated for better filtering</List.Item>
-                        </List>
+
+                        <p style={{ lineHeight: '30px' }}>
+                            Diffusion-based models are trained by adding more and more noise to images until they contain no information. Then this process is reversed so that it can
+                            step-by-step remove all the noise from an initial pure noise image to generate a new clear image.
+                        </p>
+                     
                     </Modal.Description>
                 )}
             </Modal.Content>
