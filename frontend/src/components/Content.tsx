@@ -65,7 +65,6 @@ const Content = ({ setCurrentPage }: Props) => {
     // the input field shall never lose focus
     const inputRef = useRef<HTMLInputElement>(null);
     const refocusToInput = () => {
-        console.log("focus")
         inputRef.current!.focus();
     };
 
@@ -96,9 +95,6 @@ const Content = ({ setCurrentPage }: Props) => {
     };
 
     const enterPressedCallback = (promptText: string) => {
-        setNumberOfPlays(numberOfPlays + 1);
-        checkIfEnoughPlaying();
-
         console.log('API call to DALL-E backend with the following prompt [' + promptText + ']');
         setApiError('');
         setDisableInput(true);
@@ -112,7 +108,7 @@ const Content = ({ setCurrentPage }: Props) => {
         var seenBytes = 0;
 
         xhr.onreadystatechange = function () {
-            console.log('state change.. state: ' + xhr.readyState);
+            //console.log('state change.. state: ' + xhr.readyState);
 
             if (xhr.readyState === 3 || xhr.readyState === 4) {
                 var newChunk = xhr.response.substr(seenBytes);
@@ -125,7 +121,14 @@ const Content = ({ setCurrentPage }: Props) => {
                     setGeneratedImagesFormat(newData['generatedImgsFormat']);
                     setPromptEnglish(newData['promptEnglish']);
                     setPromptLanguage(newData['promptLanguage']);
+
                     setPromptProfane(newData['promptProfane']);
+                    if (xhr.readyState === 4) {
+                        if (newData['promptProfane'] === false) {
+                            setNumberOfPlays(numberOfPlays + 1);
+                        }
+                        checkIfEnoughPlaying();
+                    }
                 }
                 setShowLoader(false);
                 setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
@@ -234,7 +237,7 @@ const Content = ({ setCurrentPage }: Props) => {
                     {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
                 </Loader>
             ) : generatedImages.length > 0 ? (
-                <Container textAlign='center' style={{ minWidth: '88vw', paddingLeft: "20px"}}>
+                <Container textAlign='center' style={{ minWidth: '85vw', paddingLeft: "20px"}}>
                     <Grid centered columns={nrImageColumns() as SemanticWIDTHS}>
                         {generatedImages.map((generatedImg, idx) => {
                             return (
@@ -262,7 +265,9 @@ const Content = ({ setCurrentPage }: Props) => {
                     )}
 
                     {enoughPlaying.current && (
-                       <Button size='big' color='green' onClick={goEnd} style={{ marginTop: '-1em' }}>
+                        <Button size='massive' color='green' onClick={goEnd}
+                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white", left: '800px', height: '80px'}}
+                        >
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>
                     )}
@@ -276,8 +281,8 @@ const Content = ({ setCurrentPage }: Props) => {
                         </Container>
                     )}
                      {enoughPlaying.current && (
-                        <Button size='big' color='green' onClick={goEnd}
-                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px'}}
+                        <Button size='massive' color='green' onClick={goEnd}
+                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white"}}
                         >
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>
