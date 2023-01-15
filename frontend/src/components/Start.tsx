@@ -52,7 +52,7 @@ const Start = ({ setCurrentPage }: Props) => {
     const upperTextDe = 'Hallo, mein Name ist Alpár! Ich bin neugierig, ob Computer kreativ sein können. Kannst du mir dazu etwas sagen?';
 
     const lowerTextEn =
-        'Hey, I\'m Evgenii! Sure! I would like to show you a program that has learned to draw anything.' +
+        'Hey, I\'m Evgenii! Sure! I would like to show you a program that has learned to draw anything. ' +
         'Just type in an idea! Do you want to try it out?';
     const lowerTextDe =
         'Hey, ich bin Evgenii! Klar! Ich zeige dir ein Programm, das gelernt ' +

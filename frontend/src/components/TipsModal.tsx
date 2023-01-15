@@ -10,7 +10,8 @@ import {
 } from "semantic-ui-react";
 
 import { IsGermanContext } from "../App";
-import tipps_tricks_image from "../static/tipps_tricks.png";
+import hints_de from "../static/hints/hints-de.png";
+import hints_en from "../static/hints/hints-en.png";
 
 const TipsModal = () => {
     const isGerman = useContext(IsGermanContext);
@@ -40,7 +41,7 @@ const TipsModal = () => {
                     : "How to make it interesting?"}
             </Modal.Header>
             <Modal.Content image>
-                <Image size="massive" src={tipps_tricks_image} wrapped />
+                <Image size="massive" src={isGerman ? hints_de : hints_en} wrapped style={{ width: '100%', height: '100%' }} />
                 <Modal.Description>
                     <Header>{isGerman ? "Tipps und Tricks" : "Tips & Tricks"}</Header>
                     <List bulleted relaxed>
