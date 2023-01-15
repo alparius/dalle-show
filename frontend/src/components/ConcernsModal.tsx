@@ -32,33 +32,30 @@ const ConcernsModal = () => {
                     <Modal.Description>
                         <Header>Missbrauchspotentiale</Header>
                         <p style={{ lineHeight: '30px' }}>
-                            Technologie kann auf verschiedene Arten genutzt werden, einige davon können bösartig sein. Das gilt auch für dieses Modell.
+                            Technologie kann auch auf bösartige Weise eingesetzt werden.
                         </p>
 
                         <p style={{ lineHeight: '30px' }}>
-                            Modelle wie dieses werden ständig weiterentwickelt und verbessert. Allein im Jahr 2022 gab es große Fortschritte,
-                            beispielsweise in der Detailgenauigkeit der erzeugten Bilder.  Dieses rasante Tempo der Verbesserung kann mehrere
-                            problematische Folgen haben, die nachfolgend skiziert werden:
+                            Die Modelle des maschinellen Lernens werden immer weiter verfeinert. In diesem Wettlauf mit dem rasanten Fortschritt bleiben wichtige Fragen ungelöst.
+                            Mögliche Folgen davon sind:
                         </p>
                         <List bulleted relaxed>
                             <List.Item>
-                                Für das Training des Modells wurden Millionen von Bildern zufällig aus dem Internet ausgewählt. Hierüber hat das
-                                Modell auch problematische Konzepte erlernt und diskriminiert möglicherweise Personen (Gruppen).
+                                Das Modell ist in der Lage, Inhalte zu generieren, die beleidigend oder diskriminierend gegenüber Personen oder Gruppen sind,
+                                da es einige problematische Konzepte aus den Millionen von Zufallsbildern gelernt hat, mit denen es trainiert wurde.
                             </List.Item>
                             <List.Item>
-                                Viele der Bilder, mit denen das Modell trainiert wird, werden ohne die Erlaubnis deren Urheber:innen genutzt, wie zum
-                                Beispiel die Werke von Künstler:innen.
+                                Viele Trainingsbilder wurden ohne die Erlaubnis ihrer Urheber*innen verwendet, z. B. die Arbeiten von Künstler*innen.
                             </List.Item>
                             <List.Item>
                                 Künstler:innen weisen auf die Gefahr hin, dass ihre Arbeitsplätze in Gefahr sind, wenn Modelle wie dieses ihre Arbeit
                                 erledigen können.
                             </List.Item>
                             <List.Item>
-                                Man könnte ein solches Modell auf Bilder einer bestimmten Person trainieren und die erzeugten Bilder dann für Propaganda
-                                oder Erpressung verwenden.
+                                Die Arbeitsplätze von Künstler*innen könnten gefährdet sein.
                             </List.Item>
                             <List.Item>
-                                Fallen dir noch mehr Möglichkeiten ein, diese Technologie zu missbrauchen?
+                                Generierte Bilder könnten für Fake News, Propaganda oder Erpressung verwendet werden.
                             </List.Item>
                         </List>
                     </Modal.Description>
@@ -70,27 +67,28 @@ const ConcernsModal = () => {
                         </p>
 
                         <p style={{ lineHeight: '30px' }}>
-                        Machine learning models are getting continously refined. In this race to keep up with the rapid pace of progress, important concerns are being left unsolved. Possible consequenses of this are:
+                            Machine learning models are getting continuously refined. In this race to keep up with the rapid pace of progress,
+                            important concerns are being left unsolved. Possible consequences of this are:
                         </p>
                         <List bulleted relaxed>
                             <List.Item>
-                                The model is able to generate content that is offensive or discriminatory towards people or groups, because it learned some problematic concepts from the millions of random pictures that it was trained on.
+                                The model is able to generate content that is offensive or discriminatory towards people or groups because it learned some problematic concepts from the millions of random pictures that it was trained on.
                             </List.Item>
                             <List.Item>
-                                Many training images were used without their creators' permission, for instance the work of artists.
+                                Many training images were used without their creators' permission, for instance, artists' work.
                             </List.Item>
                             <List.Item>
-                                Jobs of artists could be endagered.
+                                The jobs of artists could be endangered.
                             </List.Item>
                             <List.Item>
-                                Generated image could be used for fake news, propaganda or blackmail.
+                                Generated images could be used for fake news, propaganda, or blackmail.
                             </List.Item>
                         </List>
                     </Modal.Description>
                 )}
             </Modal.Content>
             <Modal.Actions>
-                <Button size='big' content={isGerman ? 'Zurück' : 'Go back'} onClick={() => setOpen(false)} positive />
+                <Button size='big' content={isGerman ? 'Zurück' : 'Go back'} onClick={() => setOpen(false)} style={{backgroundColor: "#2F009D", color: "white"}} />
             </Modal.Actions>
         </Modal>
     );

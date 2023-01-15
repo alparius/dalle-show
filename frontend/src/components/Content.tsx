@@ -1,20 +1,22 @@
 import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
-import {Loader, Grid, Container, List, Icon, SemanticWIDTHS, Image, Header, Button} from 'semantic-ui-react';
+import { Grid, Container, List, Icon, SemanticWIDTHS, Image, Header, Button } from 'semantic-ui-react';
 
 import { IsGermanContext, Page } from '../App';
 import ImageObject from './ImageObject';
 import TextPrompt from './TextPrompt';
 import hint_image from '../static/hint_empty.jpg';
 import profane_image from '../static/profane.jpg'
+import loaderImage from '../static/loading_robot.gif'
 
 const NUMBER_OF_PLAYS_ALLOWED = 2; // actually + 1
 const INACTIVITY_SECONDS = 150;
 
 type Props = {
     setCurrentPage: any;
+    setIsGenerating: any;
 };
 
-const Content = ({ setCurrentPage }: Props) => {
+const Content = ({ setCurrentPage, setIsGenerating }: Props) => {
     const isGerman = useContext(IsGermanContext);
 
     const [promptText, setPromptText] = useState('');
@@ -70,19 +72,18 @@ const Content = ({ setCurrentPage }: Props) => {
 
     // logic for handling alternating fake loading texts
     const [loadingTextIndex, setLoadingTextIndex] = useState(0);
-    const loadingTextsDe = ['Übersetzung ins Englische...', 'Auf unsicheren Inhalt prüfen...', 'Beginn der Bilddiffusion...'];
-    const loadingTextsEn = ['Translating text to English', 'Checking for unsafe content', 'Generating random noise', 'Combining the input text with the random noise', 'Denoising image step-by-step', 'Sharpening final image'];
+    const loadingTextsLenght = 5;
     const shuffle = useCallback(() => {
         setLoadingTextIndex((prevIndex) => {
-            if (prevIndex === loadingTextsDe.length - 1) {
-                return 2;
+            if (prevIndex === loadingTextsLenght - 1) {
+                return 4;
             }
             return prevIndex + 1;
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        const intervalID = setInterval(shuffle, 2500);
+        const intervalID = setInterval(shuffle, 1500);
         return () => clearInterval(intervalID);
     }, [shuffle, loadingTextIndex]);
 
@@ -100,6 +101,7 @@ const Content = ({ setCurrentPage }: Props) => {
         setDisableInput(true);
         setLoadingTextIndex(0);
         setShowLoader(true);
+        setIsGenerating(true);
         setGeneratedOnce(true);
         const queryStartTime = new Date().getTime();
 
@@ -132,6 +134,10 @@ const Content = ({ setCurrentPage }: Props) => {
                 }
                 setShowLoader(false);
                 setQueryTime(Math.round(((new Date().getTime() - queryStartTime) / 1000 + Number.EPSILON) * 100) / 100);
+            }
+
+            if (xhr.readyState === 4) {
+                setIsGenerating(false);
             }
 
             if ((xhr.readyState === 4) && (! enoughPlaying.current)) {
@@ -204,6 +210,7 @@ const Content = ({ setCurrentPage }: Props) => {
                     disabled={disableInput}
                     isGerman={isGerman}
                     enoughPlaying={enoughPlaying.current}
+                    goEnd={goEnd}
                 />
                 {!showLoader && generatedImages.length > 0 && (
                     <List pointing size='large' style={{ marginTop: '-10px', marginBottom: "-15px" }}>
@@ -233,9 +240,27 @@ const Content = ({ setCurrentPage }: Props) => {
             {apiError ? (
                 <h5>{apiError}</h5>
             ) : showLoader ? (
-                <Loader size='huge' indeterminate active={showLoader} style={{ top: '40vh' }}>
-                    {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
-                </Loader>
+                <Container textAlign='center' style={{ minWidth: '85vw', paddingLeft: "200px", paddingTop: '150px'}}>
+                    <Grid centered columns={2}>
+                    <Grid.Column className='ui' width={4}>
+                        <Image src={loaderImage} size='medium'></Image>
+                        {/* <Loader size='huge' indeterminate active={showLoader} style={{ top: '40vh' }}>
+                            {isGerman ? loadingTextsDe[loadingTextIndex] : loadingTextsEn[loadingTextIndex]}
+                        </Loader> */}
+                    </Grid.Column>
+                    <Grid.Column className='ui' verticalAlign="middle" width={12}>
+                        <Header style={{textAlign: "left", fontSize: "28px"}}>{isGerman ? 'Bitte warten...' : 'Please wait...' }</Header>
+                        <List ordered relaxed style={{textAlign: "left", fontSize: "24px", paddingLeft: '20px'}}>
+                            <List.Item style={{fontWeight: loadingTextIndex === 0 ? 'bold': 'normal'}}>{isGerman ? 'Übersetzung ins Englische' : 'Translating text to English' }</List.Item>
+                            <List.Item style={{fontWeight: loadingTextIndex === 1 ? 'bold': 'normal'}}>{isGerman ? 'Prüfung auf unsichere Inhalte' : 'Checking for unsafe content' }</List.Item>
+                            <List.Item style={{fontWeight: loadingTextIndex === 2 ? 'bold': 'normal'}}>{isGerman ? 'Generierung des Zufallsrauschens' : 'Generating random noise' }</List.Item>
+                            <List.Item style={{fontWeight: loadingTextIndex === 3 ? 'bold': 'normal'}}>{isGerman ? 'Kombinieren des eingegebenen Textes mit dem Zufallsrauschen' : 'Combining the input text with the random noise' }</List.Item>
+                            <List.Item style={{fontWeight: loadingTextIndex === 4 ? 'bold': 'normal'}}>{isGerman ? 'Entrauschen des Bildes schrittweise' : 'Denoising image step-by-step' }</List.Item>
+                            <List.Item style={{fontWeight: 'normal'}}>{isGerman ? 'Schärfen des fertigen Bildes' : 'Sharpening final image' }</List.Item>
+                        </List>
+                    </Grid.Column>
+                    </Grid>
+                </Container>
             ) : generatedImages.length > 0 ? (
                 <Container textAlign='center' style={{ minWidth: '85vw', paddingLeft: "20px"}}>
                     <Grid centered columns={nrImageColumns() as SemanticWIDTHS}>
@@ -265,8 +290,8 @@ const Content = ({ setCurrentPage }: Props) => {
                     )}
 
                     {enoughPlaying.current && (
-                        <Button size='massive' color='green' onClick={goEnd}
-                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white", left: '800px', height: '80px'}}
+                        <Button size='massive' onClick={goEnd}
+                            style={{width:'210px', marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white", left: '790px', height: '80px'}}
                         >
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>
@@ -280,9 +305,9 @@ const Content = ({ setCurrentPage }: Props) => {
                         <Header style={profaneStyle}> {isGerman ? profaneDe : profaneEn} </Header>
                         </Container>
                     )}
-                     {enoughPlaying.current && (
-                        <Button size='massive' color='green' onClick={goEnd}
-                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white"}}
+                    {enoughPlaying.current && (
+                        <Button size='massive' onClick={goEnd}
+                            style={{ marginTop: '-1em', position: 'absolute', top: '1000px', backgroundColor: "#2F009D", color: "white", left: isGerman ? '800px' : '810px', height: '80px'}}
                         >
                         {isGerman ? 'Fortfahren' : 'Continue'}
                         </Button>

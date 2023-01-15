@@ -56,7 +56,7 @@ const Finish = ({ setCurrentPage }: Props) => {
                 <Header style={upperTextStyle}> {isGerman ? upperTextDe : upperTextEn}</Header>
                 <Header style={lowerTextStyle}> {isGerman ? lowerTextDe : lowerTextEn}</Header>
             </Container>
-            <Button floated={'right'} color={'green'} size={'massive'} onClick={backButtonPressed}>
+            <Button floated={'right'} style={{backgroundColor: "#2F009D", color: "white"}} size={'massive'} onClick={backButtonPressed}>
                 {isGerman ? 'Fortfahren' : 'Continue'}
             </Button>
         </Container>

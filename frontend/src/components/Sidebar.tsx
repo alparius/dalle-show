@@ -12,9 +12,10 @@ import flagUK from '../static/flag_uk.svg';
 type Props = {
     setCurrentPage: any;
     setIsGerman: any;
+    isGenerating: boolean;
 };
 
-const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
+const Sidebar = ({ setCurrentPage, setIsGerman, isGenerating }: Props) => {
     const isGerman = useContext(IsGermanContext);
     const handleLanguageChange = () => {
         setIsGerman(!isGerman);
@@ -45,7 +46,7 @@ const Sidebar = ({ setCurrentPage, setIsGerman }: Props) => {
 
             <br />
 
-            <Button onClick={handleRestartButton} fluid basic style={{ borderStyle: 'ridge', marginTop: "20vh" }}>
+            <Button onClick={handleRestartButton} disabled={isGenerating} fluid basic style={{ borderStyle: 'ridge', marginTop: "20vh" }}>
                 <Container>
                     <Icon name='repeat' size='big' />
                     <p style={{ marginTop: '0.5em', fontSize: '16px' }}>{isGerman ? 'Neustart' : 'Restart'}</p>

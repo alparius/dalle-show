@@ -54,7 +54,7 @@ const TipsModal = () => {
                                 </>
                             ) : (
                                 <>
-                                    Be descriptive and specific of details! Instead of{" "}
+                                    Be descriptive and specific in details! Instead of{" "}
                                     <i>"an interesting animal"</i>, try something like{" "}
                                     <i>"blue squirrel with yellow hat riding a bicycle"</i>.
                                 </>
@@ -62,17 +62,17 @@ const TipsModal = () => {
                         </List.Item>
                         <List.Item style={{ lineHeight: "30px" }}>
                             {isGerman
-                                ? 'Versuch, dem Text Schlüsselwörter hinzuzufügen, um den Stil des Bildes zu ändern: "Illustration", "Gemälde", "Skizze", "fotorealistisch", "hochauflösend".'
+                                ? 'Versuch, dem Text Schlüsselwörter hinzuzufügen, um den Stil des Bildes zu ändern:'
                                 : "Try to add keywords to the prompt to modify the style of the image:"}
 
                             <List bulleted relaxed>
-                                <List.Item>{isGerman ? "" : "illustration"}</List.Item>
-                                <List.Item>{isGerman ? "" : "painting"}</List.Item>
-                                <List.Item>{isGerman ? "" : "photorealistic"}</List.Item>
-                                <List.Item>{isGerman ? "" : "in the style of Monet"}</List.Item>
-                                <List.Item>{isGerman ? "" : "16th century"}</List.Item>
-                                <List.Item>{isGerman ? "" : "polaroid film"}</List.Item>
-                                <List.Item>{isGerman ? "" : "dark"}</List.Item>
+                                <List.Item>{isGerman ? "Illustration" : "illustration"}</List.Item>
+                                <List.Item>{isGerman ? "Gemälde" : "painting"}</List.Item>
+                                <List.Item>{isGerman ? "fotorealistisch" : "photorealistic"}</List.Item>
+                                <List.Item>{isGerman ? "im Stil von Monet" : "in the style of Monet"}</List.Item>
+                                <List.Item>{isGerman ? "16. Jahrhundert" : "16th century"}</List.Item>
+                                <List.Item>{isGerman ? "Polaroidfilm" : "polaroid film"}</List.Item>
+                                <List.Item>{isGerman ? "dunkel" : "dark"}</List.Item>
                             </List>
                         </List.Item>
                         {/* <List.Item style={{lineHeight:'30px'}}>
@@ -108,9 +108,9 @@ const TipsModal = () => {
             <Modal.Actions>
                 <Button
                     size="big"
-                    content={isGerman ? "Danke!" : "Thanks!"}
+                    content={isGerman ? 'Zurück' : 'Go back'}
                     onClick={() => setOpen(false)}
-                    positive
+                    style={{backgroundColor: "#2F009D", color: "white"}}
                 />
             </Modal.Actions>
         </Modal>
