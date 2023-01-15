@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Header, Image, Modal, Container, Icon, List } from 'semantic-ui-react';
+import { Button, Header, Image, Modal, Container, Icon } from 'semantic-ui-react';
 
 import { IsGermanContext } from '../App';
 import explanation_image_de from '../static/diagram2-de.svg';

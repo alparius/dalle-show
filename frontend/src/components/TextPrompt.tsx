@@ -55,14 +55,6 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
         inputRef.current!.focus();
     };
 
-    const greyText = enoughPlaying
-        ? isGerman
-            ? 'drücke die Taste unten, um fortfahren'
-            : 'hit the button below to continue'
-        : isGerman
-        ? 'drücke die Enter-Taste, um Bilder zu generieren'
-        : 'hit Enter to generate images';
-
     const greyText2 = isGerman
         ? 'oder drücke die Enter-Taste'
         : 'or hit the Enter key';
