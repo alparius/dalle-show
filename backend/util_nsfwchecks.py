@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 import torch
 from functools import lru_cache
@@ -15,7 +16,7 @@ def prompt_profanity_check(prompt):
         custom_badwords = ['swastika']
         profanity.add_censor_words(custom_badwords)
         if profanity.contains_profanity(prompt):
-            print("Prompt contains profanity")
+            print("---> Prompt contains profanity", file=sys.stderr)
             profane = True
     return profane
 

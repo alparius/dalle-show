@@ -1,3 +1,4 @@
+import sys
 import os
 import numpy as np
 from PIL import Image
@@ -51,7 +52,7 @@ class ImageUpscaler:
                 output, _ = self.upscaler.enhance(open_cv_image, outscale=1.5)
                 upscaled_images.append(Image.fromarray(output))
             except RuntimeError as error:
-                print('Error', error)
+                print('Upscale error', error, file=sys.stderr)
                 print('If you encounter CUDA out of memory, try to set --tile with a smaller number.')
         
         return upscaled_images

@@ -1,3 +1,4 @@
+import sys
 import json
 import os
 
@@ -14,7 +15,7 @@ if IMAGE_MODEL in ['stablediff']:
         with open('secrets.json') as f:
             HF_TOKEN = json.load(f)["hf_token"]
     except Exception as e:
-        print(f"---> Failed to get HF token: {e}.\n Using potato mode")
+        print(f"---> Failed to get HF token: {e}.\n Using potato mode", file=sys.stderr)
         HF_TOKEN = None
         IMAGE_MODEL = 'potato'
 
@@ -37,7 +38,7 @@ if ONLINE_TRANSLATION:
         with open('secrets.json') as f:
             DEEPL_AUTH_KEY = json.load(f)["deepl_auth_key"]
     except Exception as e:
-        print(f"---> Failed to open DeepL authentication key: {e}.\n Online translation is switched off")
+        print(f"---> Failed to open DeepL authentication key: {e}.\n Online translation is switched off", file=sys.stderr)
         DEEPL_AUTH_KEY = None
         ONLINE_TRANSLATION = False
 
@@ -60,7 +61,7 @@ if USE_DATABASE:
             DB_USER = secrets["db_user"]
             DB_PASSWORD = secrets["db_password"]
     except Exception as e:
-        print(f"---> Failed to get database user and password {e}.\n Database usage is switched off")
+        print(f"---> Failed to get database user and password {e}.\n Database usage is switched off", file=sys.stderr)
         DB_USER = None
         DB_PASSWORD = None
         USE_DATABASE = False

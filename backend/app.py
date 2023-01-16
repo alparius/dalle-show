@@ -1,3 +1,4 @@
+import sys
 import math
 import json
 from flask import Flask, request, jsonify, Response, stream_with_context
@@ -18,7 +19,7 @@ image_model = None
 image_upscaler = None
 db_connection = None
 
-print("---> Starting DALL-E Server. This might take up to two minutes.")
+print("---> Starting DALL-E Server. This might take up to two minutes.", file=sys.stderr)
 app = Flask(__name__)
 CORS(app)
 
@@ -95,7 +96,7 @@ if __name__ == "__main__":
     if config.USE_DATABASE:
         db_connection = database.create_connection()
         
-    print("---> DALL-E Server is up and running!")
+    print("---> DALL-E Server is up and running!", file=sys.stderr)
     try:
         app.run(host="0.0.0.0", port=config.BACKEND_PORT, debug=False)
     except Exception:

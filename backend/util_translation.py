@@ -1,3 +1,4 @@
+import sys
 import argostranslate.package, argostranslate.translate
 import deepl
 import pycld2
@@ -11,7 +12,7 @@ def online_translate(prompt):
     translator = deepl.Translator(config.DEEPL_AUTH_KEY)
     res = translator.translate_text(prompt, target_lang="EN-US")
     translated_prompt = res.text
-    print(f"---> Translated prompt '{prompt}' from {res.detected_source_lang} and got '{translated_prompt}'")
+    print(f"---> Translated prompt '{prompt}' from {res.detected_source_lang} and got '{translated_prompt}'", file=sys.stderr)
     return translated_prompt, res.detected_source_lang
 
 
@@ -44,7 +45,7 @@ def offline_translate(prompt):
 
     lang_name = details[0][0]
     lang_code = details[0][1]
-    print(f"---> Detected language '{lang_name}' of prompt '{prompt}'")
+    print(f"---> Detected language '{lang_name}' of prompt '{prompt}'", file=sys.stderr)
     if lang_code != 'en':
         translator = get_argos_translator_model(lang_code)
         prompt = translator.translate(prompt)
@@ -58,12 +59,12 @@ def translate_prompt(prompt):
         try:
             return online_translate(prompt)
         except Exception as e:
-            print(f"---> Online translation failed: {e}")
+            print(f"---> Online translation failed: {e}", file=sys.stderr)
 
     if config.OFFLINE_TRANSLATION:
         try:
             return offline_translate(prompt)
         except Exception as e:
-            print(f"---> Offline translation failed: {e}")
+            print(f"---> Offline translation failed: {e}", file=sys.stderr)
 
     return prompt, None

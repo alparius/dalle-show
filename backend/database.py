@@ -1,3 +1,4 @@
+import sys
 import datetime
 import psycopg2
 
@@ -35,7 +36,7 @@ def save_prompt(conn, raw_prompt, translated_prompt, translated_language, seed, 
                 }
                 cur.execute(INSERT_PROMPT_CMD, params)
     except Exception as e:
-        print(f"Failed to save prompt to db: {e}")
+        print(f"Failed to save prompt to db: {e}", file=sys.stderr)
 
 
 def create_tables():
@@ -71,11 +72,11 @@ def create_tables():
                     "nsfw_image": None,
                 }
                 cur.execute(INSERT_PROMPT_CMD, params)
-                print(f"Inserted row with prompt and ts: {cur.fetchone()}")
+                print(f"Inserted row with prompt and ts: {cur.fetchone()}", file=sys.stderr)
 
         with conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT * from prompts;")
-                print(f"Query one row from table: {cur.fetchone()}")
+                print(f"Query one row from table: {cur.fetchone()}", file=sys.stderr)
     finally:
         conn.close()
