@@ -48,10 +48,6 @@ const ConcernsModal = () => {
                                 Viele Trainingsbilder wurden ohne die Erlaubnis ihrer Urheber*innen verwendet, z. B. die Arbeiten von Künstler*innen.
                             </List.Item>
                             <List.Item>
-                                Künstler*innen weisen auf die Gefahr hin, dass ihre Arbeitsplätze in Gefahr sind, wenn Modelle wie dieses ihre Arbeit
-                                erledigen können.
-                            </List.Item>
-                            <List.Item>
                                 Die Arbeitsplätze von Künstler*innen könnten gefährdet sein.
                             </List.Item>
                             <List.Item>
