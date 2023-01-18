@@ -33,12 +33,12 @@ const Sidebar = ({ setCurrentPage, setIsGerman, isGenerating }: Props) => {
                     {isGerman ? (
                         <>
                             <Image src={flagUK} />
-                            <p style={{ marginTop: '0.5em', fontSize: '16px' }}>English</p>
+                            <p style={{ marginTop: '0.5em', fontSize: '14px' }}>change to<br/>English</p>
                         </>
                     ) : (
                         <>
                             <Image src={flagDE} />
-                            <p style={{ marginTop: '0.5em', fontSize: '16px' }}>Deutsch</p>
+                            <p style={{ marginTop: '0.5em', fontSize: '14px' }}>wechseln<br/>zu Deutsch</p>
                         </>
                     )}
                 </Container>

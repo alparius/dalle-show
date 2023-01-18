@@ -25,7 +25,7 @@ IMAGE_MODEL_ROOT = 'models_image'
 IMAGE_SEED = None # int or None
 
 DALLE_IS_MEGA = (os.getenv('AIEX_DALLE_IS_MEGA', 'True') == 'True')
-STABLEDIFF_ITERS = int(os.getenv('AIEX_STABLEDIFF_ITERS', '35')) # default is 50
+STABLEDIFF_ITERS = int(os.getenv('AIEX_STABLEDIFF_ITERS', '50')) # default is 50
 STABLEDIFF_KDIFF = int(os.getenv('STABLEDIFF_KDIFF', '3')) # every k-th step is streamed
 
 

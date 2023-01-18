@@ -184,8 +184,8 @@ const Content = ({ setCurrentPage, setIsGenerating }: Props) => {
         margin: 'auto',
     };
 
-    const profaneEn = 'Try something nicer.';
-    const profaneDe = 'Versuche es mit etwas Schönerem.'
+    const profaneEn = 'The model will not draw that, try something nicer.';
+    const profaneDe = 'Das Modell wird das nicht zeichnen, versuche es mit etwas Schönerem.'
     const profaneStyle = {
         fontSize: '26px',
         color: 'black',
