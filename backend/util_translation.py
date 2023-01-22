@@ -4,6 +4,7 @@ import deepl
 import pycld2
 
 from setup import argos_model_names
+from utils import is_internet
 import config
 
 
@@ -48,7 +49,9 @@ def offline_translate(prompt):
     print(f"---> Detected language '{lang_name}' of prompt '{prompt}'", file=sys.stderr)
     if lang_code != 'en':
         translator = get_argos_translator_model(lang_code)
-        prompt = translator.translate(prompt)
+        translated_prompt = translator.translate(prompt)
+        print(f"---> Translated (offline) prompt '{prompt}' from {lang_name} and got '{translated_prompt}'", file=sys.stderr)
+        return translated_prompt, lang_code.upper()
 
     return prompt, lang_code.upper()
 
@@ -57,7 +60,8 @@ def translate_prompt(prompt):
     """Returns tuple of (translated_prompt, detected_language)"""
     if config.ONLINE_TRANSLATION:
         try:
-            return online_translate(prompt)
+            if is_internet():
+                return online_translate(prompt)
         except Exception as e:
             print(f"---> Online translation failed: {e}", file=sys.stderr)
 

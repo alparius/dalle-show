@@ -6,7 +6,7 @@ send screenshots as PDF to Ulrike by monday morning
 
 - revise design
     x avatars
-    - tips panel: captions below pictures
+    x tips panel: captions below pictures
 
 - app changes
     x bigger continue button
@@ -22,6 +22,6 @@ send screenshots as PDF to Ulrike by monday morning
     x disable restart button while generating
 
 - auto startup
-    - startup script
+    x startup script
     - remote access? to db?
-    - logs
+    - (remote) logs

@@ -213,19 +213,20 @@ const Content = ({ setCurrentPage, setIsGenerating }: Props) => {
                     goEnd={goEnd}
                 />
                 {!showLoader && generatedImages.length > 0 && (
-                    <List pointing size='large' style={{ marginTop: '-10px', marginBottom: "-15px" }}>
-                        <Icon size='big' name='translate' />
-                        {isGerman ? (
-                            <>
-                                {' '}
-                                Die Eingabe wurde vom <b>{promptLanguage}</b> ins Englische übersetzt als: <i>"{promptEnglish}"</i>.
-                            </>
-                        ) : (
-                            <>
-                                {' '}
-                                Input was translated from <b>{promptLanguage}</b> to English as: <i>"{promptEnglish}"</i>.
-                            </>
-                        )}
+                    <List pointing size='large' style={{ marginTop: '-10px', marginBottom: "-15px", fontSize: '18px' }}>
+                        <Icon size='big' name='translate' style={{ marginRight: '15px'}} />
+                        {promptLanguage ? 
+                            isGerman ? (
+                                <>Die Eingabe wurde vom <b>{promptLanguage}</b> ins Englische übersetzt als: <i>"{promptEnglish}"</i>.</>
+                            ) : (
+                                <>Input was translated from <b>{promptLanguage}</b> to English as: <i>"{promptEnglish}"</i>.</>
+                            )
+                            : isGerman ? (
+                                <>Die Eingabe konnte nicht übersetzt werden.</>
+                            ) : (
+                                <>Input could not be translated.</>
+                            )
+                        }
                     </List>
                 )}
             </Container>

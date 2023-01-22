@@ -2,9 +2,12 @@ import torch
 from torch import autocast
 from diffusers import StableDiffusionPipeline
 from diffusers.schedulers import LMSDiscreteScheduler
+from pathlib import Path
 
 import config
 import utils
+
+MODEL_DIR_PATH = "models_image/stable_diff_v1-4"
 
 # TODO: speedup experiments
 # torch.backends.cudnn.benchmark = True
@@ -25,7 +28,14 @@ class ImageModel:
 
         # init all of the models and move them to a given GPU
         lms = LMSDiscreteScheduler(beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear")
-        self.pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", scheduler=lms, use_auth_token=config.HF_TOKEN)
+        model_path = Path(MODEL_DIR_PATH)
+        if model_path.exists():
+            print(f"Loading Stable Diffusion from file: {model_path}")
+            self.pipe = StableDiffusionPipeline.from_pretrained(model_path, scheduler=lms)
+        else:
+            print(f"Loading Stable Diffusion from the web and saving it for later")
+            self.pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", scheduler=lms, use_auth_token=config.HF_TOKEN)
+            self.pipe.save_pretrained(model_path)
 
         self.pipe.unet.to(self.torch_device)
         self.pipe.vae.to(self.torch_device)

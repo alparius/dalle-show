@@ -3,10 +3,12 @@ from io import BytesIO
 from os import listdir
 from os.path import join
 import string
+import sys
 import time
 import math
 import numpy as np
 from PIL import Image
+import socket
 
 import config
 
@@ -65,3 +67,18 @@ def yield_potato():
         time.sleep(0.25)
         img = Image.open(join(datapath, file))
         yield [img]
+
+
+def is_internet(host="8.8.8.8", port=53, timeout=2):
+    """
+    Host: 8.8.8.8 (google-public-dns-a.google.com)
+    OpenPort: 53/tcp
+    Service: domain (DNS/TCP)
+    """
+    try:
+        socket.setdefaulttimeout(timeout)
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+        return True
+    except socket.error as ex:
+        print("---> Online checking time out - 'NO INTERNET'", file=sys.stderr)
+        return False

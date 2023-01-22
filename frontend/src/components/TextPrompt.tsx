@@ -64,8 +64,8 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
             <Form.Group style={{margin: 0}}>
                 <Form.Field width={13}>
                     <Input
-                        size='big'
-                        style={{ place: 'black !important' }}
+                        size='huge'
+                        style={{ border: '3px solid black', borderRadius: '5px' }}
                         placeholder={isGerman ? 'tippe etwas ungewöhnliches ein' : 'type in something unusual'}
                         value={promptText}
                         ref={inputRef as unknown as LegacyRef<Input>}
@@ -78,7 +78,7 @@ const TextPrompt = ({ enterPressedCallback, disabled, promptText, setPromptText,
                 </Form.Field>
                 <Form.Field width={3}>
                     <Form.Button onClick={handleGenerate} disabled={enoughPlaying ? false : disabled || promptText === ""} size="massive" style={{width:'170px', fontSize: 19, backgroundColor: "#2F009D", color: "white"}} >{enoughPlaying ? isGerman ? 'Fortfahren' : 'Continue' : isGerman ? 'Generieren!' : 'Generate!'}</Form.Button>
-                    {!enoughPlaying ? <label style={{ textAlign: 'left', color: 'grey' }}>{greyText2}</label> : <label>‎ </label>}
+                    {!enoughPlaying ? <label style={{ textAlign: 'left', color: '#444' }}>{greyText2}</label> : <label>‎ </label>}
                 </Form.Field>
                 <Form.Field width={1}>
                     <Form.Button onClick={handleClearField} disabled={disabled} size="big" style={{width:'90px', marginLeft: "-10px", fontSize: 14}} color="grey">{isGerman ? 'Feld löschen' : 'Clear field'}</Form.Button>
