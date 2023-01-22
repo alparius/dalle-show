@@ -1,5 +1,6 @@
 .vscode/
 .idea/
+logs/
 
 models_image/
 models_translate/
