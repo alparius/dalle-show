@@ -8,6 +8,11 @@ venv/
 wandb/
 __pycache__/
 
+pyvenv.cfg
+explore/Lib/
+explore/Scripts/
+explore/Include/
+
 node_modules/
 build/
 

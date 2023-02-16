@@ -13,9 +13,13 @@ import config
 def prompt_profanity_check(prompt):
     profane = False
     if config.CHECK_PROMPT_FOR_PROFANITY:
-        custom_badwords = ['swastika']
-        profanity.add_censor_words(custom_badwords)
+        very_bad_list = ['swastika', 'dick', 'porn', 'sex', 'vagina', 'penis', 'fuck']
+        profanity.add_censor_words(very_bad_list)
         if profanity.contains_profanity(prompt):
+            print("---> Prompt contains profanity", file=sys.stderr)
+            profane = True
+        res = any(ele in prompt for ele in very_bad_list)    
+        if res:
             print("---> Prompt contains profanity", file=sys.stderr)
             profane = True
     return profane

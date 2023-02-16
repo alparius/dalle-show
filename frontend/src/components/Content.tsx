@@ -189,11 +189,11 @@ const Content = ({ setCurrentPage, setIsGenerating }: Props) => {
     const profaneStyle = {
         fontSize: '26px',
         color: 'black',
-        textAlign: 'left',
+        textAlign: 'center',
         position: 'absolute',
         top: 0,
         bottom: 50,
-        left: isGerman ? -200 : -30,
+        left: isGerman ? -240 : -240,
         right: 0,
         height: 'fit-content',
         width: '25%',
