@@ -31,8 +31,8 @@ STABLEDIFF_KDIFF = int(os.getenv('STABLEDIFF_KDIFF', '3')) # every k-th step is 
 
 # translation
 OFFLINE_TRANSLATION = (os.getenv('AIEX_OFFLINE_TRANSLATION', 'True') == 'True')
-ONLINE_TRANSLATION = (os.getenv('AIEX_ONLINE_TRANSLATION', 'True') == 'True')
-if ONLINE_TRANSLATION:
+ONLINE_TRANSLATION = (os.getenv('AIEX_ONLINE_TRANSLATION', 'False') == 'True') # turned off
+if ONLINE_TRANSLATION: # turned off by default in the above line
     try:
         # To use online translation one needs an authentication key from DeepL.
         with open('secrets.json') as f:
@@ -45,16 +45,16 @@ if ONLINE_TRANSLATION:
 
 # nsfw checks
 CHECK_PROMPT_FOR_PROFANITY = (os.getenv('AIEX_CHECK_PROMPT_FOR_PROFANITY', 'True') == 'True')
-FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True')
+FILTER_IMAGES = (os.getenv('AIEX_FILTER_IMAGES', 'False') == 'True') # turned off
 NSFW_DEVICE = "cpu" # "cpu" or "cuda"
 NSFW_TRESHOLD = 0.5
 
 # storage
-USE_DATABASE = (os.getenv('AIEX_USE_DATABASE', 'True') == 'True')
+USE_DATABASE = (os.getenv('AIEX_USE_DATABASE', 'False') == 'True') # turned off
 DB_HOST = 'localhost'
 DB_PORT = 5432
 DB_NAME = "dalledb"
-if USE_DATABASE:
+if USE_DATABASE: # turned off
     try:
         with open('secrets.json') as f:
             secrets = json.load(f)
