@@ -1,5 +1,6 @@
 Set-Location C:\Users\text2image\Documents\text2image\dalle-show\backend
 
+.\dalle-new\Scripts\activate
 python app.py *>> "..\logs\logs-$(Get-Date -UFormat "%Y-%m-%d").txt"
 
 # Start-Transcript -Append -Path "..\logs\logs-$(Get-Date -UFormat "%Y-%m-%d").txt"

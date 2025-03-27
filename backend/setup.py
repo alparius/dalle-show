@@ -4,7 +4,6 @@ from pathlib import Path
 
 import argostranslate.package, argostranslate.translate
 from database import create_tables
-from model1_kuprel import download_kuprel_models
 
 import config
 
@@ -50,18 +49,6 @@ def download_offline_translator():
     print("---> Translation model downloads successful.")
 
 
-def download_image_models():
-    ''' Download the image models and the tokenizers
-    '''
-    if config.IMAGE_MODEL == 'potato':
-        print("---> Inference is turned off, skipping model downloads...")
-        return
-    
-    download_kuprel_models()
-
-    print("---> Image model downloads successful.")
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
@@ -71,14 +58,6 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="Download models for offline translation.",
-    )
-
-    parser.add_argument(
-        "--image-models",
-        dest="image_models",
-        action="store_true",
-        default=False,
-        help="Download image models for image creation.",
     )
 
     parser.add_argument(
@@ -95,7 +74,5 @@ if __name__ == "__main__":
 
     if args.offline_translation:
         download_offline_translator()
-    if args.image_models:
-        download_image_models()
     if args.setup_db:
         create_tables()

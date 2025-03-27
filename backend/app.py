@@ -6,13 +6,15 @@ from flask_cors import CORS
 
 from util_translation import translate_prompt
 import util_nsfwchecks
-from util_upscale import ImageUpscaler
+# from util_upscale import ImageUpscaler
 
 import config
 import database
 import utils
 
-from model2_stablediff import ImageModel
+# from model2_stablediff import ImageModel
+from model3_stablediff_35_medium import ImageModel
+# from model4_flux import ImageModel
     
     
 image_model = None
@@ -61,10 +63,12 @@ def generate_images_api2():
             #     frame, nsfw_image = util_nsfwchecks.filter_images(frame, config.NSFW_TRESHOLD)
             
             i = i+1
-            if i == math.ceil(config.STABLEDIFF_ITERS / config.STABLEDIFF_KDIFF) + 1:
-                strpic = utils.encode_images(image_upscaler.upscale(frame))
-            else:
-                strpic = utils.encode_images(frame)
+            #if i == math.ceil(config.STABLEDIFF_ITERS / config.STABLEDIFF_KDIFF) + 1:
+            #    strpic = utils.encode_images(image_upscaler.upscale(frame))
+            #else:
+                # save file locallz
+                # frame.save('asd.jpg')
+            strpic = utils.encode_images(frame)
 
             response = {
                 'generatedImgs': strpic,
@@ -91,7 +95,7 @@ if __name__ == "__main__":
         for _ in gen:
             continue
 
-    image_upscaler = ImageUpscaler()
+    #image_upscaler = ImageUpscaler()
 
     if config.USE_DATABASE:
         db_connection = database.create_connection()

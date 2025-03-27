@@ -5,6 +5,7 @@ logs/
 models_image/
 models_translate/
 venv/
+dalle-new/
 wandb/
 __pycache__/
 
@@ -15,6 +16,7 @@ explore/Include/
 
 node_modules/
 build/
+build-backup/
 
 secrets.json
 NOTES.txt
